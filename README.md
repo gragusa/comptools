@@ -1,2 +1,3 @@
-# comptools
-Github repository of Computational Tools for Macroeconometrics
+# Computational Tools for Macroeconometrics
+
+Github repository of Computational Tools for Macroeconometrics. 
