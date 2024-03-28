@@ -1,0 +1,30 @@
+author: Giuseppe Ragusa
+
+instructor:
+  name: Prof. Giuseppe Ragusa
+  name_no_title: Giuseppe Ragusa
+  email: giuseppe.ragusa@uniroma1.it
+  url: "https://www.gragusa.org"
+  github: gragusa
+  office: "Viale del Castro Laurenziano, 9"
+  appointment_url: https://calendar.app.google/LhFH1fG8NzAzKsxs5
+
+course:
+  name: "Computational Tools for Macroeconometrics"
+  number: "AAF2351"
+  semester: "2023-2024"
+  days: "Friday"
+  time: "14:00-16:00"
+  location: "Ecodir"
+  dates: "19 febbraio, 2024 - 1 giugno 2024"
+  github: "https://www.github.com/gragusa/comptools"
+  url: "https://gragusa.org/comptools"
+  copyright_year: "2023-2024"
+
+university:
+  name: Sapienza, University of Rome
+  url: "https://www.sapienza.it"
+
+school:
+  name: Department of Economics and Law
+  url: "https://web.uniroma1.it/dip_ecodir/"

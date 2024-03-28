@@ -1,0 +1,46 @@
+---
+title: "{{< var course.name >}} ({{< var course.number >}})"
+subtitle: ""
+sidebar: false
+toc: false
+---
+
+
+::: {.grid .course-details}
+
+::: {.g-col-6}
+### Instructor
+
+- {{< fa user >}} &nbsp; [{{< var instructor.name >}}]({{< var instructor.url >}})
+- {{< fa university >}} &nbsp; {{< var university.name >}}
+- {{< fa university >}} &nbsp; {{< var school.name >}}
+- {{< fa university >}} &nbsp; {{< var instructor.office >}}
+- {{< fa envelope >}} &nbsp; [{{< var instructor.email >}}](mailto:{{< var instructor.email >}})
+- {{< fa calendar-check >}} &nbsp; [Office Hour:]({{< var instructor.appointment_url >}})
+:::
+
+::: {.g-col-6}
+### Dettagli del corso
+
+- {{< fa calendar >}} &nbsp; {{< var course.days >}}
+- {{< fa calendar-alt >}} &nbsp; {{< var course.dates >}}
+- {{< fa clock >}} &nbsp; {{< var course.time >}}
+- {{< fa location-dot >}} &nbsp; {{< var course.location >}}
+
+:::
+
+:::
+
+## Description
+
+[{{< var course.name >}} ({{< var course.number >}})]{.coursename} covers the computational aspects of time series. It begins with an overview of the computational challenges inherent in macroeconomic data analysis and the pivotal role of software tools, with a particular focus on `Python`, `Julia` and `R`. The syllabus covers a broad range of topics starting gong from forecasting to nonlinear optimization and simulations. 
+
+The course is structured as an interactive lab, emphasizing a hands-on learning approach through practical assignments. In this lab environment, students are expected to learn by doing, applying the theoretical knowledge acquired in lectures to real-world data and scenarios.
+
+
+
+
+
+
+
+

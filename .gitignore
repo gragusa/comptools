@@ -1,0 +1,7 @@
+_freeze
+_site
+CNAME
+.quarto
+.Rproj.*
+
+

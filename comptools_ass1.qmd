@@ -1,0 +1,432 @@
+---
+title: Computational Tools for Macroeconometrics
+subtitle: "Assignment 1"
+format: html
+engine: jupyter
+highlight-style: github
+code-block-bg: true
+code-block-border-left: "#31BAE9"
+code-line-numbers: true
+---
+
+## Introduction
+
+This assignment introduces students to practical and theoretical aspects of macroeconometrics, focusing on forecasting using the FRED-MD dataset. Students will learn to handle macroeconomic data, perform necessary transformations, apply univariate models to predict key economic indicators and to evaluate these forecasts.
+
+## The FRED-MD dataset 
+
+The FRED-MD dataset is a comprehensive monthly database for macroeconomic research compiled by the Federal Reserve Bank of St. Louis. It features a wide array of economic indicators. The list of economic indicators can be obtained from the paper accompanying the data [pdf](). 
+
+The data can be downloaded [here](https://research.stlouisfed.org/econ/mccracken/fred-databases/). The page contains all the different vintages of the data. 
+
+Let us start to download the `current.csv` file:
+
+```{python}
+import pandas as pd
+
+# Load the dataset
+df = pd.read_csv('~/Downloads/current.csv')
+
+# Clean the DataFrame by removing the row with transformation codes
+df_cleaned = df.drop(index=0)
+df_cleaned.reset_index(drop=True, inplace=True)
+df_cleaned['sasdate'] = pd.to_datetime(df_cleaned['sasdate'], format='%m/%d/%Y')
+df_cleaned
+```
+
+```{python}
+# Extract transformation codes
+transformation_codes = df.iloc[0, 1:].to_frame().reset_index()
+transformation_codes.columns = ['Series', 'Transformation_Code']
+```
+
+The transformation codes map variables to the transformations we must apply to each variable to render them (approximately) stationary. The data frame `transformation_codes` has the variable's name (`Series`) and its transformation (`Transformation_Code`). There are six possible  transformations ($x_t$ denotes the variable to which the transformation is to be applied):
+
+- `transformation_code=1`: no trasformation
+- `transformation_code=2`: $\Delta x_t$
+- `transformation_code=3`: $\Delta^2 x_t$
+- `transformation_code=4`: $log(x_t)$
+- `transformation_code=5`: $\Delta log(x_t)$
+- `transformation_code=6`: $\Delta^2 log(x_t)$
+- `transformation_code=7`: $\Delta (x_t/x_{t-1} - 1)$
+
+
+We can apply these transformations using the following code:
+```{python}
+import numpy as np
+
+# Function to apply transformations based on the transformation code
+def apply_transformation(series, code):
+    if code == 1:
+        # No transformation
+        return series
+    elif code == 2:
+        # First difference
+        return series.diff()
+    elif code == 3:
+        # Second difference
+        return series.diff().diff()
+    elif code == 4:
+        # Log
+        return np.log(series)
+    elif code == 5:
+        # First difference of log
+        return np.log(series).diff()
+    elif code == 6:
+        # Second difference of log
+        return np.log(series).diff().diff()
+    elif code == 7:
+        # Delta (x_t/x_{t-1} - 1)
+        return series.pct_change()
+    else:
+        raise ValueError("Invalid transformation code")
+
+# Applying the transformations to each column in df_cleaned based on transformation_codes
+for series_name, code in transformation_codes.values:
+    df_cleaned[series_name] = apply_transformation(df_cleaned[series_name].astype(float), float(code))
+
+
+df_cleaned = df_cleaned[2:]  # <1>
+df_cleaned.reset_index(drop=True, inplace=True) # <2>
+df_cleaned.head()
+
+```
+
+1. Since some transformations induce missing values, we drop the first two observations of the dataset
+
+2. We reset the index so that the first observation of the dataset has index 0
+
+```{python}
+import matplotlib.pyplot as plt         # <1>
+import matplotlib.dates as mdates       # <1>
+
+series_to_plot = ['INDPRO', 'CPIAUCSL', 'TB3MS']         # <2>
+series_names = ['Industrial Production',                 # <2>
+                'Inflation (CPI)',                        # <2>
+                '3-month Treasury Bill rate']            # <2>
+
+
+# Create a figure and a grid of subplots
+fig, axs = plt.subplots(len(series_to_plot), 1, figsize=(8, 15))       # <3>
+
+# Iterate over the selected series and plot each one
+for ax, series_name, plot_title in zip(axs, series_to_plot, series_names):
+    if series_name in df_cleaned.columns:                                # <4>
+        dates = pd.to_datetime(df_cleaned['sasdate'], format='%m/%d/%Y') # <5>
+        ax.plot(dates, df_cleaned[series_name], label=plot_title)        # <6>
+        ax.xaxis.set_major_locator(mdates.YearLocator(base=5))           # <7>
+        ax.xaxis.set_major_formatter(mdates.DateFormatter('%Y'))         # <7>
+        ax.set_title(plot_title)                                         # <8>
+        ax.set_xlabel('Year')                                            # <9>
+        ax.set_ylabel('Transformed Value')                               # <9>
+        ax.legend(loc='upper left')                                      # <10>
+        plt.setp(ax.xaxis.get_majorticklabels(), rotation=45, ha='right') # <11>
+    else:
+        ax.set_visible(False)  # Hide plots for which the data is not available
+
+plt.tight_layout() # <12>
+plt.show()         # <13>
+```
+
+1. We use library `matplotlib` to plot
+
+2. We consider three series (`INDPRO`, `CPIAUCSL`, `TB3MS`) and assign them human-readable names ("Industrial Production", "Inflation (CPI)", "3-month Treasury Bill rate.").
+
+3. We create a figure with three (`len(series_to_plot)`) subplots arranged vertically. The figure size is 8x15 inches.
+
+4. We check if the series exists in each series `df_cleaned` DataFrame columns.
+
+5. We convert the `sasdate` column to `datetime` format (not necessary, since `sasdate` was converter earlier)
+
+6. We plot each series against the `sasdate` on the corresponding subplot, labeling the plot with its human-readable name.
+
+7. We format the x-axis to display ticks and label the x-axis with dates taken every five years.
+
+8. Each subplot is titled with the name of the economic indicator. 
+
+9. We label the x-axis "Year," and the y-axis "Transformed Value," to indicate that the data was transformed before plotting. 
+
+10.  A legend is added to the upper left of each subplot for clarity. 
+  
+11.  We rotate the x-axis labels by 45 degrees to prevent overlap and improve legibility.
+
+12. `plt.tight_layout()` automatically adjusts subplot parameters to give specified padding and avoid overlap.
+
+13. `plt.show()` displays the figure with its subplots.
+
+## Forecasting in Time Series
+
+Forecasting in time series analysis involves using historical data to predict future values. The objective is to model the conditional expectation of a time series based on past observations.
+
+### Direct Forecasts
+
+Direct forecasting involves modeling the target variable directly at the desired forecast horizon. Unlike iterative approaches, which forecast one step ahead and then use those forecasts as inputs for subsequent steps, direct forecasting directly models the relationship between past observations and future value.
+
+### ARX Models
+
+Autoregressive Moving with predictors (ARX) models are a class of univariate time series models that extend ARMA models by incorporating exogenous (independent) variables. These models are formulated as follows:
+
+$$
+\begin{aligned}
+Y_{t+h} &=  \alpha + \phi_0 Y_t + \phi_1 Y_{t-1} + \dots + \phi_p Y_{t-p} + \theta_{0,1} X_{t,1} + \theta_{1,1} X_{t-1,1} + \dots + \theta_{p,1} X_{t-p,1} + \dots + \theta_{0,k} X_{t,k} + \dots + \theta_{p,k} X_{t-p,k} + u_{t+h}\\
+        &=  \alpha + \sum_{i=0}^p \phi_i Y_{t-i} + \sum_{j=1}^k\sum_{s=0}^p \theta_{s,j} X_{t-s,j} + \epsilon_{t+h}
+\end{aligned}
+$${#eq-model}
+
+- $Y_{t+h}$: The target variable at time $t+h$.
+- $X_{t,j}$: Predictors (variable $j=1,\ldots,k$ at time $t$).
+- $p$ number of lags of the target and the predictors.[^1]
+- $\phi_i$, $i=0,\dots,p$, and $\theta_{j,s}$, $j=1,\dots,k$, $s=1,\ldots,r$: Parameters of the model.
+- $\epsilon_{t+h}$: error term.
+
+[^1]: Theoretically, the number of lags for the target variables and the predictors could be different. Here, we consider the simpler case in which both are equal. 
+
+For instance, to predict Industrial Prediction using as predictor inflation and the 3-month t-bill, the target variable is `INDPRO`, and the predictors are `CPIAUSL` and `TB3MS`. Notice that the target and the predictors are the transformed variables. Thus, if we use `INDPRO` as the target, we are predicting the log-difference of industrial production, which is a good approximation for its month-to-month percentage change. 
+
+By convention, the data ranges from $t=1,\ldots,T$, where $T$ is the last period, we have data (for the `df_cleaned` dataset, $T$ corresponds to January 2024).
+
+
+
+### Forecasting with ARX
+
+Suppose that we know the parameters of the model for the moment. To obtain a forecast for $Y_{T+h}$, the $h$-step ahead forecast, we calculate
+$$
+\begin{aligned}
+\hat{Y}_{T+h} &=  \alpha + \phi_0 Y_T + \phi_1 Y_{T-1} + \dots + \phi_p Y_{T-p} \\
+                  &\,\,\quad \quad + \theta_{0,1} X_{T,1} + \theta_{1,1} X_{T-1,1} + \dots + \theta_{p,1} X_{T-p,1} \\
+                  &\,\,\quad \quad + \dots + \theta_{0,k} X_{T,k} + \dots + \theta_{p,k} X_{T-p,k}\\
+        &=  \alpha + \sum_{i=0}^p \phi_i Y_{T-i} + \sum_{j=1}^k\sum_{s=0}^p \theta_{s,j} X_{T-s,j}
+\end{aligned}
+$$
+
+While this is conceptually easy, implementing the steps needed to calculate the forecast is insidious, and care must be taken to ensure we are calculating the correct forecast. 
+
+To start, it is convenient to rewrite the model in @eq-model as a linear model
+$$
+\mathbf{y} = \mathbf{X}\boldsymbol{\beta} + \mathbf{u},
+$$
+where $\boldsymbol{\beta}$ is the vector (of size $1+(1+p)(1+k)$)
+$$
+\boldsymbol{\beta}=\begin{pmatrix}\alpha\\
+\phi_{0}\\
+\vdots\\
+\phi_{p}\\
+\theta_{0,1}\\
+\vdots\\
+\theta_{p,1}\\
+\vdots\\
+\theta_{1,k}\\
+\vdots\\
+\theta_{p,k}
+\end{pmatrix},
+$$
+$\mathbf{y}$ and $\mathbf{X}$ are respectively given by
+$$
+\mathbf{y} = \begin{pmatrix}
+y_{p+h+1}  \\
+y_{p+h+2}\\
+\vdots \\
+y_{T}
+\end{pmatrix}
+$$
+and
+$$
+\mathbf{X} = \begin{pmatrix}1 & Y_{p+1} & Y_{p} & \cdots & Y_{1} & X_{p+1,1} & X_{p,1} & \cdots & X_{1,1} & X_{p+1,k} & X_{p,k} & \cdots & X_{1,k}\\
+\vdots & \vdots & \vdots &  & \vdots & \vdots & \vdots &  & \vdots & \vdots & \vdots &  & \vdots\\
+1 & Y_{T-h-1} & Y_{T-h-2} & \cdots & Y_{T-h-p-1} & X_{T-h-1,1} & X_{T-h-2,1} & \cdots & X_{T-h-p-1,1} & X_{T-h-1,k} & X_{T-h-2,k} & \cdots & X_{T-h-p-1,k}\\
+1 & Y_{T-h} & Y_{T-h-1} & \cdots & Y_{T-h-p} & X_{T-h,1} & X_{T-h-1,1} & \cdots & X_{T-h-p,1} & X_{T-h,k} & X_{T-h-1,k} &  & X_{T-h-p,k}
+\end{pmatrix}.
+$$
+The size of $\mathbf{X}$ is $(T-p-h)\times 1+(1+k)(1+p)$ and that of $\mathbf{y}$ is $T-h-p$.
+
+The matrix $\mathbf{X}$ can be obtained in the following way:
+
+```{python}
+
+Yraw = df_cleaned['INDPRO']
+Xraw = df_cleaned[['CPIAUCSL', 'TB3MS']]
+
+num_lags  = 4  ## this is p
+num_leads = 1  ## this is h
+X = pd.DataFrame()
+## Add the lagged values of Y
+col = 'INDPRO'
+for lag in range(0,num_lags):
+        # Shift each column in the DataFrame and name it with a lag suffix
+        X[f'{col}_lag{lag}'] = Yraw.shift(lag)
+
+for col in Xraw.columns:
+    for lag in range(0,num_lags):
+        # Shift each column in the DataFrame and name it with a lag suffix
+        X[f'{col}_lag{lag}'] = Xraw[col].shift(lag)
+## Add a column on ones (for the intercept)
+X.insert(0, 'Ones', np.ones(len(X)))
+
+
+## X is now a DataFrame
+X.head()
+```
+
+Note that the first $p=$`4` rows of `X` have missing values. 
+
+The vector $\mathbf{y}$ can be similarly created as
+```{python}
+y = Yraw.shift(-num_leads)
+y
+```
+
+The variable `y` has missing values in the last `h` positions (it is not possible to lead the target beyond $T$).
+
+Notice also that we must keep the last row of `X` for constructing the forecast.
+
+Now we create two `numpy` arrays with the missing values stripped:
+
+```{python}
+## Save last row of X (converted to numpy)
+X_T = X.iloc[-1:].values
+## Subset getting only rows of X and y from p+1 to h-1
+## and convert to numpy array
+y = y.iloc[num_lags:-num_leads].values
+X = X.iloc[num_lags:-num_leads].values
+```
+
+Now, we have to estimate the parameters and obtain the forecast.
+
+### Estimation
+
+The parameters of the model can be estimated by OLS (the OLS estimates the coefficient of the linear projection of $Y_{t+h}$ on its lags and the lags of $X_t$). 
+
+The OLS estimator of $\boldsymbol{\beta}$ is 
+$$
+\hat{\boldsymbol{\beta}} = (X'X)^{-1}X'Y.
+$$
+
+While this is the formula used to describe the OLS estimator, from a computational poijnt of view is much better to define the estimator as the solution of the set of linear equations:
+$$
+(X'X)\boldsymbol{\beta} = X'Y
+$$
+
+The function `solve` can be used to solve this linear system of equation. 
+
+```{python}
+from numpy.linalg import solve
+# Solving for the OLS estimator beta: (X'X)^{-1} X'Y
+beta_ols = solve(X.T @ X, X.T @ y)
+
+## Produce the One step ahead forecast
+## % change month-to-month INDPRO
+forecast = X_T@beta_ols*100
+```
+
+
+The variable `forecast` contains now the one-step ahead ($h=1$ forecast) of `INDPRO`. Since `INDPRO` has been transformed in logarithmic differences, we are forecasting the percentage change (and multiplying by 100 gives the forecast in percentage points). 
+
+To obtain the $h$-step ahead forecast, we must repeat all the above steps using a different `h`.
+
+### Forecasting Exercise
+
+How good is the forecast that the model is producing? One thing we could do to assess the forecast's quality is to wait for the new data on industrial production and see how big the forecasting error is. However, this evaluation would not be appropriate because we need to evaluate the forecast as if it were repeatedly used to forecast future values of the target variables. To properly assess the model and its ability to forecast `INDPRO`, we must keep producing forecasts and calculating the errors as new data arrive. This procedure would take time as we must wait for many months to have a series of errors that is large enough. 
+
+A different approach is to do what is called a Real-time evaluation. A Real-time evaluation procedure consists of putting ourselves in the shoes of a forecaster who has been using the forecasting model for a long time. 
+
+In practice, that is what are the steps to follow to do a Real-time evaluation of the model:
+
+0. Set $T$ such that the last observation of `df` coincides with December 1999;
+1. Estimate the model using the data up to $T$
+2. Produce $\hat{Y}_{T+1}, \hat{Y}_{T+2}, \dots, \hat{Y}_{T+H}$
+3. Since we have the actual data for January, February, ..., we can calculate the forecasting errors of our model
+   $$
+   \hat{e}_{T+h} = \hat{Y}_{T+h} - Y_{T+h}, \,\, h = 1,\ldots, H.
+   $$
+
+4. Set $T = T+1$ and do all the steps above.
+
+
+The process results are a series of forecasting errors we can evaluate using several metrics. The most commonly used is the MSFE, which is defined as
+$$
+MSFE_h = \frac{1}{J}\sum_{j=1}^J  \hat{e}_{T+j+h}^2,
+$$
+where $J$ is the number of errors we collected through our real-time evaluation. 
+
+
+This assignment asks you to perform a real-time evaluation assessment of our simple forecasting model and calculate the MSFE for steps $h=1,4,8$. 
+
+As a bonus, we can evaluate different models and see how they perform differently. For instance, you might consider different numbers of lags and/or different variables in the model. 
+
+#### Hint
+
+A sensible way to structure the code for real-time evaluation is 
+to use several functions. For instance, you can define a function that calculates the forecast given the DataFrame.
+
+```{python}
+def calculate_forecast(df_cleaned, p = 4, H = [1,4,8], end_date = '12/1/1999',target = 'INDPRO', xvars = ['CPIAUCSL', 'TB3MS']):
+
+    ## Subset df_cleaned to use only data up to end_date
+    rt_df = df_cleaned[df_cleaned['sasdate'] <= pd.Timestamp(end_date)]
+    ## Get the actual values of target at different steps ahead
+    Y_actual = []
+    for h in H:
+        os = pd.Timestamp(end_date) + pd.DateOffset(months=h)
+        Y_actual.append(df_cleaned[df_cleaned['sasdate'] == os][target]*100)
+        ## Now Y contains the true values at T+H (multiplying * 100)
+
+    Yraw = rt_df[target]
+    Xraw = rt_df[xvars]
+
+    X = pd.DataFrame()
+    ## Add the lagged values of Y
+    for lag in range(0,p):
+        # Shift each column in the DataFrame and name it with a lag suffix
+        X[f'{target}_lag{lag}'] = Yraw.shift(lag)
+
+    for col in Xraw.columns:
+        for lag in range(0,p):
+            X[f'{col}_lag{lag}'] = Xraw[col].shift(lag)
+    
+    ## Add a column on ones (for the intercept)
+    X.insert(0, 'Ones', np.ones(len(X)))
+    
+    ## Save last row of X (converted to numpy)
+    X_T = X.iloc[-1:].values
+
+    ## While the X will be the same, Y needs to be leaded differently
+    Yhat = []
+    for h in H:
+        y_h = Yraw.shift(-h)
+        ## Subset getting only rows of X and y from p+1 to h-1
+        y = y_h.iloc[p:-h].values
+        X_ = X.iloc[p:-h].values
+        # Solving for the OLS estimator beta: (X'X)^{-1} X'Y
+        beta_ols = solve(X_.T @ X_, X_.T @ y)
+        ## Produce the One step ahead forecast
+        ## % change month-to-month INDPRO
+        Yhat.append(X_T@beta_ols*100)
+
+    ## Now calculate the forecasting error and return
+
+    return np.array(Y_actual) - np.array(Yhat)
+
+```
+
+
+With this function, you can calculate real-time errors by looping over the `end_date` to ensure you end the loop at the right time.
+
+```{python}
+t0 = pd.Timestamp('12/1/1999')
+e = []
+T = []
+for j in range(0, 10):
+    t0 = t0 + pd.DateOffset(months=1)
+    print(f'Using data up to {t0}')
+    ehat = calculate_forecast(df_cleaned, p = 4, H = [1,4,8], end_date = t0)
+    e.append(ehat.flatten())
+    T.append(t0)
+
+## Create a pandas DataFrame from the list
+edf = pd.DataFrame(e)
+## Calculate the RMSFE, that is, the square root of the MSFE
+np.sqrt(edf.apply(np.square).mean())
+
+```
+
+You may change the function `calculate_forecast` to output also the actual data end the forecast, so you can, for instance, construct a plot.
