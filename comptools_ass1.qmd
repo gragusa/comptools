@@ -89,8 +89,8 @@ for series_name, code in transformation_codes.values:
 df_cleaned = df_cleaned[2:]  # <1>
 df_cleaned.reset_index(drop=True, inplace=True) # <2>
 df_cleaned.head()
-
 ```
+
 
 1. Since some transformations induce missing values, we drop the first two observations of the dataset
 
@@ -251,12 +251,12 @@ num_leads = 1  ## this is h
 X = pd.DataFrame()
 ## Add the lagged values of Y
 col = 'INDPRO'
-for lag in range(0,num_lags):
+for lag in range(0,num_lags+1):
         # Shift each column in the DataFrame and name it with a lag suffix
         X[f'{col}_lag{lag}'] = Yraw.shift(lag)
 
 for col in Xraw.columns:
-    for lag in range(0,num_lags):
+    for lag in range(0,num_lags+1):
         # Shift each column in the DataFrame and name it with a lag suffix
         X[f'{col}_lag{lag}'] = Xraw[col].shift(lag)
 ## Add a column on ones (for the intercept)
@@ -290,6 +290,10 @@ y = y.iloc[num_lags:-num_leads].values
 X = X.iloc[num_lags:-num_leads].values
 ```
 
+```{python}
+X_T
+```
+
 Now, we have to estimate the parameters and obtain the forecast.
 
 ### Estimation
@@ -316,6 +320,7 @@ beta_ols = solve(X.T @ X, X.T @ y)
 ## Produce the One step ahead forecast
 ## % change month-to-month INDPRO
 forecast = X_T@beta_ols*100
+forecast
 ```
 
 
