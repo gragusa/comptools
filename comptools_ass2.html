@@ -171,7 +171,8 @@ window.Quarto = {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#optimization-problems" id="toc-optimization-problems" class="nav-link active" data-scroll-target="#optimization-problems">Optimization problems</a></li>
+  <li><a href="#assignment-link-on-github" id="toc-assignment-link-on-github" class="nav-link active" data-scroll-target="#assignment-link-on-github">Assignment link on github</a></li>
+  <li><a href="#optimization-problems" id="toc-optimization-problems" class="nav-link" data-scroll-target="#optimization-problems">Optimization problems</a></li>
   <li><a href="#unconstrained-problems" id="toc-unconstrained-problems" class="nav-link" data-scroll-target="#unconstrained-problems">Unconstrained problems</a></li>
   <li><a href="#fundamental-mathematical-tools" id="toc-fundamental-mathematical-tools" class="nav-link" data-scroll-target="#fundamental-mathematical-tools">Fundamental mathematical tools</a></li>
   <li><a href="#overview-of-algorithms" id="toc-overview-of-algorithms" class="nav-link" data-scroll-target="#overview-of-algorithms">Overview of algorithms</a></li>
@@ -208,6 +209,10 @@ window.Quarto = {
 </header>
 
 
+<section id="assignment-link-on-github" class="level2">
+<h2 class="anchored" data-anchor-id="assignment-link-on-github">Assignment link on github</h2>
+<p><a href="https://classroom.github.com/a/E033i8DL">Invitation link to accept the assignment</a></p>
+</section>
 <section id="optimization-problems" class="level2">
 <h2 class="anchored" data-anchor-id="optimization-problems">Optimization problems</h2>
 <p>Optimization is a field of mathematics that focuses on the problem of finding the solution to a minimization problem. More precisely, given a function <span class="math inline">\(f:\mathbb{R}^{k}\to \mathbb{R}\)</span>, we seek <span class="math inline">\(x^{*}\in\mathcal{C}\subset \mathbb{R}^{k}\)</span> such that <span class="math display">\[
@@ -350,7 +355,7 @@ f(x+p) = f(x)+\nabla f(x)'p + \frac{1}{2}p'\nabla^2 f(x+tp)p.
 <span id="cb1-67"><a href="#cb1-67" aria-hidden="true" tabindex="-1"></a>plt.plot([x2, x2],[f(x1), <span class="dv">0</span>],<span class="st">'g--'</span>)</span>
 <span id="cb1-68"><a href="#cb1-68" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
-<pre><code>/var/folders/cc/94_qfp2s31zbxp0zcs5tn2wr0000gn/T/ipykernel_35205/189701708.py:6: RuntimeWarning: invalid value encountered in log
+<pre><code>/var/folders/cc/94_qfp2s31zbxp0zcs5tn2wr0000gn/T/ipykernel_38321/189701708.py:6: RuntimeWarning: invalid value encountered in log
   return x**2 - np.log(x)</code></pre>
 </div>
 <div class="cell-output cell-output-display">
@@ -391,7 +396,7 @@ x^{(r+1)} = x^{(r)}-[\nabla^2 f(x^{(r)})]^{-1} \nabla f(x^{(r)}) +
 <section id="a-simple-implementation-of-gradient-descent" class="level2">
 <h2 class="anchored" data-anchor-id="a-simple-implementation-of-gradient-descent">A simple implementation of gradient descent</h2>
 <p>The following code implements a gradient descent with steepest direction in Python.</p>
-<div id="5431e7a0" class="cell" data-execution_count="2">
+<div id="ef1cfe96" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> numpy <span class="im">import</span> linalg <span class="im">as</span> la</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> steepest_descent(f, gradient, initial_guess, learning_rate, num_iterations <span class="op">=</span> <span class="dv">100</span>, epsilon_g <span class="op">=</span> <span class="fl">1e-07</span>):</span>
@@ -434,7 +439,7 @@ f(x) = \sum_{i=1}^d \left((x_i-3)^2 \right)
 \end{pmatrix}.
 \]</span></p>
 <p>The minimum of this function is <span class="math inline">\(x_i = 3\)</span>.</p>
-<div id="0c9f1a8b" class="cell" data-execution_count="3">
+<div id="0bfa2796" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> f(x):</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> np.<span class="bu">sum</span>((x<span class="op">-</span><span class="fl">3.0</span>)<span class="op">**</span><span class="dv">2</span>)</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -514,7 +519,7 @@ x0 = [1.0, 2.0]
 gradient = grad(fdm, f, x0)
 
 println("Numerical Gradient:", gradient)</code></pre>
-<div id="9c0ae455" class="cell" data-execution_count="4">
+<div id="f7053be1" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.optimize <span class="im">import</span> approx_fprime</span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -538,7 +543,7 @@ println("Numerical Gradient:", gradient)</code></pre>
 <p>Automatic Differentiation (AD) is a computational technique used to evaluate the derivative of a function specified by a computer program. AD exploits the fact that any computer program, no matter how complex, executes a sequence of elementary arithmetic operations and functions (like additions, multiplications, and trigonometric functions). By applying the chain rule to these operations, AD efficiently computes derivatives of arbitrary order, which are accurate up to machine precision. This contrasts with numerical differentiation, which can introduce significant rounding errors.</p>
 <p>One popular Python library that implements automatic differentiation is <code>autograd</code>. It extends the capabilities of NumPy by allowing you to automatically compute derivatives of functions composed of many standard mathematical operations. Here is a simple example of using <code>autograd</code> to compute the derivative of a function:</p>
 <p>Now, let’s compute the derivative of the function defined above.</p>
-<div id="5fe1bfbf" class="cell" data-execution_count="5">
+<div id="9a7e5fe1" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> autograd.numpy <span class="im">as</span> np   <span class="co"># Import wrapped NumPy</span></span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> autograd <span class="im">import</span> grad    <span class="co"># Import the gradient function</span></span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -687,7 +692,7 @@ result = optimize(f, lower_bounds, upper_bounds, initial_guess, optimizer, Optim
 <h2 class="anchored" data-anchor-id="pythons-minimize">Python’s <code>minimize</code></h2>
 <p>The <code>scipy.optimize.minimize</code> function in Python is a versatile solver for minimization problems of both unconstrained and constrained functions. It provides a wide range of algorithms for different kinds of optimization problems.</p>
 <p>SciPy’s <code>minimize</code> function supports various methods like ‘BFGS’, ‘Nelder-Mead’, ‘TNC’, etc. The choice of method can depend on the nature of your problem (e.g., whether it has constraints, whether the function is differentiable, etc.). As in the Julia’s discussion, we’ll use ‘BFGS’.</p>
-<div id="ad5fdb00" class="cell" data-execution_count="7">
+<div id="04c362ca" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.optimize <span class="im">import</span> minimize</span>
 <span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>initial_guess <span class="op">=</span> np.array([<span class="dv">0</span>, <span class="dv">0</span>])</span>
@@ -705,7 +710,7 @@ Message: Optimization terminated successfully.</code></pre>
 </div>
 </div>
 <p>To add some bounds to the variables we can use the Bounds module.</p>
-<div id="051f7187" class="cell" data-execution_count="8">
+<div id="259992d5" class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.optimize <span class="im">import</span> Bounds</span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Define bounds (0, +Inf) for all parameters</span></span>
