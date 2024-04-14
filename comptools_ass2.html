@@ -188,6 +188,7 @@ window.Quarto = {
   </ul></li>
   <li><a href="#pythons-minimize" id="toc-pythons-minimize" class="nav-link" data-scroll-target="#pythons-minimize">Python’s <code>minimize</code></a></li>
   <li><a href="#assignment" id="toc-assignment" class="nav-link" data-scroll-target="#assignment">Assignment</a></li>
+  <li><a href="#the-ar7-likelihood" id="toc-the-ar7-likelihood" class="nav-link" data-scroll-target="#the-ar7-likelihood">The AR(7) likelihood</a></li>
   </ul>
 </nav>
     </div>
@@ -359,7 +360,7 @@ f(x+p) = f(x)+\nabla f(x)'p + \frac{1}{2}p'\nabla^2 f(x+tp)p.
 <span id="cb1-67"><a href="#cb1-67" aria-hidden="true" tabindex="-1"></a>plt.plot([x2, x2],[f(x1), <span class="dv">0</span>],<span class="st">'g--'</span>)</span>
 <span id="cb1-68"><a href="#cb1-68" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
-<pre><code>/var/folders/cc/94_qfp2s31zbxp0zcs5tn2wr0000gn/T/ipykernel_38321/189701708.py:6: RuntimeWarning: invalid value encountered in log
+<pre><code>/var/folders/cc/94_qfp2s31zbxp0zcs5tn2wr0000gn/T/ipykernel_96888/189701708.py:6: RuntimeWarning: invalid value encountered in log
   return x**2 - np.log(x)</code></pre>
 </div>
 <div class="cell-output cell-output-display">
@@ -400,7 +401,7 @@ x^{(r+1)} = x^{(r)}-[\nabla^2 f(x^{(r)})]^{-1} \nabla f(x^{(r)}) +
 <section id="a-simple-implementation-of-gradient-descent" class="level2">
 <h2 class="anchored" data-anchor-id="a-simple-implementation-of-gradient-descent">A simple implementation of gradient descent</h2>
 <p>The following code implements a gradient descent with steepest direction in Python.</p>
-<div id="ef1cfe96" class="cell" data-execution_count="2">
+<div id="fd08005e" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> numpy <span class="im">import</span> linalg <span class="im">as</span> la</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> steepest_descent(f, gradient, initial_guess, learning_rate, num_iterations <span class="op">=</span> <span class="dv">100</span>, epsilon_g <span class="op">=</span> <span class="fl">1e-07</span>):</span>
@@ -443,7 +444,7 @@ f(x) = \sum_{i=1}^d \left((x_i-3)^2 \right)
 \end{pmatrix}.
 \]</span></p>
 <p>The minimum of this function is <span class="math inline">\(x_i = 3\)</span>.</p>
-<div id="0bfa2796" class="cell" data-execution_count="3">
+<div id="c0011701" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> f(x):</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> np.<span class="bu">sum</span>((x<span class="op">-</span><span class="fl">3.0</span>)<span class="op">**</span><span class="dv">2</span>)</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -490,7 +491,7 @@ Iteration 35: x = [2.99999995 2.99999995], f(x) = 5.31936792808749e-15, ||g(x)||
 Iteration 36: x = [2.99999997 2.99999997], f(x) = 1.914972432124978e-15, ||g(x)||=1.4586799413288017e-07
 Iteration 37: x = [2.99999998 2.99999998], f(x) = 6.893900623730809e-16, ||g(x)||=8.752079597729852e-08</code></pre>
 </div>
-<div class="cell-output cell-output-display" data-execution_count="3">
+<div class="cell-output cell-output-display" data-execution_count="25">
 <pre><code>array([2.99999998, 2.99999998])</code></pre>
 </div>
 </div>
@@ -523,7 +524,7 @@ x0 = [1.0, 2.0]
 gradient = grad(fdm, f, x0)
 
 println("Numerical Gradient:", gradient)</code></pre>
-<div id="f7053be1" class="cell" data-execution_count="4">
+<div id="5db544eb" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.optimize <span class="im">import</span> approx_fprime</span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -547,7 +548,7 @@ println("Numerical Gradient:", gradient)</code></pre>
 <p>Automatic Differentiation (AD) is a computational technique used to evaluate the derivative of a function specified by a computer program. AD exploits the fact that any computer program, no matter how complex, executes a sequence of elementary arithmetic operations and functions (like additions, multiplications, and trigonometric functions). By applying the chain rule to these operations, AD efficiently computes derivatives of arbitrary order, which are accurate up to machine precision. This contrasts with numerical differentiation, which can introduce significant rounding errors.</p>
 <p>One popular Python library that implements automatic differentiation is <code>autograd</code>. It extends the capabilities of NumPy by allowing you to automatically compute derivatives of functions composed of many standard mathematical operations. Here is a simple example of using <code>autograd</code> to compute the derivative of a function:</p>
 <p>Now, let’s compute the derivative of the function defined above.</p>
-<div id="9a7e5fe1" class="cell" data-execution_count="5">
+<div id="72c3acb1" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> autograd.numpy <span class="im">as</span> np   <span class="co"># Import wrapped NumPy</span></span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> autograd <span class="im">import</span> grad    <span class="co"># Import the gradient function</span></span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -696,7 +697,7 @@ result = optimize(f, lower_bounds, upper_bounds, initial_guess, optimizer, Optim
 <h2 class="anchored" data-anchor-id="pythons-minimize">Python’s <code>minimize</code></h2>
 <p>The <code>scipy.optimize.minimize</code> function in Python is a versatile solver for minimization problems of both unconstrained and constrained functions. It provides a wide range of algorithms for different kinds of optimization problems.</p>
 <p>SciPy’s <code>minimize</code> function supports various methods like ‘BFGS’, ‘Nelder-Mead’, ‘TNC’, etc. The choice of method can depend on the nature of your problem (e.g., whether it has constraints, whether the function is differentiable, etc.). As in the Julia’s discussion, we’ll use ‘BFGS’.</p>
-<div id="04c362ca" class="cell" data-execution_count="7">
+<div id="b05e87a6" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.optimize <span class="im">import</span> minimize</span>
 <span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>initial_guess <span class="op">=</span> np.array([<span class="dv">0</span>, <span class="dv">0</span>])</span>
@@ -714,7 +715,7 @@ Message: Optimization terminated successfully.</code></pre>
 </div>
 </div>
 <p>To add some bounds to the variables we can use the Bounds module.</p>
-<div id="259992d5" class="cell" data-execution_count="8">
+<div id="0b8c6076" class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.optimize <span class="im">import</span> Bounds</span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Define bounds (0, +Inf) for all parameters</span></span>
@@ -766,6 +767,214 @@ y_t = \phi_0 + \phi_1 y_{t-1} + \phi_2 y_{t-2} + \dots + \phi_7 y_{t-7} + \epsil
 <p><strong>Assessment Criteria:</strong> - Correctness and efficiency of the likelihood function implementations. - Accuracy and robustness of the optimization procedure. - Clarity and depth of the analysis in the report, especially in discussing the different outcomes from the conditional and unconditional methods. - Quality of the code, including readability and proper documentation.</p>
 <p><strong>Resources:</strong> - <code>FRED-MD</code> dataset: Access the dataset directly from the FRED website or through any API that provides access to it. - SciPy library documentation for optimization functions. - Optim.jl</p>
 <p>This assignment will test your ability to implement statistical models, manipulate time-series data, perform parameter estimation, and use statistical methods to forecast future values.</p>
+</section>
+<section id="the-ar7-likelihood" class="level2">
+<h2 class="anchored" data-anchor-id="the-ar7-likelihood">The AR(7) likelihood</h2>
+<p>The AR(7) process is given by the equation: <span class="math display">\[
+X_t = c + \phi_1 X_{t-1} + \phi_2 X_{t-2} + \ldots + \phi_7 X_{t-7} + \epsilon_t
+\]</span> where <span class="math inline">\(\epsilon_t\)</span> is white noise with mean zero and variance <span class="math inline">\(\sigma^2\)</span>, and <span class="math inline">\(c\)</span> is a constant.</p>
+<p>This AR(7) process can be rewritten in a matrix form that resembles an AR(1) process by defining a vector <span class="math inline">\(\mathbf{Z}_t\)</span> that includes lags of the process up to <span class="math inline">\(X_{t-6}\)</span> <span class="math display">\[
+\mathbf{Z}_t = A\mathbf{Z}_{t-1} + \mathbf{u}_t.
+\]</span> The state vector <span class="math inline">\(\mathbf{Z}_t\)</span>, the companion matrix <span class="math inline">\(\mathbf{A}\)</span>, and <span class="math inline">\(\mathbf{u}_t\)</span> are: <span class="math display">\[
+\mathbf{Z}_t = \begin{bmatrix}
+X_t \\
+X_{t-1} \\
+X_{t-2} \\
+X_{t-3} \\
+X_{t-4} \\
+X_{t-5} \\
+X_{t-6}
+\end{bmatrix}, \quad
+\mathbf{A} = \begin{bmatrix}
+\phi_1 &amp; \phi_2 &amp; \phi_3 &amp; \phi_4 &amp; \phi_5 &amp; \phi_6 &amp; \phi_7 \\
+1 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 \\
+0 &amp; 1 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 \\
+0 &amp; 0 &amp; 1 &amp; 0 &amp; 0 &amp; 0 &amp; 0 \\
+0 &amp; 0 &amp; 0 &amp; 1 &amp; 0 &amp; 0 &amp; 0 \\
+0 &amp; 0 &amp; 0 &amp; 0 &amp; 1 &amp; 0 &amp; 0 \\
+0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 1 &amp; 0
+\end{bmatrix}, \quad
+\mathbf{u}_t = \begin{pmatrix}
+\varepsilon_t \\
+0 \\
+\vdots\\
+0
+\end{pmatrix}
+\]</span></p>
+<p>The process is stationary if the eigenvalues of <span class="math inline">\(A\)</span> are all inside the unit circle, that is, they are all less than one in absolute value.</p>
+<p>If the process is stationary, the mean <span class="math inline">\(\mathbf{\mu}\)</span> of the vector <span class="math inline">\(\mathbf{Z}_t\)</span> satisfies: <span class="math display">\[
+\mathbf{\mu} = \mathbf{A} \mathbf{\mu} + \mathbf{b}
+\]</span> where <span class="math inline">\(\mathbf{b}\)</span> is a column vector with <span class="math inline">\(c\)</span> in the first row and zeros elsewhere. Solving for <span class="math inline">\(\mathbf{\mu}\)</span> yields: <span class="math display">\[
+\mathbf{\mu} = (I - \mathbf{A})^{-1} \mathbf{b}.
+\]</span></p>
+<p>The variance-covariance matrix <span class="math inline">\(\Sigma\)</span> of <span class="math inline">\(\mathbf{Z}_t\)</span> satisfies the equation: <span id="eq-lyapunov"><span class="math display">\[
+\Sigma = \mathbf{A} \Sigma \mathbf{A}^T + \mathbf{Q}
+\tag{2}\]</span></span></p>
+<p>where <span class="math inline">\(\mathbf{Q}  = E\mathbf{u}_t\mathbf{u}'_t\)</span> is a matrix with <span class="math inline">\(\sigma^2\)</span> in the top-left corner and zeros elsewhere.</p>
+<p><a href="#eq-lyapunov" class="quarto-xref">Equation&nbsp;2</a> is called the discrete Lyapunov equation and solving it for <span class="math inline">\(\Sigma\)</span> typically involves using iterative or analytical methods.</p>
+<div id="c1dd27d4" class="cell" data-execution_count="9">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> scipy </span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> unconditional_ar_mean_variance(c, phis, sigma2):</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>    <span class="co">## The length of phis is p</span></span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>    p <span class="op">=</span> <span class="bu">len</span>(phis)</span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>    A <span class="op">=</span> np.zeros((p, p))</span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>    A[<span class="dv">0</span>, :] <span class="op">=</span> phis</span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>    A[<span class="dv">1</span>:, <span class="dv">0</span>:(p<span class="op">-</span><span class="dv">1</span>)] <span class="op">=</span> np.eye(p<span class="op">-</span><span class="dv">1</span>)</span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>    <span class="co">## Check for stationarity</span></span>
+<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a>    eigA <span class="op">=</span> np.linalg.eig(A)</span>
+<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="bu">all</span>(np.<span class="bu">abs</span>(eigA.eigenvalues)<span class="op">&lt;</span><span class="dv">1</span>):</span>
+<span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a>        stationary <span class="op">=</span> <span class="va">True</span></span>
+<span id="cb22-13"><a href="#cb22-13" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
+<span id="cb22-14"><a href="#cb22-14" aria-hidden="true" tabindex="-1"></a>        stationary <span class="op">=</span> <span class="va">False</span></span>
+<span id="cb22-15"><a href="#cb22-15" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Create the vector b</span></span>
+<span id="cb22-16"><a href="#cb22-16" aria-hidden="true" tabindex="-1"></a>    b <span class="op">=</span> np.zeros((p, <span class="dv">1</span>))</span>
+<span id="cb22-17"><a href="#cb22-17" aria-hidden="true" tabindex="-1"></a>    b[<span class="dv">0</span>, <span class="dv">0</span>] <span class="op">=</span> c</span>
+<span id="cb22-18"><a href="#cb22-18" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb22-19"><a href="#cb22-19" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Compute the mean using matrix algebra</span></span>
+<span id="cb22-20"><a href="#cb22-20" aria-hidden="true" tabindex="-1"></a>    I <span class="op">=</span> np.eye(p)</span>
+<span id="cb22-21"><a href="#cb22-21" aria-hidden="true" tabindex="-1"></a>    mu <span class="op">=</span> np.linalg.inv(I <span class="op">-</span> A) <span class="op">@</span> b</span>
+<span id="cb22-22"><a href="#cb22-22" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb22-23"><a href="#cb22-23" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Solve the discrete Lyapunov equation</span></span>
+<span id="cb22-24"><a href="#cb22-24" aria-hidden="true" tabindex="-1"></a>    Q <span class="op">=</span> np.zeros((p, p))</span>
+<span id="cb22-25"><a href="#cb22-25" aria-hidden="true" tabindex="-1"></a>    Q[<span class="dv">0</span>, <span class="dv">0</span>] <span class="op">=</span> sigma2</span>
+<span id="cb22-26"><a href="#cb22-26" aria-hidden="true" tabindex="-1"></a>    <span class="co">#Sigma = np.linalg.solve(I - np.kron(A, A), Q.flatten()).reshape(7, 7)</span></span>
+<span id="cb22-27"><a href="#cb22-27" aria-hidden="true" tabindex="-1"></a>    Sigma <span class="op">=</span> scipy.linalg.solve_discrete_lyapunov(A, Q)</span>
+<span id="cb22-28"><a href="#cb22-28" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb22-29"><a href="#cb22-29" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> mu.ravel(), Sigma, stationary</span>
+<span id="cb22-30"><a href="#cb22-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-31"><a href="#cb22-31" aria-hidden="true" tabindex="-1"></a><span class="co"># Example usage:</span></span>
+<span id="cb22-32"><a href="#cb22-32" aria-hidden="true" tabindex="-1"></a>phis <span class="op">=</span> [<span class="fl">0.2</span>, <span class="op">-</span><span class="fl">0.1</span>, <span class="fl">0.05</span>, <span class="op">-</span><span class="fl">0.05</span>, <span class="fl">0.02</span>, <span class="op">-</span><span class="fl">0.02</span>, <span class="fl">0.01</span>]</span>
+<span id="cb22-33"><a href="#cb22-33" aria-hidden="true" tabindex="-1"></a>c <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb22-34"><a href="#cb22-34" aria-hidden="true" tabindex="-1"></a>sigma2 <span class="op">=</span> <span class="fl">0.5</span></span>
+<span id="cb22-35"><a href="#cb22-35" aria-hidden="true" tabindex="-1"></a>mu, Sigma, stationary <span class="op">=</span> unconditional_ar_mean_variance(c, phis, sigma2)</span>
+<span id="cb22-36"><a href="#cb22-36" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"The process is stationary:"</span>, stationary)</span>
+<span id="cb22-37"><a href="#cb22-37" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Mean vector (mu):"</span>, mu)</span>
+<span id="cb22-38"><a href="#cb22-38" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Variance-covariance matrix (Sigma);"</span>, Sigma)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>The process is stationary: True
+Mean vector (mu): [0. 0. 0. 0. 0. 0. 0.]
+Variance-covariance matrix (Sigma); [[ 0.52248632  0.09320012 -0.0271827   0.0058952  -0.01510039 -0.00131484
+  -0.00475276]
+ [ 0.09320012  0.52248632  0.09320012 -0.0271827   0.0058952  -0.01510039
+  -0.00131484]
+ [-0.0271827   0.09320012  0.52248632  0.09320012 -0.0271827   0.0058952
+  -0.01510039]
+ [ 0.0058952  -0.0271827   0.09320012  0.52248632  0.09320012 -0.0271827
+   0.0058952 ]
+ [-0.01510039  0.0058952  -0.0271827   0.09320012  0.52248632  0.09320012
+  -0.0271827 ]
+ [-0.00131484 -0.01510039  0.0058952  -0.0271827   0.09320012  0.52248632
+   0.09320012]
+ [-0.00475276 -0.00131484 -0.01510039  0.0058952  -0.0271827   0.09320012
+   0.52248632]]</code></pre>
+</div>
+</div>
+<p>The function <code>unconditional_ar_mean_variance</code> returns the expected value and the variance of the unconditional distribution of <span class="math inline">\((y_t, \dots, y_{t-p})\)</span>. It also returns <code>stationary</code> that is <code>True</code> if the process with parameters <code>phi</code> is stationary.</p>
+<p>You can use this function to calculate the unconditional loglikelihood.</p>
+<p>We start by writing a function that calculates the conditional likelihood</p>
+<div id="781ff5b7" class="cell" data-execution_count="10">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.stats <span class="im">import</span> norm</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.stats <span class="im">import</span> multivariate_normal</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> lagged_matrix(Y, max_lag<span class="op">=</span><span class="dv">7</span>):</span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>    n <span class="op">=</span> <span class="bu">len</span>(Y)</span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>    lagged_matrix <span class="op">=</span> np.full((n, max_lag), np.nan)    </span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Fill each column with the appropriately lagged data</span></span>
+<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> lag <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, max_lag <span class="op">+</span> <span class="dv">1</span>):</span>
+<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a>        lagged_matrix[lag:, lag <span class="op">-</span> <span class="dv">1</span>] <span class="op">=</span> Y[:<span class="op">-</span>lag]</span>
+<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> lagged_matrix</span>
+<span id="cb24-12"><a href="#cb24-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-13"><a href="#cb24-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-14"><a href="#cb24-14" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> cond_loglikelihood_ar7(params, y):</span>
+<span id="cb24-15"><a href="#cb24-15" aria-hidden="true" tabindex="-1"></a>    c <span class="op">=</span> params[<span class="dv">0</span>] </span>
+<span id="cb24-16"><a href="#cb24-16" aria-hidden="true" tabindex="-1"></a>    phi <span class="op">=</span> params[<span class="dv">1</span>:<span class="dv">8</span>]</span>
+<span id="cb24-17"><a href="#cb24-17" aria-hidden="true" tabindex="-1"></a>    sigma2 <span class="op">=</span> params[<span class="dv">8</span>]</span>
+<span id="cb24-18"><a href="#cb24-18" aria-hidden="true" tabindex="-1"></a>    mu, Sigma, stationary <span class="op">=</span> unconditional_ar_mean_variance(c, phi, sigma2)</span>
+<span id="cb24-19"><a href="#cb24-19" aria-hidden="true" tabindex="-1"></a>    <span class="co">## We could check that at phis the process is stationary and return -Inf if it is not</span></span>
+<span id="cb24-20"><a href="#cb24-20" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="kw">not</span>(stationary):</span>
+<span id="cb24-21"><a href="#cb24-21" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="op">-</span>np.inf</span>
+<span id="cb24-22"><a href="#cb24-22" aria-hidden="true" tabindex="-1"></a>    <span class="co">## The distribution of </span></span>
+<span id="cb24-23"><a href="#cb24-23" aria-hidden="true" tabindex="-1"></a>    <span class="co"># y_t|y_{t-1}, ..., y_{t-7} ~ N(c+\phi_{1}*y_{t-1}+...+\phi_{7}y_{t-7}, sigma2)</span></span>
+<span id="cb24-24"><a href="#cb24-24" aria-hidden="true" tabindex="-1"></a>    <span class="co">## Create lagged matrix</span></span>
+<span id="cb24-25"><a href="#cb24-25" aria-hidden="true" tabindex="-1"></a>    X <span class="op">=</span> lagged_matrix(y, <span class="dv">7</span>)</span>
+<span id="cb24-26"><a href="#cb24-26" aria-hidden="true" tabindex="-1"></a>    yf <span class="op">=</span> y[<span class="dv">7</span>:]</span>
+<span id="cb24-27"><a href="#cb24-27" aria-hidden="true" tabindex="-1"></a>    Xf <span class="op">=</span> X[<span class="dv">7</span>:,:]</span>
+<span id="cb24-28"><a href="#cb24-28" aria-hidden="true" tabindex="-1"></a>    loglik <span class="op">=</span> np.<span class="bu">sum</span>(norm.logpdf(yf, loc<span class="op">=</span>(c <span class="op">+</span> Xf<span class="op">@</span>phi), scale<span class="op">=</span>np.sqrt(sigma2)))</span>
+<span id="cb24-29"><a href="#cb24-29" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> loglik</span>
+<span id="cb24-30"><a href="#cb24-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-31"><a href="#cb24-31" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> uncond_loglikelihood_ar7(params, y):</span>
+<span id="cb24-32"><a href="#cb24-32" aria-hidden="true" tabindex="-1"></a>    <span class="co">## The unconditional loglikelihood</span></span>
+<span id="cb24-33"><a href="#cb24-33" aria-hidden="true" tabindex="-1"></a>    <span class="co">## is the unconditional "plus" the density of the</span></span>
+<span id="cb24-34"><a href="#cb24-34" aria-hidden="true" tabindex="-1"></a>    <span class="co">## first p (7 in our case) observations</span></span>
+<span id="cb24-35"><a href="#cb24-35" aria-hidden="true" tabindex="-1"></a>    cloglik <span class="op">=</span> cond_loglikelihood_ar7(params, y)</span>
+<span id="cb24-36"><a href="#cb24-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-37"><a href="#cb24-37" aria-hidden="true" tabindex="-1"></a>    <span class="co">## Calculate initial</span></span>
+<span id="cb24-38"><a href="#cb24-38" aria-hidden="true" tabindex="-1"></a>    <span class="co"># y_1, ..., y_7 ~ N(mu, sigma_y)</span></span>
+<span id="cb24-39"><a href="#cb24-39" aria-hidden="true" tabindex="-1"></a>    c <span class="op">=</span> params[<span class="dv">0</span>] </span>
+<span id="cb24-40"><a href="#cb24-40" aria-hidden="true" tabindex="-1"></a>    phi <span class="op">=</span> params[<span class="dv">1</span>:<span class="dv">8</span>]</span>
+<span id="cb24-41"><a href="#cb24-41" aria-hidden="true" tabindex="-1"></a>    sigma2 <span class="op">=</span> params[<span class="dv">8</span>]</span>
+<span id="cb24-42"><a href="#cb24-42" aria-hidden="true" tabindex="-1"></a>    mu, Sigma, stationary <span class="op">=</span> unconditional_ar_mean_variance(c, phi, sigma2)</span>
+<span id="cb24-43"><a href="#cb24-43" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="kw">not</span>(stationary):</span>
+<span id="cb24-44"><a href="#cb24-44" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="op">-</span>np.inf</span>
+<span id="cb24-45"><a href="#cb24-45" aria-hidden="true" tabindex="-1"></a>    mvn <span class="op">=</span> multivariate_normal(mean<span class="op">=</span>mu, cov<span class="op">=</span>Sigma, allow_singular<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb24-46"><a href="#cb24-46" aria-hidden="true" tabindex="-1"></a>    uloglik <span class="op">=</span> cloglik <span class="op">+</span> mvn.logpdf(y[<span class="dv">0</span>:<span class="dv">7</span>])</span>
+<span id="cb24-47"><a href="#cb24-47" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> uloglik</span>
+<span id="cb24-48"><a href="#cb24-48" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb24-49"><a href="#cb24-49" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-50"><a href="#cb24-50" aria-hidden="true" tabindex="-1"></a><span class="co">## Example</span></span>
+<span id="cb24-51"><a href="#cb24-51" aria-hidden="true" tabindex="-1"></a>params <span class="op">=</span> np.array([</span>
+<span id="cb24-52"><a href="#cb24-52" aria-hidden="true" tabindex="-1"></a>    <span class="fl">0.0</span>, <span class="co">## c</span></span>
+<span id="cb24-53"><a href="#cb24-53" aria-hidden="true" tabindex="-1"></a>    <span class="fl">0.2</span>, <span class="op">-</span><span class="fl">0.1</span>, <span class="fl">0.05</span>, <span class="op">-</span><span class="fl">0.05</span>, <span class="fl">0.02</span>, <span class="op">-</span><span class="fl">0.02</span>, <span class="fl">0.01</span>, <span class="co">## phi</span></span>
+<span id="cb24-54"><a href="#cb24-54" aria-hidden="true" tabindex="-1"></a>    <span class="fl">1.0</span> <span class="co">## sigma2    </span></span>
+<span id="cb24-55"><a href="#cb24-55" aria-hidden="true" tabindex="-1"></a>    ])</span>
+<span id="cb24-56"><a href="#cb24-56" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-57"><a href="#cb24-57" aria-hidden="true" tabindex="-1"></a><span class="co">## Fake data</span></span>
+<span id="cb24-58"><a href="#cb24-58" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> np.random.normal(size<span class="op">=</span><span class="dv">100</span>)</span>
+<span id="cb24-59"><a href="#cb24-59" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-60"><a href="#cb24-60" aria-hidden="true" tabindex="-1"></a><span class="co">## The conditional distribution</span></span>
+<span id="cb24-61"><a href="#cb24-61" aria-hidden="true" tabindex="-1"></a>cond_loglikelihood_ar7(params, y)</span>
+<span id="cb24-62"><a href="#cb24-62" aria-hidden="true" tabindex="-1"></a><span class="co">## The unconditional distribution</span></span>
+<span id="cb24-63"><a href="#cb24-63" aria-hidden="true" tabindex="-1"></a>uncond_loglikelihood_ar7(params, y)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="32">
+<pre><code>-140.60674266702924</code></pre>
+</div>
+</div>
+<p>You can now feed these functions to <code>minimize</code> to obtain the maximum likelihood parameters.</p>
+<div id="9c4da00b" class="cell" data-execution_count="11">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co">## Unconditional - define the negative loglikelihood</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a><span class="co">## Starting value. </span></span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a><span class="co">## These estimates should be close to the OLS</span></span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> lagged_matrix(y, <span class="dv">7</span>)</span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>yf <span class="op">=</span> y[<span class="dv">7</span>:]</span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>Xf <span class="op">=</span> np.hstack((np.ones((<span class="dv">93</span>,<span class="dv">1</span>)), X[<span class="dv">7</span>:,:]))</span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a>beta <span class="op">=</span> np.linalg.solve(Xf.T<span class="op">@</span>Xf, Xf.T<span class="op">@</span>yf)</span>
+<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a>sigma2_hat <span class="op">=</span> np.mean((yf <span class="op">-</span> Xf<span class="op">@</span>beta)<span class="op">**</span><span class="dv">2</span>)</span>
+<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a>params <span class="op">=</span> np.hstack((beta, sigma2_hat))</span>
+<span id="cb26-12"><a href="#cb26-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-13"><a href="#cb26-13" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> cobj(params, y): </span>
+<span id="cb26-14"><a href="#cb26-14" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="op">-</span> cond_loglikelihood_ar7(params,y)</span>
+<span id="cb26-15"><a href="#cb26-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-16"><a href="#cb26-16" aria-hidden="true" tabindex="-1"></a>results <span class="op">=</span> scipy.optimize.minimize(cobj, params, args <span class="op">=</span> y, method<span class="op">=</span><span class="st">'L-BFGS-B'</span>)</span>
+<span id="cb26-17"><a href="#cb26-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-18"><a href="#cb26-18" aria-hidden="true" tabindex="-1"></a><span class="co">## If everything is correct, results.x should be equal to the OLS parameters.</span></span>
+<span id="cb26-19"><a href="#cb26-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-20"><a href="#cb26-20" aria-hidden="true" tabindex="-1"></a><span class="co">## Not the conditional</span></span>
+<span id="cb26-21"><a href="#cb26-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-22"><a href="#cb26-22" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> uobj(params, y): </span>
+<span id="cb26-23"><a href="#cb26-23" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="op">-</span> uncond_loglikelihood_ar7(params,y)</span>
+<span id="cb26-24"><a href="#cb26-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-25"><a href="#cb26-25" aria-hidden="true" tabindex="-1"></a>bounds_constant <span class="op">=</span> <span class="bu">tuple</span>((<span class="op">-</span>np.inf, np.inf) <span class="cf">for</span> _ <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>))</span>
+<span id="cb26-26"><a href="#cb26-26" aria-hidden="true" tabindex="-1"></a>bounds_phi <span class="op">=</span> <span class="bu">tuple</span>((<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>) <span class="cf">for</span> _ <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">7</span>))</span>
+<span id="cb26-27"><a href="#cb26-27" aria-hidden="true" tabindex="-1"></a>bounds_sigma <span class="op">=</span> <span class="bu">tuple</span>((<span class="dv">0</span>,np.inf) <span class="cf">for</span> _ <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>))</span>
+<span id="cb26-28"><a href="#cb26-28" aria-hidden="true" tabindex="-1"></a>bounds <span class="op">=</span> bounds_constant <span class="op">+</span> bounds_phi <span class="op">+</span> bounds_sigma</span>
+<span id="cb26-29"><a href="#cb26-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-30"><a href="#cb26-30" aria-hidden="true" tabindex="-1"></a><span class="co">## L-BFGS-B support bounds</span></span>
+<span id="cb26-31"><a href="#cb26-31" aria-hidden="true" tabindex="-1"></a>results <span class="op">=</span> scipy.optimize.minimize(uobj, results.x, args <span class="op">=</span> y, method<span class="op">=</span><span class="st">'L-BFGS-B'</span>, bounds <span class="op">=</span> bounds)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 
 
 </section>
@@ -775,7 +984,7 @@ y_t = \phi_0 + \phi_1 y_{t-1} + \phi_2 y_{t-2} + \dots + \phi_7 y_{t-7} + \epsil
 
 <ol>
 <li id="fn1"><p>A neighborhood of a point <span class="math inline">\(x\in\mathbb{R}\)</span> is any open subset of <span class="math inline">\(\mathbb{R}^k\)</span> containing <span class="math inline">\(x\)</span>.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn2"><p>A square matrix <span class="math inline">\(H\)</span> is positive definite if for every <span class="math inline">\(z\in\mathbb{R}^k\)</span> with <span class="math inline">\(\norm{z}\neq 0\)</span>, <span class="math inline">\(z'Hz&gt;0\)</span>.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p>A square matrix <span class="math inline">\(H\)</span> is positive definite if for every <span class="math inline">\(z\in\mathbb{R}^k\)</span> with <span class="math inline">\(\Vert z \Vert\neq 0\)</span>, <span class="math inline">\(z'Hz&gt;0\)</span>.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn3"><p>termanation<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 </ol>
 </section></div></main> <!-- /main -->
