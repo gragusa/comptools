@@ -12,18 +12,18 @@ instructor:
 course:
   name: "Computational Tools for Macroeconometrics"
   number: "AAF2351"
-  semester: "2023-2024"
+  semester: "2024-2025"
   days: "Friday"
   time: "12:00-14:00"
   location: "Ecodir"
-  dates: "19 february, 2024 - 30 may 2024"
+  dates: "17 february, 2025 - 31 may 2025"
   github: "https://www.github.com/gragusa/comptools"
   url: "https://gragusa.org/comptools"
-  copyright_year: "2023-2024"
+  copyright_year: "2023-2025"
 
 university:
   name: Sapienza, University of Rome
-  url: "https://www.sapienza.it"
+  url: "https://www.uniroma1.it"
 
 school:
   name: Department of Economics and Law
