@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.554">
+<meta name="generator" content="quarto-1.6.40">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -34,7 +34,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -70,10 +70,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-86daaaaad7353f9cc0c554efc1dd6d94.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-7b423c78086c513a757efab387008e67.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -105,7 +105,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
 
-  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 <script type="text/javascript">
@@ -149,7 +149,7 @@ window.Quarto = {
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
   <span class="navbar-toggler-icon"></span>
 </button>
           <div class="collapse navbar-collapse" id="navbarCollapse">
@@ -158,17 +158,9 @@ window.Quarto = {
     <a class="nav-link active" href="./comptools_ass1.html" aria-current="page"> 
 <span class="menu-text">Assignment 1</span></a>
   </li>  
-  <li class="nav-item">
-    <a class="nav-link" href="./comptools_ass2.html"> 
-<span class="menu-text">Assignment 2</span></a>
-  </li>  
-  <li class="nav-item">
-    <a class="nav-link" href="./comptools_ass3.html"> 
-<span class="menu-text">Assignment 3</span></a>
-  </li>  
 </ul>
           </div> <!-- /navcollapse -->
-          <div class="quarto-navbar-tools">
+            <div class="quarto-navbar-tools">
 </div>
       </div> <!-- /container-fluid -->
     </nav>
@@ -233,11 +225,11 @@ window.Quarto = {
 <p>The FRED-MD dataset is a comprehensive monthly database for macroeconomic research compiled by the Federal Reserve Bank of St.&nbsp;Louis. It features a wide array of economic indicators. The list of economic indicators can be obtained from the paper accompanying the data <a href="">pdf</a>.</p>
 <p>The data can be downloaded <a href="https://research.stlouisfed.org/econ/mccracken/fred-databases/">here</a>. The page contains all the different vintages of the data.</p>
 <p>Let us start to download the <code>current.csv</code> file:</p>
-<div id="a4a2402f" class="cell" data-execution_count="1">
+<div id="3d4ae38c" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb1-2"><a href="#cb1-2"></a></span>
 <span id="cb1-3"><a href="#cb1-3"></a><span class="co"># Load the dataset</span></span>
-<span id="cb1-4"><a href="#cb1-4"></a>df <span class="op">=</span> pd.read_csv(<span class="st">'~/Downloads/current.csv'</span>)</span>
+<span id="cb1-4"><a href="#cb1-4"></a>df <span class="op">=</span> pd.read_csv(<span class="st">'https://www.stlouisfed.org/-/media/project/frbstl/stlouisfed/research/fred-md/monthly/current.csv?sc_lang=en&amp;hash=80445D12401C59CF716410F3F7863B64'</span>)</span>
 <span id="cb1-5"><a href="#cb1-5"></a></span>
 <span id="cb1-6"><a href="#cb1-6"></a><span class="co"># Clean the DataFrame by removing the row with transformation codes</span></span>
 <span id="cb1-7"><a href="#cb1-7"></a>df_cleaned <span class="op">=</span> df.drop(index<span class="op">=</span><span class="dv">0</span>)</span>
@@ -246,10 +238,9 @@ window.Quarto = {
 <span id="cb1-10"><a href="#cb1-10"></a>df_cleaned</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="1">
 <div>
-<div>
 
 
-<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
 <thead>
 <tr class="header">
 <th data-quarto-table-cell-role="th"></th>
@@ -285,10 +276,10 @@ window.Quarto = {
 <td>15.188</td>
 <td>2.766768e+05</td>
 <td>18235.77392</td>
-<td>21.9665</td>
-<td>23.3891</td>
-<td>22.2688</td>
-<td>31.7011</td>
+<td>21.9616</td>
+<td>23.3868</td>
+<td>22.2620</td>
+<td>31.6664</td>
 <td>...</td>
 <td>18.294</td>
 <td>10.152</td>
@@ -309,10 +300,10 @@ window.Quarto = {
 <td>15.346</td>
 <td>2.787140e+05</td>
 <td>18369.56308</td>
-<td>22.3966</td>
-<td>23.7048</td>
-<td>22.4617</td>
-<td>31.9337</td>
+<td>22.3917</td>
+<td>23.7024</td>
+<td>22.4549</td>
+<td>31.8987</td>
 <td>...</td>
 <td>18.302</td>
 <td>10.167</td>
@@ -333,10 +324,10 @@ window.Quarto = {
 <td>15.491</td>
 <td>2.777753e+05</td>
 <td>18523.05762</td>
-<td>22.7193</td>
-<td>23.8483</td>
-<td>22.5719</td>
-<td>31.9337</td>
+<td>22.7142</td>
+<td>23.8459</td>
+<td>22.5651</td>
+<td>31.8987</td>
 <td>...</td>
 <td>18.289</td>
 <td>10.185</td>
@@ -357,10 +348,10 @@ window.Quarto = {
 <td>15.435</td>
 <td>2.833627e+05</td>
 <td>18534.46600</td>
-<td>23.2032</td>
-<td>24.1927</td>
-<td>22.9026</td>
-<td>32.4374</td>
+<td>23.1981</td>
+<td>24.1903</td>
+<td>22.8957</td>
+<td>32.4019</td>
 <td>...</td>
 <td>18.300</td>
 <td>10.221</td>
@@ -381,10 +372,10 @@ window.Quarto = {
 <td>15.622</td>
 <td>2.853072e+05</td>
 <td>18679.66354</td>
-<td>23.5528</td>
-<td>24.3936</td>
-<td>23.1231</td>
-<td>32.5925</td>
+<td>23.5476</td>
+<td>24.3911</td>
+<td>23.1161</td>
+<td>32.5567</td>
 <td>...</td>
 <td>18.280</td>
 <td>10.238</td>
@@ -422,134 +413,133 @@ window.Quarto = {
 <td>...</td>
 </tr>
 <tr class="odd">
-<td data-quarto-table-cell-role="th">776</td>
-<td>2023-09-01</td>
-<td>19111.748</td>
-<td>15741.9</td>
-<td>116.594</td>
-<td>1.507530e+06</td>
-<td>705304.00000</td>
-<td>103.2096</td>
-<td>101.0935</td>
-<td>101.3665</td>
-<td>102.1034</td>
+<td data-quarto-table-cell-role="th">787</td>
+<td>2024-08-01</td>
+<td>20007.209</td>
+<td>16322.1</td>
+<td>121.052</td>
+<td>1.530317e+06</td>
+<td>710038.00000</td>
+<td>103.0135</td>
+<td>100.9825</td>
+<td>100.9803</td>
+<td>102.2118</td>
 <td>...</td>
-<td>120.395</td>
-<td>123.976</td>
-<td>29.90</td>
-<td>34.55</td>
-<td>26.62</td>
+<td>119.653</td>
+<td>128.291</td>
+<td>31.26</td>
+<td>35.81</td>
+<td>27.97</td>
 <td>67.9</td>
-<td>508808.61</td>
-<td>913938.95</td>
-<td>5074.6108</td>
-<td>15.0424</td>
+<td>551667.22</td>
+<td>933066.90</td>
+<td>5327.6461</td>
+<td>19.6750</td>
 </tr>
 <tr class="even">
-<td data-quarto-table-cell-role="th">777</td>
-<td>2023-10-01</td>
-<td>19145.402</td>
-<td>15784.6</td>
-<td>116.663</td>
-<td>1.505477e+06</td>
-<td>703528.00000</td>
-<td>102.3722</td>
-<td>100.5292</td>
-<td>100.5527</td>
-<td>101.1664</td>
+<td data-quarto-table-cell-role="th">788</td>
+<td>2024-09-01</td>
+<td>20044.142</td>
+<td>16333.7</td>
+<td>121.690</td>
+<td>1.541305e+06</td>
+<td>716388.00000</td>
+<td>102.5969</td>
+<td>100.3826</td>
+<td>100.0630</td>
+<td>101.9696</td>
 <td>...</td>
-<td>120.040</td>
-<td>124.228</td>
-<td>29.97</td>
-<td>34.67</td>
-<td>26.65</td>
-<td>63.8</td>
-<td>513229.64</td>
-<td>918210.64</td>
-<td>5015.5456</td>
-<td>19.0462</td>
+<td>119.220</td>
+<td>128.682</td>
+<td>31.44</td>
+<td>36.00</td>
+<td>28.11</td>
+<td>70.1</td>
+<td>553347.06</td>
+<td>934283.59</td>
+<td>5368.5818</td>
+<td>17.6597</td>
 </tr>
 <tr class="odd">
-<td data-quarto-table-cell-role="th">778</td>
-<td>2023-11-01</td>
-<td>19213.108</td>
-<td>15859.9</td>
-<td>117.127</td>
-<td>1.514733e+06</td>
-<td>703336.00000</td>
-<td>102.6710</td>
-<td>100.9362</td>
-<td>101.2159</td>
-<td>101.8557</td>
+<td data-quarto-table-cell-role="th">789</td>
+<td>2024-10-01</td>
+<td>20128.752</td>
+<td>16397.9</td>
+<td>121.948</td>
+<td>1.539382e+06</td>
+<td>720393.00000</td>
+<td>102.0854</td>
+<td>99.5434</td>
+<td>98.9267</td>
+<td>101.3127</td>
 <td>...</td>
-<td>119.325</td>
-<td>124.551</td>
-<td>30.26</td>
-<td>34.96</td>
-<td>26.89</td>
-<td>61.3</td>
-<td>517434.30</td>
-<td>922552.40</td>
-<td>4999.7208</td>
-<td>13.8563</td>
+<td>119.064</td>
+<td>129.169</td>
+<td>31.55</td>
+<td>36.22</td>
+<td>28.14</td>
+<td>70.5</td>
+<td>554377.25</td>
+<td>937299.96</td>
+<td>5407.3304</td>
+<td>19.9478</td>
 </tr>
 <tr class="even">
-<td data-quarto-table-cell-role="th">779</td>
-<td>2023-12-01</td>
-<td>19251.946</td>
-<td>15899.0</td>
-<td>117.773</td>
-<td>1.530296e+06</td>
-<td>706180.00000</td>
-<td>102.6715</td>
-<td>100.8332</td>
-<td>101.2843</td>
-<td>101.9884</td>
+<td data-quarto-table-cell-role="th">790</td>
+<td>2024-11-01</td>
+<td>20161.687</td>
+<td>16432.8</td>
+<td>122.519</td>
+<td>1.544190e+06</td>
+<td>725925.00000</td>
+<td>102.2549</td>
+<td>99.8216</td>
+<td>99.4970</td>
+<td>101.7893</td>
 <td>...</td>
-<td>119.193</td>
-<td>124.917</td>
-<td>30.45</td>
-<td>35.01</td>
-<td>27.14</td>
-<td>69.7</td>
-<td>522366.13</td>
-<td>928336.14</td>
-<td>5077.4222</td>
-<td>12.6960</td>
+<td>119.112</td>
+<td>129.375</td>
+<td>31.61</td>
+<td>36.21</td>
+<td>28.29</td>
+<td>71.8</td>
+<td>555000.61</td>
+<td>938899.31</td>
+<td>5382.4019</td>
+<td>15.9822</td>
 </tr>
 <tr class="odd">
-<td data-quarto-table-cell-role="th">780</td>
-<td>2024-01-01</td>
-<td>19377.558</td>
-<td>15948.8</td>
-<td>117.639</td>
+<td data-quarto-table-cell-role="th">791</td>
+<td>2024-12-01</td>
+<td>20184.060</td>
+<td>16457.8</td>
+<td>123.013</td>
 <td>NaN</td>
-<td>700291.00000</td>
-<td>102.5739</td>
-<td>100.9984</td>
-<td>101.7258</td>
-<td>102.6235</td>
+<td>729191.00000</td>
+<td>103.1942</td>
+<td>100.5351</td>
+<td>100.1302</td>
+<td>102.2582</td>
 <td>...</td>
-<td>118.745</td>
-<td>125.662</td>
-<td>30.56</td>
-<td>35.21</td>
-<td>27.22</td>
+<td>119.689</td>
+<td>129.760</td>
+<td>31.73</td>
+<td>36.44</td>
+<td>28.34</td>
+<td>74.0</td>
 <td>NaN</td>
 <td>NaN</td>
-<td>NaN</td>
-<td>5105.3504</td>
-<td>13.3453</td>
+<td>5370.6184</td>
+<td>15.6997</td>
 </tr>
 </tbody>
 </table>
 
-<p>781 rows × 128 columns</p>
+<p>792 rows × 127 columns</p>
 </div>
 </div>
 </div>
-</div>
-<div id="0b0d186b" class="cell" data-execution_count="2">
+<div id="e9919d60" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1"></a><span class="co"># Extract transformation codes</span></span>
 <span id="cb2-2"><a href="#cb2-2"></a>transformation_codes <span class="op">=</span> df.iloc[<span class="dv">0</span>, <span class="dv">1</span>:].to_frame().reset_index()</span>
 <span id="cb2-3"><a href="#cb2-3"></a>transformation_codes.columns <span class="op">=</span> [<span class="st">'Series'</span>, <span class="st">'Transformation_Code'</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -565,7 +555,7 @@ window.Quarto = {
 <li><code>transformation_code=7</code>: <span class="math inline">\(\Delta (x_t/x_{t-1} - 1)\)</span></li>
 </ul>
 <p>We can apply these transformations using the following code:</p>
-<div id="d27b5d9c" class="cell" data-execution_count="3">
+<div id="966b4f4d" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="annotated-cell-3"><pre class="sourceCode numberSource python code-annotation-code number-lines code-with-copy code-annotated"><code class="sourceCode python"><span id="annotated-cell-3-1"><a href="#annotated-cell-3-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="annotated-cell-3-2"><a href="#annotated-cell-3-2"></a></span>
 <span id="annotated-cell-3-3"><a href="#annotated-cell-3-3"></a><span class="co"># Function to apply transformations based on the transformation code</span></span>
@@ -616,10 +606,9 @@ window.Quarto = {
 </div>
 <div class="cell-output cell-output-display" data-execution_count="3">
 <div>
-<div>
 
 
-<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
 <thead>
 <tr class="header">
 <th data-quarto-table-cell-role="th"></th>
@@ -655,9 +644,9 @@ window.Quarto = {
 <td>0.009404</td>
 <td>-0.003374</td>
 <td>0.008321</td>
-<td>0.014306</td>
-<td>0.006035</td>
-<td>0.004894</td>
+<td>0.014300</td>
+<td>0.006036</td>
+<td>0.004896</td>
 <td>0.000000</td>
 <td>...</td>
 <td>-0.001148</td>
@@ -679,10 +668,10 @@ window.Quarto = {
 <td>-0.003622</td>
 <td>0.019915</td>
 <td>0.000616</td>
-<td>0.021075</td>
-<td>0.014338</td>
+<td>0.021080</td>
+<td>0.014339</td>
 <td>0.014545</td>
-<td>0.015650</td>
+<td>0.015652</td>
 <td>...</td>
 <td>0.001312</td>
 <td>0.001760</td>
@@ -703,10 +692,10 @@ window.Quarto = {
 <td>0.012043</td>
 <td>0.006839</td>
 <td>0.007803</td>
-<td>0.014955</td>
-<td>0.008270</td>
-<td>0.009582</td>
-<td>0.004770</td>
+<td>0.014954</td>
+<td>0.008267</td>
+<td>0.009580</td>
+<td>0.004766</td>
 <td>...</td>
 <td>-0.001695</td>
 <td>-0.001867</td>
@@ -727,10 +716,10 @@ window.Quarto = {
 <td>0.003642</td>
 <td>-0.000097</td>
 <td>0.009064</td>
-<td>0.001141</td>
-<td>0.007034</td>
-<td>0.007128</td>
-<td>-0.004767</td>
+<td>0.001137</td>
+<td>0.007035</td>
+<td>0.007125</td>
+<td>-0.004766</td>
 <td>...</td>
 <td>0.003334</td>
 <td>0.001946</td>
@@ -751,10 +740,10 @@ window.Quarto = {
 <td>-0.003386</td>
 <td>0.012155</td>
 <td>-0.000330</td>
-<td>-0.024240</td>
+<td>-0.024237</td>
 <td>0.001168</td>
-<td>0.008249</td>
-<td>0.013054</td>
+<td>0.008251</td>
+<td>0.013056</td>
 <td>...</td>
 <td>-0.001204</td>
 <td>-0.000013</td>
@@ -770,12 +759,11 @@ window.Quarto = {
 </tbody>
 </table>
 
-<p>5 rows × 128 columns</p>
+<p>5 rows × 127 columns</p>
 </div>
 </div>
 </div>
-</div>
-<div id="88fff96b" class="cell" data-execution_count="4">
+<div id="27a325f0" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="annotated-cell-4"><pre class="sourceCode numberSource python code-annotation-code number-lines code-with-copy code-annotated"><code class="sourceCode python"><a class="code-annotation-anchor" data-target-cell="annotated-cell-4" data-target-annotation="1" onclick="event.preventDefault();">1</a><span id="annotated-cell-4-1" class="code-annotation-target"><a href="#annotated-cell-4-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="annotated-cell-4-2"><a href="#annotated-cell-4-2"></a><span class="im">import</span> matplotlib.dates <span class="im">as</span> mdates</span>
 <span id="annotated-cell-4-3"><a href="#annotated-cell-4-3"></a></span>
@@ -937,7 +925,7 @@ y_{T}
 \end{pmatrix}.
 \]</span> The size of <span class="math inline">\(\mathbf{X}\)</span> is <span class="math inline">\((T-p-h)\times 1+(1+k)(1+p)\)</span> and that of <span class="math inline">\(\mathbf{y}\)</span> is <span class="math inline">\(T-h-p\)</span>.</p>
 <p>The matrix <span class="math inline">\(\mathbf{X}\)</span> can be obtained in the following way:</p>
-<div id="151b4802" class="cell" data-execution_count="5">
+<div id="f9c991f0" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1"></a>Yraw <span class="op">=</span> df_cleaned[<span class="st">'INDPRO'</span>]</span>
 <span id="cb3-2"><a href="#cb3-2"></a>Xraw <span class="op">=</span> df_cleaned[[<span class="st">'CPIAUCSL'</span>, <span class="st">'TB3MS'</span>]]</span>
 <span id="cb3-3"><a href="#cb3-3"></a></span>
@@ -962,10 +950,9 @@ y_{T}
 <span id="cb3-22"><a href="#cb3-22"></a>X.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="5">
 <div>
-<div>
 
 
-<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
 <thead>
 <tr class="header">
 <th data-quarto-table-cell-role="th"></th>
@@ -991,7 +978,7 @@ y_{T}
 <tr class="odd">
 <td data-quarto-table-cell-role="th">0</td>
 <td>1.0</td>
-<td>0.014306</td>
+<td>0.014300</td>
 <td>NaN</td>
 <td>NaN</td>
 <td>NaN</td>
@@ -1010,8 +997,8 @@ y_{T}
 <tr class="even">
 <td data-quarto-table-cell-role="th">1</td>
 <td>1.0</td>
-<td>0.021075</td>
-<td>0.014306</td>
+<td>0.021080</td>
+<td>0.014300</td>
 <td>NaN</td>
 <td>NaN</td>
 <td>NaN</td>
@@ -1029,9 +1016,9 @@ y_{T}
 <tr class="odd">
 <td data-quarto-table-cell-role="th">2</td>
 <td>1.0</td>
-<td>0.014955</td>
-<td>0.021075</td>
-<td>0.014306</td>
+<td>0.014954</td>
+<td>0.021080</td>
+<td>0.014300</td>
 <td>NaN</td>
 <td>NaN</td>
 <td>0.001723</td>
@@ -1048,10 +1035,10 @@ y_{T}
 <tr class="even">
 <td data-quarto-table-cell-role="th">3</td>
 <td>1.0</td>
-<td>0.001141</td>
-<td>0.014955</td>
-<td>0.021075</td>
-<td>0.014306</td>
+<td>0.001137</td>
+<td>0.014954</td>
+<td>0.021080</td>
+<td>0.01430</td>
 <td>NaN</td>
 <td>0.000339</td>
 <td>0.001723</td>
@@ -1067,11 +1054,11 @@ y_{T}
 <tr class="odd">
 <td data-quarto-table-cell-role="th">4</td>
 <td>1.0</td>
-<td>-0.024240</td>
-<td>0.001141</td>
-<td>0.014955</td>
-<td>0.021075</td>
-<td>0.014306</td>
+<td>-0.024237</td>
+<td>0.001137</td>
+<td>0.014954</td>
+<td>0.02108</td>
+<td>0.0143</td>
 <td>-0.001034</td>
 <td>0.000339</td>
 <td>0.001723</td>
@@ -1089,31 +1076,30 @@ y_{T}
 </div>
 </div>
 </div>
-</div>
 <p>Note that the first <span class="math inline">\(p=\)</span><code>4</code> rows of <code>X</code> have missing values.</p>
 <p>The vector <span class="math inline">\(\mathbf{y}\)</span> can be similarly created as</p>
-<div id="9b579c10" class="cell" data-execution_count="6">
+<div id="25e08773" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1"></a>y <span class="op">=</span> Yraw.shift(<span class="op">-</span>num_leads)</span>
 <span id="cb4-2"><a href="#cb4-2"></a>y</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="6">
-<pre><code>0      0.021075
-1      0.014955
-2      0.001141
-3     -0.024240
-4     -0.034465
+<pre><code>0      0.021080
+1      0.014954
+2      0.001137
+3     -0.024237
+4     -0.034464
          ...   
-774   -0.008147
-775    0.002915
-776    0.000005
-777   -0.000951
-778         NaN
-Name: INDPRO, Length: 779, dtype: float64</code></pre>
+785   -0.004052
+786   -0.004998
+787    0.001659
+788    0.009144
+789         NaN
+Name: INDPRO, Length: 790, dtype: float64</code></pre>
 </div>
 </div>
 <p>The variable <code>y</code> has missing values in the last <code>h</code> positions (it is not possible to lead the target beyond <span class="math inline">\(T\)</span>).</p>
 <p>Notice also that we must keep the last row of <code>X</code> for constructing the forecast.</p>
 <p>Now we create two <code>numpy</code> arrays with the missing values stripped:</p>
-<div id="8b71dd73" class="cell" data-execution_count="7">
+<div id="7538580e" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1"></a><span class="co">## Save last row of X (converted to numpy)</span></span>
 <span id="cb6-2"><a href="#cb6-2"></a>X_T <span class="op">=</span> X.iloc[<span class="op">-</span><span class="dv">1</span>:].values</span>
 <span id="cb6-3"><a href="#cb6-3"></a><span class="co">## Subset getting only rows of X and y from p+1 to h-1</span></span>
@@ -1121,15 +1107,15 @@ Name: INDPRO, Length: 779, dtype: float64</code></pre>
 <span id="cb6-5"><a href="#cb6-5"></a>y <span class="op">=</span> y.iloc[num_lags:<span class="op">-</span>num_leads].values</span>
 <span id="cb6-6"><a href="#cb6-6"></a>X <span class="op">=</span> X.iloc[num_lags:<span class="op">-</span>num_leads].values</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="87b76886" class="cell" data-execution_count="8">
+<div id="4fbaf3ee" class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1"></a>X_T</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="8">
-<pre><code>array([[ 1.00000000e+00, -9.51056709e-04,  4.86991246e-06,
-         2.91450984e-03, -8.14668061e-03,  9.25729878e-04,
-         7.21400503e-04,  7.26467817e-04,  8.11330254e-04,
-        -2.79891559e-03, -1.51527417e-03, -2.00000000e-02,
-        -3.00000000e-02, -7.00000000e-02,  2.00000000e-02,
-         2.00000000e-02]])</code></pre>
+<pre><code>array([[ 1.00000000e+00,  9.14393438e-03,  1.65899765e-03,
+        -4.99799997e-03, -4.05232975e-03,  4.80994949e-03,
+         7.99576232e-04,  6.86384504e-04,  6.40500497e-04,
+        -7.34005858e-05,  3.22375521e-04, -1.50000000e-01,
+        -9.00000000e-02, -2.10000000e-01, -3.30000000e-01,
+        -1.50000000e-01]])</code></pre>
 </div>
 </div>
 <p>Now, we have to estimate the parameters and obtain the forecast.</p>
@@ -1144,7 +1130,7 @@ Name: INDPRO, Length: 779, dtype: float64</code></pre>
 (X'X)\boldsymbol{\beta} = X'Y
 \]</span></p>
 <p>The function <code>solve</code> can be used to solve this linear system of equation.</p>
-<div id="a14cf82b" class="cell" data-execution_count="9">
+<div id="d38cf072" class="cell" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1"></a><span class="im">from</span> numpy.linalg <span class="im">import</span> solve</span>
 <span id="cb9-2"><a href="#cb9-2"></a><span class="co"># Solving for the OLS estimator beta: (X'X)^{-1} X'Y</span></span>
 <span id="cb9-3"><a href="#cb9-3"></a>beta_ols <span class="op">=</span> solve(X.T <span class="op">@</span> X, X.T <span class="op">@</span> y)</span>
@@ -1154,7 +1140,7 @@ Name: INDPRO, Length: 779, dtype: float64</code></pre>
 <span id="cb9-7"><a href="#cb9-7"></a>forecast <span class="op">=</span> X_T<span class="op">@</span>beta_ols<span class="op">*</span><span class="dv">100</span></span>
 <span id="cb9-8"><a href="#cb9-8"></a>forecast</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="9">
-<pre><code>array([0.08445815])</code></pre>
+<pre><code>array([0.3855251])</code></pre>
 </div>
 </div>
 <p>The variable <code>forecast</code> contains now the one-step ahead (<span class="math inline">\(h=1\)</span> forecast) of <code>INDPRO</code>. Since <code>INDPRO</code> has been transformed in logarithmic differences, we are forecasting the percentage change (and multiplying by 100 gives the forecast in percentage points).</p>
@@ -1182,7 +1168,7 @@ MSFE_h = \frac{1}{J}\sum_{j=1}^J  \hat{e}_{T+j+h}^2,
 <section id="hint" class="level4">
 <h4 class="anchored" data-anchor-id="hint">Hint</h4>
 <p>A sensible way to structure the code for real-time evaluation is to use several functions. For instance, you can define a function that calculates the forecast given the DataFrame.</p>
-<div id="a774768f" class="cell" data-execution_count="10">
+<div id="a444a537" class="cell" data-execution_count="10">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1"></a><span class="kw">def</span> calculate_forecast(df_cleaned, p <span class="op">=</span> <span class="dv">4</span>, H <span class="op">=</span> [<span class="dv">1</span>,<span class="dv">4</span>,<span class="dv">8</span>], end_date <span class="op">=</span> <span class="st">'12/1/1999'</span>,target <span class="op">=</span> <span class="st">'INDPRO'</span>, xvars <span class="op">=</span> [<span class="st">'CPIAUCSL'</span>, <span class="st">'TB3MS'</span>]):</span>
 <span id="cb11-2"><a href="#cb11-2"></a></span>
 <span id="cb11-3"><a href="#cb11-3"></a>    <span class="co">## Subset df_cleaned to use only data up to end_date</span></span>
@@ -1231,7 +1217,7 @@ MSFE_h = \frac{1}{J}\sum_{j=1}^J  \hat{e}_{T+j+h}^2,
 <span id="cb11-46"><a href="#cb11-46"></a>    <span class="cf">return</span> np.array(Y_actual) <span class="op">-</span> np.array(Yhat)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>With this function, you can calculate real-time errors by looping over the <code>end_date</code> to ensure you end the loop at the right time.</p>
-<div id="b55944e1" class="cell" data-execution_count="11">
+<div id="d01de700" class="cell" data-execution_count="11">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1"></a>t0 <span class="op">=</span> pd.Timestamp(<span class="st">'12/1/1999'</span>)</span>
 <span id="cb12-2"><a href="#cb12-2"></a>e <span class="op">=</span> []</span>
 <span id="cb12-3"><a href="#cb12-3"></a>T <span class="op">=</span> []</span>
@@ -1259,9 +1245,9 @@ Using data up to 2000-09-01 00:00:00
 Using data up to 2000-10-01 00:00:00</code></pre>
 </div>
 <div class="cell-output cell-output-display" data-execution_count="11">
-<pre><code>0    0.337110
-1    0.512690
-2    0.624035
+<pre><code>0    0.345387
+1    0.516334
+2    0.627048
 dtype: float64</code></pre>
 </div>
 </div>
@@ -1453,18 +1439,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
     return false;
   }
-  const clipboard = new window.ClipboardJS('.code-copy-button', {
-    text: function(trigger) {
-      const codeEl = trigger.previousElementSibling.cloneNode(true);
-      for (const childEl of codeEl.children) {
-        if (isCodeAnnotation(childEl)) {
-          childEl.remove();
-        }
-      }
-      return codeEl.innerText;
-    }
-  });
-  clipboard.on('success', function(e) {
+  const onCopySuccess = function(e) {
     // button target
     const button = e.trigger;
     // don't keep focus
@@ -1496,7 +1471,27 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }, 1000);
     // clear code selection
     e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
   });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
     var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
     var mailtoRegex = new RegExp(/^mailto:/);
       var filterRegex = new RegExp("https:\/\/gragusa\.org\/comptools\/");
@@ -1504,7 +1499,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
     }
     // Inspect non-navigation links and adorn them if external
- 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
     for (var i=0; i<links.length; i++) {
       const link = links[i];
       if (!isInternal(link.href)) {
@@ -1601,7 +1596,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       if (window.Quarto?.typesetMath) {
         window.Quarto.typesetMath(note);
       }
-      // TODO in 1.5, we should make sure this works without a callout special case
       if (note.classList.contains("callout")) {
         return note.outerHTML;
       } else {
