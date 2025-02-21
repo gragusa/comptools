@@ -25,7 +25,7 @@ Let us start to download the `current.csv` file:
 import pandas as pd
 
 # Load the dataset
-df = pd.read_csv('~/Downloads/current.csv')
+df = pd.read_csv('https://www.stlouisfed.org/-/media/project/frbstl/stlouisfed/research/fred-md/monthly/current.csv?sc_lang=en&hash=80445D12401C59CF716410F3F7863B64')
 
 # Clean the DataFrame by removing the row with transformation codes
 df_cleaned = df.drop(index=0)
