@@ -436,3 +436,106 @@ np.sqrt(edf.apply(np.square).mean())
 ```
 
 You may change the function `calculate_forecast` to output also the actual data end the forecast, so you can, for instance, construct a plot.
+
+
+## Working with github
+
+The [https://github.com/uniroma/comptools-assignments](https://github.com/uniroma/comptools-assignments) repository contains four files:
+
+1. `comptools_ass1.qmd`
+2. `assignment1_julia.jl`
+3. `assignment1_python.py`
+4. `assignment1_r.r`
+
+The `comptools_ass1.qmd` is this file (in quarto format). The repository also contains the `pdf` and the `html` version of this file. 
+
+The other files, `assignment1_julia.jl`, `assignment1_julia.py`, and `assignment1_julia.py`,  are the starter kit of the code you have to write in `Julia`, `R`, and `Python`. You can use them to start your work. 
+
+### Using Visual Studio Code
+
+Unless you are familiar with the command line and you are using Linux or MacOS, the best way to interact with github is through Visual Studio Code. Instructions on how to install Visual Studio Code on Windows are [here](https://code.visualstudio.com/docs/setup/windows). For MacOS the instructions are [here](https://code.visualstudio.com/docs/setup/mac).
+
+Visual Studio Code has an extension system. The extensions extend VSCode adding features that simplify writing and interacting with code. 
+
+The extensions you should install are
+
+- Julia Extension [Instructions](https://www.julia-vscode.org/docs/dev/setup/)
+- Python Extension [Instruction](https://marketplace.visualstudio.com/items?itemName=ms-python.python)
+- R Extension [Instructions](https://code.visualstudio.com/docs/languages/r)
+
+There are many other extensions that you might find useful. For those, google is your friend. 
+
+### Cloning the repository
+
+Cloning a repository from GitHub into Visual Studio Code (VSCode) allows you to work on projects directly from your local machine. Here's a detailed step-by-step guide on how to clone the repository `https://github.com/uniroma/comptools-assignments` into VSCode:
+
+1. **Open Visual Studio Code**
+- Start by opening Visual Studio Code on your computer. 
+
+2. **Access the Command Palette**
+- With VSCode open, access the Command Palette by pressing `Ctrl+Shift+P` on Windows/Linux or `Cmd+Shift+P` on macOS. This is where you can quickly access various commands in VSCode.
+
+3. **Clone Repository**
+- In the Command Palette, type "Git: Clone" and select the option `Git: Clone` from the list that appears. This action will prompt VSCode to clone a repository.
+
+4. **Enter the Repository URL**
+- A text box asking for the repository URL will appear at the top of the VSCode window. Enter `https://github.com/uniroma/comptools-assignments` and press Enter. (This is the URL of the assignment 1 repository).
+
+5. **Choose a Directory**
+- Next, VSCode will ask you to select a directory where you want to clone the repository. Navigate through your file system and choose a directory that will be the local storage place for the repository. The directory should exist. Create it if it doesn't. Once selected, the cloning process will start.
+
+6. **Open the Cloned Repository**
+- After the repository has been successfully cloned, a notification will pop up in the bottom right corner of VSCode with the option to `Open Repository`. Click on it. If you missed the notification, you can navigate to the directory where you cloned the repository and open it manually from within VSCode by going to `File` > `Open Folder`.
+
+7. **Start Working**
+- Now that the repository is cloned and opened in VSCode, you can start working on the project. You can edit files, commit changes, and manage branches directly from VSCode.
+
+::: {.callout-tip}
+- Ensure you have `Git` installed on your computer to use the Git features in VSCode. If you do not have `Git` installed, you can download it from the official Git website. [Instructions to install Git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git).
+- If you are working with GitHub repositories frequently, consider authenticating with GitHub in VSCode to streamline your workflow. This can be done through the Command Palette by finding the `GitHub: Sign in` command.
+:::
+
+### Make changes and commit them to the repository
+
+1. **Make Your Changes**
+    - Open the repository you have cloned in VSCode.
+    - Navigate to the file(s) you wish to change within the VSCode Explorer pane.
+    - Make the necessary modifications or additions to the file(s). These changes can be anything from fixing a bug to adding new features.
+
+2. **Review Your Changes**
+- After making changes, you can see which files have been modified by looking at the Source Control panel. You can access this panel by clicking on the Source Control icon (it looks like a branch or a fork) on the sidebar or by pressing `Ctrl+Shift+G` (Windows/Linux) or `Cmd+Shift+G` (macOS) and searching for `Show control panel`. 
+- Modified files are listed within the Source Control panel. Click on a file to view the changes (differences) between your working version and the last commit. Lines added are highlighted in green, and lines removed are highlighted in red.
+
+3. **Stage Your Changes**
+- Before committing, you need to stage your changes. Staging is like preparing and reviewing exactly what changes you will commit to without making the commit final.
+- You can stage changes by right-clicking on a modified file in the Source Control panel and selecting `Stage Changes.` Alternatively, you can stage all changes at once by clicking the `+` icon next to the "Changes" header.
+
+4. **Commit Your Changes**
+- After staging your changes, commit them to the repository. To do this, type a commit message in the message box at the top of the Source Control panel. This message should briefly describe the changes you've made.
+- Press `Ctrl+Enter` (Windows/Linux) or `Cmd+Enter` (macOS) to commit the staged changes (search for `Git: Commit`). Alternatively, you can click the checkmark icon (Commit) at the top of the Source Control panel.
+- Before committing, you should enter a commit message that briefly describes the changes that you have made. Commit messages are essential for making the project's history understandable for yourself and the other collaborators. 
+
+1. **Push Your Changes**
+- If you're working with a remote repository (like one hosted on GitHub), you must push your commits to update the remote repository with your local changes.
+- You can push changes by clicking on the three dots (`...`) menu in the Source Control panel, navigating to `Push` and selecting it. If you're using Git in VSCode for the first time, you might be prompted to enter your GitHub credentials or authenticate in another way.
+
+::: {.callout-tip}
+It's a good practice to pull changes from the remote repository before starting your work session (to ensure you're working with the latest version) and before pushing your changes (to ensure no conflicts). You can pull changes by clicking on the three dots (`...`) menu in the Source Control panel and selecting `Pull`.
+:::
+
+
+The following video explores in more detail how to use git in VSCode. 
+
+{{< video https://www.youtube.com/watch?v=i_23KUAEtUM >}}
+
+
+
+
+
+
+
+
+
+
+
+
