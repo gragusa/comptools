@@ -11,7 +11,9 @@ code-line-numbers: true
 
 ## Introduction
 
-This assignment introduces students to practical and theoretical aspects of macroeconometrics, focusing on forecasting using the FRED-MD dataset. Students will learn to handle macroeconomic data, perform necessary transformations, apply univariate models to predict key economic indicators and to evaluate these forecasts.
+This assignment introduces to practical and theoretical aspects of macroeconometrics, focusing on forecasting using the FRED-MD dataset. You will learn to handle macroeconomic data, perform necessary transformations, apply univariate models to predict key economic indicators and to evaluate these forecasts.
+
+This is the _first assignment_ and it will only be considered toward your final grade if it is satisfactory. It does not mean that you won't have to put effort into it. It is important that you try to do it so you can start learning the basics of the programming language of your choice. Also, it will help you familiarize with GitHub, Visual Studio code and other tools you will need for the remainder of the course.
 
 ## The FRED-MD dataset 
 
@@ -440,7 +442,7 @@ You may change the function `calculate_forecast` to output also the actual data 
 
 ## Working with github
 
-The [https://github.com/uniroma/comptools-assignments](https://github.com/uniroma/comptools-assignments) repository contains four files:
+The [https://github.com/gragusa/assignment1](https://github.com/gragusa/asdsignment1) repository contains four files:
 
 1. `comptools_ass1.qmd`
 2. `assignment1_julia.jl`
@@ -528,6 +530,18 @@ The following video explores in more detail how to use git in VSCode.
 
 {{< video https://www.youtube.com/watch?v=i_23KUAEtUM >}}
 
+## Using Codespace
+
+By visiting
+```
+https://github.com/codespaces/badge.svg)](https://codespaces.new/gragusa/assignment1?quickstart=1&devcontainer_path=.devcontainer%2Fdevcontainer.json
+```
+
+you will open the repository in a web-based version of visual studio code (called github workspace). Everything is configured for you to work in all the three languages. However, this will work on my repository. If you cloned the repository and you GitHub name is `student1`, then visiting 
+```
+https://github.com/codespaces/badge.svg)](https://codespaces.new/student1/assignment1?quickstart=1&devcontainer_path=.devcontainer%2Fdevcontainer.json
+```
+will open a CodeSpace version of Visual Studio code on your repository.
 
 
 
