@@ -532,16 +532,11 @@ The following video explores in more detail how to use git in VSCode.
 
 ## Using Codespace
 
-By visiting
-```
-https://github.com/codespaces/badge.svg)](https://codespaces.new/gragusa/assignment1?quickstart=1&devcontainer_path=.devcontainer%2Fdevcontainer.json
-```
-
-you will open the repository in a web-based version of visual studio code (called github workspace). Everything is configured for you to work in all the three languages. However, this will work on my repository. If you cloned the repository and you GitHub name is `student1`, then visiting 
+If you cloned the repository and your GitHub username is `student1`, then visiting 
 ```
 https://github.com/codespaces/badge.svg)](https://codespaces.new/student1/assignment1?quickstart=1&devcontainer_path=.devcontainer%2Fdevcontainer.json
 ```
-will open a CodeSpace version of Visual Studio code on your repository.
+will open a CodeSpace version of Visual Studio code on your repository. The codespace has R, Julia and Python installed and Visual Studio Code is setup with the relevant extensions. 
 
 
 

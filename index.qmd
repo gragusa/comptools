@@ -31,12 +31,6 @@ toc: false
 
 :::
 
-## Google Classroom
-
-We will use Google Classroom. Please, visit this [link](https://classroom.google.com/c/MjEzMzY5MDA0ODFa?cjc=sbyras3) to register to the class. 
-
-
-
 ## Description
 
 [{{< var course.name >}} ({{< var course.number >}})]{.coursename} covers the computational aspects of time series. It begins with an overview of the computational challenges inherent in macroeconomic data analysis and the pivotal role of software tools, with a particular focus on `Python`, `Julia` and `R`. The syllabus covers a broad range of topics starting gong from forecasting to nonlinear optimization and simulations. 
