@@ -1,0 +1,1485 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.6.40">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="description" content="Computational Tools for Macroeconometrics 2023/2024 - Giuseppe Ragusa - Sapienza">
+
+<title>Optimization – Computational Tools for Macroeconometrics</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href=".//files/icon-512.png" rel="icon" type="image/png">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-9e228d6d4d66c12a9d11739da31c2b1c.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-531520a4b0c291135803e56fb8f68cc8.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="./index.html">
+    <span class="navbar-title">Computational Tools for Macroeconometrics</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="./comptools_ass1.html"> 
+<span class="menu-text">Assignment 1</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link active" href="./comptools_ass2.html" aria-current="page"> 
+<span class="menu-text">Assignment 2</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#optimization-problems" id="toc-optimization-problems" class="nav-link active" data-scroll-target="#optimization-problems">Optimization problems</a></li>
+  <li><a href="#unconstrained-problems" id="toc-unconstrained-problems" class="nav-link" data-scroll-target="#unconstrained-problems">Unconstrained problems</a></li>
+  <li><a href="#fundamental-mathematical-tools" id="toc-fundamental-mathematical-tools" class="nav-link" data-scroll-target="#fundamental-mathematical-tools">Fundamental mathematical tools</a></li>
+  <li><a href="#overview-of-algorithms" id="toc-overview-of-algorithms" class="nav-link" data-scroll-target="#overview-of-algorithms">Overview of algorithms</a></li>
+  <li><a href="#a-simple-implementation-of-gradient-descent" id="toc-a-simple-implementation-of-gradient-descent" class="nav-link" data-scroll-target="#a-simple-implementation-of-gradient-descent">A simple implementation of gradient descent</a></li>
+  <li><a href="#calculating-the-derivative" id="toc-calculating-the-derivative" class="nav-link" data-scroll-target="#calculating-the-derivative">Calculating the derivative</a>
+  <ul class="collapse">
+  <li><a href="#using-solver" id="toc-using-solver" class="nav-link" data-scroll-target="#using-solver">Using solver</a></li>
+  <li><a href="#julias-optim.jl" id="toc-julias-optim.jl" class="nav-link" data-scroll-target="#julias-optim.jl">Julia’s <code>Optim.jl</code></a></li>
+  </ul></li>
+  <li><a href="#pythons-minimize" id="toc-pythons-minimize" class="nav-link" data-scroll-target="#pythons-minimize">Python’s <code>minimize</code></a></li>
+  <li><a href="#assignment" id="toc-assignment" class="nav-link" data-scroll-target="#assignment">Assignment</a></li>
+  <li><a href="#julia-code" id="toc-julia-code" class="nav-link" data-scroll-target="#julia-code">Julia code</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Optimization</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="optimization-problems" class="level2">
+<h2 class="anchored" data-anchor-id="optimization-problems">Optimization problems</h2>
+<p>Optimization is a field of mathematics that focuses on the problem of finding the solution to a minimization problem. More precisely, given a function <span class="math inline">\(f:\mathbb{R}^{k}\to \mathbb{R}\)</span>, we seek <span class="math inline">\(x^{*}\in\mathcal{C}\subset \mathbb{R}^{k}\)</span> such that <span class="math display">\[
+f(x^{*}) \leqslant f(x) \text{ for all }x\in\mathcal{C}.
+\]</span> The set <span class="math inline">\(\mathcal{C}\)</span> constraints the solution to leave in a subset of <span class="math inline">\(\mathbb{R}^{k}\)</span></p>
+<p>When <span class="math inline">\(\mathcal{C}\)</span> coincides with <span class="math inline">\(\mathbb{R}^k\)</span> the problem is said to be <strong>unconstrained</strong>.</p>
+<p>In unconstrained optimization, the objective function <span class="math inline">\(f(x)\)</span> needs to be minimized (or maximized) without any restrictions on the variable <span class="math inline">\(x\)</span>. The problem is described as <span class="math display">\[
+\min_{x} f(x), \quad x\in\mathbb{R}^k.
+\]</span></p>
+<p>Many problems involve constraints that the solution must satisfy, that is, <span class="math inline">\(\mathcal{C}\)</span> does not coincide with <span class="math inline">\(\mathbb{R}^k\)</span>. For instance, we want to minimize the function over a space where <span class="math inline">\(x_j &lt; c_j\)</span>, <span class="math inline">\(c_j\in\mathbb{R}\)</span>, <span class="math inline">\(j=1,\ldots,k\)</span> or we may be interested in values of <span class="math inline">\(x\)</span> that minimizes <span class="math inline">\(f\)</span> when certain restrictions are satisfied. Generally, the constrained optimization is <span class="math display">\[
+   \begin{aligned}
+   &amp;\min_{x} \ f(x) \\
+   &amp;\text{subject to} \\
+   &amp; \ g_i(x) \leq 0, \quad i = 1, \ldots, m, \\
+                     &amp; \ h_j(x) = 0, \quad j = 1, \ldots, p.
+   \end{aligned}
+\]</span> Here, <span class="math inline">\(g_i(x)\)</span> and <span class="math inline">\(h_j(x)\)</span> are functions that represent inequality and equality constraints.</p>
+<p>In what follows, we will focus on the class of unconstrained problems where <span class="math inline">\(f\)</span> is smooth, that is, a function that everywhere continuously differentiable.</p>
+</section>
+<section id="unconstrained-problems" class="level2">
+<h2 class="anchored" data-anchor-id="unconstrained-problems">Unconstrained problems</h2>
+<p><span id="eq-minprob"><span class="math display">\[
+\min_{x} f(x), \quad x\in\mathbb{R}^k.
+\tag{1}\]</span></span></p>
+<p>A point <span class="math inline">\(x^*\)</span> is a <strong>global</strong> minimizer of <span class="math inline">\(f\)</span> if <span class="math inline">\(f(x^*)\leqslant f(x)\)</span> for all <span class="math inline">\(x\)</span> ranging over of of <span class="math inline">\(\mathbb{R}^k\)</span>.</p>
+<p>The global minimizer can be difficult to find. The algorithms to solve <a href="#eq-minprob" class="quarto-xref">Equation&nbsp;1</a> exploit local knowledge of <span class="math inline">\(f\)</span>, we do not have a clear picture of the overall shape of <span class="math inline">\(f\)</span> and, as such, we cannot ever be sure that the solution we find is indeed a global solution to the minimization problem. Most algorithms are able to find only a <em>local</em> minimizer, which is a point that achieves the samllest value of <span class="math inline">\(f\)</span> in a neighborhood of <span class="math inline">\(x\)</span>.</p>
+<p>A point <span class="math inline">\(x^*\)</span> is a <strong>local</strong> minimizer if there is a neighborhood<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> <span class="math inline">\(\mathcal{N}\)</span> of <span class="math inline">\(x^*\)</span> such that <span class="math inline">\(f(x^*)\leqslant f(x)\)</span> for all <span class="math inline">\(x\in\mathcal{N}\)</span>.</p>
+<p>A point <span class="math inline">\(x^*\)</span> is a <strong>strict local</strong> minimizer if there a neighborhood of <span class="math inline">\(\mathcal{N}\)</span> such that <span class="math inline">\(f(x^*) &lt; f(x)\)</span> for all <span class="math inline">\(x\in \mathcal{N}\)</span>.</p>
+<p>For instance, for the function <span class="math inline">\(f(x) = 2024\)</span>, every point is a weak local minimizer, while the function <span class="math inline">\(f(x) = (x-a)^2\)</span> has a strict local minimizer at <span class="math inline">\(x=a^{-1}\)</span>.</p>
+<p><strong>Notation:</strong> Given a function <span class="math inline">\(f:\mathbb{R}^k\to\mathbb{R}\)</span>, the <em>gradient</em> of <span class="math inline">\(f\)</span> evaluated at <span class="math inline">\(x^o\)</span> is: <span class="math display">\[
+\nabla f(x^o) := \begin{pmatrix}\left.\frac{\partial f(x)}{\partial x_{1}}\right|_{x=x^{o}}\\
+\left.\frac{\partial f(x)}{\partial x_{2}}\right|_{x=x^{o}}\\
+\vdots\\
+\left.\frac{\partial f(x)}{\partial x_{k}}\right|_{x=x^{o}}
+\end{pmatrix}.
+\]</span> Similarly, the <span class="math inline">\(k\times k\)</span> <em>hessian</em> matrix of <span class="math inline">\(f\)</span> evaluated at <span class="math inline">\(x^o\)</span> is <span class="math display">\[
+\nabla^{2}f(x^{o})=\begin{pmatrix}\left.\frac{\partial^{2}f(x)}{\partial x_{1}\partial x_{1}}\right|_{x=x^{o}} &amp; \left.\frac{\partial^{2}f(x)}{\partial x_{1}\partial x_{2}}\right|_{x=x^{o}} &amp; \cdots &amp; \left.\frac{\partial^{2}f(x)}{\partial x_{1}\partial x_{k}}\right|_{x=x^{o}}\\
+\left.\frac{\partial^{2}f(x)}{\partial x_{2}\partial x_{1}}\right|_{x=x^{o}} &amp; \left.\frac{\partial^{2}f(x)}{\partial x_{2}\partial x_{2}}\right|_{x=x^{o}} &amp; \cdots &amp; \left.\frac{\partial^{2}f(x)}{\partial x_{2}\partial x_{k}}\right|_{x=x^{o}}\\
+\vdots &amp; \vdots &amp;  &amp; \vdots\\
+\left.\frac{\partial^{2}f(x)}{\partial x_{k}\partial x_{1}}\right|_{x=x^{o}} &amp; \left.\frac{\partial^{2}f(x)}{\partial x_{k}\partial x_{2}}\right|_{x=x^{o}} &amp; \cdots &amp; \left.\frac{\partial^{2}f(x)}{\partial x_{k}\partial x_{k}}\right|_{x=x^{o}}
+\end{pmatrix}.
+\]</span></p>
+</section>
+<section id="fundamental-mathematical-tools" class="level2">
+<h2 class="anchored" data-anchor-id="fundamental-mathematical-tools">Fundamental mathematical tools</h2>
+<p>The necessary conditions for optimality are derived assuming that <span class="math inline">\(x^*\)</span> is a local minimizer and the proving facts about <span class="math inline">\(\nabla f(x^*)\)</span> and <span class="math inline">\(\nabla^2 f(x^*)\)</span>.</p>
+<div id="thm-nconditions" class="theorem">
+<p><span class="theorem-title"><strong>Theorem 1</strong></span> If <span class="math inline">\(x^*\)</span> is a local optimizer and <span class="math inline">\(f\)</span> is continuously differentiable in an open neighborhood of <span class="math inline">\(x^*\)</span>, then <span class="math inline">\(\nabla f(x^*)=0\)</span> (first-order necessary condition); if <span class="math inline">\(\nabla^2 f\)</span> exists and its continuous in an open neighborhood of <span class="math inline">\(x^*\)</span>, then <span class="math inline">\(\nabla^2 f(x^*)\)</span> is positive definite (second-order necessary conditions).<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a></p>
+</div>
+<p><em>Sufficient conditions</em> for optimality are conditions on the derivatives of <span class="math inline">\(f\)</span> at the point <span class="math inline">\(x^*\)</span> that guarantee that <span class="math inline">\(x^*\)</span> is a local minimizer.</p>
+<div id="thm-sconditions" class="theorem">
+<p><span class="theorem-title"><strong>Theorem 2</strong></span> Suppose that <span class="math inline">\(\nabla^2 f(x^*)\)</span> is continuous in an open neighborhood of <span class="math inline">\(x^*\)</span> and that <span class="math inline">\(\nabla f(x^*)=0\)</span> and <span class="math inline">\(\nabla^2 f(x^*)\)</span> is positive definite. Then <span class="math inline">\(x^*\)</span> is a strict local minimizer of <span class="math inline">\(f\)</span>.</p>
+</div>
+<p>The second-order sufficient conditions guarantee something stronger than the necessary conditions; namely, that the minimizer is a strict local minimizer. Note too that the second-order sufficient conditions are not necessary: a point <span class="math inline">\(x^∗\)</span> may be a strict local minimizer, and yet may fail to satisfy the sufficient conditions. A simple example is given by the function <span class="math inline">\(f(x) = x^3\)</span>, for which the point <span class="math inline">\(x^∗=0\)</span> is a strict local minimizer at which the Hessian matrix vanishes (and is therefore not positive definite).</p>
+<p>When the objective function is convex, local and global minimizers are simple to characterize.</p>
+<div id="thm-convexf" class="theorem">
+<p><span class="theorem-title"><strong>Theorem 3</strong></span> When <span class="math inline">\(f\)</span> is convex, any local minimizer of <span class="math inline">\(x^*\)</span> is a global minimizer of <span class="math inline">\(f\)</span>. If in addition, <span class="math inline">\(f\)</span> is differentiable, any stationary point <span class="math inline">\(x^*\)</span> is a global minimizer.</p>
+</div>
+<div id="exm-ssr" class="theorem example">
+<p><span class="theorem-title"><strong>Example 1</strong></span> The sum of square residuals <span class="math display">\[
+SSR(\beta) = \sum_{i=1}^n (Y_i - X'_i\beta)^2
+\]</span> is strictly convex provided that <span class="math inline">\(\sum_{i=1}^n X_iX'_i\)</span> is invertible (that is, it has full column rank).</p>
+</div>
+</section>
+<section id="overview-of-algorithms" class="level2">
+<h2 class="anchored" data-anchor-id="overview-of-algorithms">Overview of algorithms</h2>
+<p>A common approach to optimization is to incrementally improve a point <span class="math inline">\(x\)</span> by taking a step that minimizes the objective value based on a local model. The local model may be obtained, for example, from a first- or second-order Taylor approximation. Optimization algorithms that follow this general approach are referred to as descent direction methods. They start with a design point <span class="math inline">\(x^{(0)}\)</span> and then generate a sequence of points, sometimes called iterates, to converge to a local minimum.</p>
+<div id="cell-fig-gradesplot" class="cell" data-execution_count="1">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Define the function and its derivative</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> f(x):</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> x<span class="op">**</span><span class="dv">2</span> <span class="op">-</span> np.log(x)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> df(x):</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="dv">2</span><span class="op">*</span>x <span class="op">-</span> <span class="dv">1</span><span class="op">/</span>x</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> connectpoints(x,y,p1,p2):</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>    x1, x2 <span class="op">=</span> x[p1], x[p2]</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>    y1, y2 <span class="op">=</span> y[p1], y[p2]</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>    plt.plot([x1,x2],[y1,y2],<span class="st">'k-'</span>)</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Initial point</span></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>x0 <span class="op">=</span> <span class="dv">2</span></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>alpha <span class="op">=</span> <span class="fl">0.3</span></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a><span class="co"># Gradient descent update</span></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>x1 <span class="op">=</span> x0 <span class="op">-</span> alpha <span class="op">*</span> df(x0)</span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>x2 <span class="op">=</span> x1 <span class="op">-</span> alpha <span class="op">*</span> df(x1)</span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a><span class="co"># Points for the function plot</span></span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.linspace(<span class="op">-</span><span class="fl">2.5</span>, <span class="fl">2.5</span>, <span class="dv">400</span>)</span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> f(x)</span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a><span class="co"># Tangent line at x0 (y = m*x + b)</span></span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a><span class="co"># Creating the plot</span></span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="dv">5</span>))</span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>plt.plot(x, y, label<span class="op">=</span><span class="st">'f(x) = x^2'</span>)</span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a>plt.scatter([x0, x1], [f(x0), f(x1)], color<span class="op">=</span><span class="st">'red'</span>)  <span class="co"># Points</span></span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a>m <span class="op">=</span> df(x0)</span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a>b <span class="op">=</span> f(x0) <span class="op">-</span> m<span class="op">*</span>x0</span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a>tangent_line <span class="op">=</span> m<span class="op">*</span>x <span class="op">+</span> b</span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a>plt.plot(x, tangent_line, <span class="st">'b--'</span>, label<span class="op">=</span><span class="ss">f'Tangent at x0=</span><span class="sc">{</span>x0<span class="sc">}</span><span class="ss">'</span>)</span>
+<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a>plt.arrow(x0, <span class="fl">0.4</span>, x1<span class="op">-</span>x0, <span class="fl">0.0</span>, head_width<span class="op">=</span><span class="fl">0.1</span>, length_includes_head<span class="op">=</span><span class="va">True</span>, color <span class="op">=</span> <span class="st">'r'</span>)</span>
+<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a>m <span class="op">=</span> df(x1)</span>
+<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a>b <span class="op">=</span> f(x1) <span class="op">-</span> m<span class="op">*</span>x1</span>
+<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a>tangent_line <span class="op">=</span> m<span class="op">*</span>x <span class="op">+</span> b</span>
+<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a>plt.plot(x, tangent_line, <span class="st">'b--'</span>, label<span class="op">=</span><span class="ss">f'Tangent at x0=</span><span class="sc">{</span>x1<span class="sc">}</span><span class="ss">'</span>, )</span>
+<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a>plt.ylim([<span class="op">-</span><span class="fl">0.2</span>,<span class="dv">6</span>])</span>
+<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a>plt.xlim([<span class="op">-</span><span class="fl">0.4</span>,<span class="dv">3</span>])</span>
+<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a>plt.plot(x, tangent_line, <span class="st">'b--'</span>, label<span class="op">=</span><span class="ss">f'Tangent at x0=</span><span class="sc">{</span>x1<span class="sc">}</span><span class="ss">'</span>, )</span>
+<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a>m <span class="op">=</span> df(x0)</span>
+<span id="cb1-49"><a href="#cb1-49" aria-hidden="true" tabindex="-1"></a>b <span class="op">=</span> f(x0) <span class="op">-</span> m<span class="op">*</span>x0</span>
+<span id="cb1-50"><a href="#cb1-50" aria-hidden="true" tabindex="-1"></a>tangent_line <span class="op">=</span> m<span class="op">*</span>x <span class="op">+</span> b</span>
+<span id="cb1-51"><a href="#cb1-51" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-52"><a href="#cb1-52" aria-hidden="true" tabindex="-1"></a>plt.scatter(x0, f(x0), color<span class="op">=</span><span class="st">'green'</span>)  <span class="co"># Initial point</span></span>
+<span id="cb1-53"><a href="#cb1-53" aria-hidden="true" tabindex="-1"></a>plt.scatter(x1, f(x1), color<span class="op">=</span><span class="st">'green'</span>)  <span class="co"># Next point after step</span></span>
+<span id="cb1-54"><a href="#cb1-54" aria-hidden="true" tabindex="-1"></a>plt.scatter(x2, f(x2), color<span class="op">=</span><span class="st">'green'</span>)  <span class="co"># Next point after step</span></span>
+<span id="cb1-55"><a href="#cb1-55" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-56"><a href="#cb1-56" aria-hidden="true" tabindex="-1"></a>plt.arrow(x1, <span class="fl">0.</span>, x2<span class="op">-</span>x1, <span class="fl">0.</span>, head_width<span class="op">=</span><span class="fl">0.1</span>, length_includes_head<span class="op">=</span><span class="va">True</span>, color <span class="op">=</span> <span class="st">'r'</span>)</span>
+<span id="cb1-57"><a href="#cb1-57" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-58"><a href="#cb1-58" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Gradient Descent on f(x)'</span>)</span>
+<span id="cb1-59"><a href="#cb1-59" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'x'</span>)</span>
+<span id="cb1-60"><a href="#cb1-60" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'f(x)'</span>)</span>
+<span id="cb1-61"><a href="#cb1-61" aria-hidden="true" tabindex="-1"></a>plt.xticks([])  <span class="co"># Remove x-axis ticks</span></span>
+<span id="cb1-62"><a href="#cb1-62" aria-hidden="true" tabindex="-1"></a>plt.xticks([x0, x1, x2], [<span class="vs">r"$x^{(0)}$"</span>, <span class="vs">r"$x^{(1)}$"</span>, <span class="vs">r"$x^{(2)}$"</span>])</span>
+<span id="cb1-63"><a href="#cb1-63" aria-hidden="true" tabindex="-1"></a><span class="co">#plt.legend()</span></span>
+<span id="cb1-64"><a href="#cb1-64" aria-hidden="true" tabindex="-1"></a>plt.grid(<span class="va">True</span>)</span>
+<span id="cb1-65"><a href="#cb1-65" aria-hidden="true" tabindex="-1"></a>plt.plot([x0, x0],[f(x0), <span class="dv">0</span>],<span class="st">'g--'</span>)</span>
+<span id="cb1-66"><a href="#cb1-66" aria-hidden="true" tabindex="-1"></a>plt.plot([x1, x1],[f(x1), <span class="dv">0</span>],<span class="st">'g--'</span>)</span>
+<span id="cb1-67"><a href="#cb1-67" aria-hidden="true" tabindex="-1"></a>plt.plot([x2, x2],[f(x1), <span class="dv">0</span>],<span class="st">'g--'</span>)</span>
+<span id="cb1-68"><a href="#cb1-68" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>/var/folders/72/d3_1t_ps0z1fw0_l58cwv_s80000gn/T/ipykernel_1891/189701708.py:6: RuntimeWarning: invalid value encountered in log
+  return x**2 - np.log(x)</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div id="fig-gradesplot" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-gradesplot-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="comptools_ass2_files/figure-html/fig-gradesplot-output-2.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-gradesplot-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1: Gradient descent
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>The intuition behind this approach is relatively simple. Consider the function plotted in <a href="#fig-gradesplot" class="quarto-xref">Figure&nbsp;1</a>. We start the algorithm at <span class="math inline">\(x^{(0)}\)</span>. The derivative at this point (the tangent line in blue) is positive, that is, <span class="math inline">\(f'(x^{(0)})&gt;0\)</span>. Thus, to <em>descend</em> toward smaller values of the function have to set a point <span class="math inline">\(x^{(1)}\)</span> smaller. One possibility is to use the following iteration <span class="math display">\[
+x^{(1)} = x^{(0)} - \alpha \nabla f(x^{(0)}),
+\]</span> where <span class="math inline">\(\alpha\in(0,1)\)</span> is the step factor. As it can be seen from <a href="#fig-gradesplot" class="quarto-xref">Figure&nbsp;1</a>, at this point the value of <span class="math inline">\(f\)</span> is now lower. Applying a new iterate we obtain <span class="math inline">\(x^{(2)} = x^{(1)} - \alpha f'(x^{(1)})\)</span> which is now very close to the minimum value of the function.</p>
+<p>We will keep iterating until the <em>termination condition</em> is satisfied. The termination condition will be satisfied when the current iterate is likely to be a local minimum.[^termination]</p>
+<p><a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a>: The most common termination conditions are 1. <em>Maximum iterations.</em> We may want to terminate when the number of iterations <span class="math inline">\(k\)</span> exceeds some threshold <span class="math inline">\(k_max\)</span>. Alternatively, we might want to terminate once a maximum amount of elapsed time is exceeded. 2. <em>Absolute improvement</em>. This termination condition looks at the change in the function value over subsequent steps. If the change is smaller than a given threshold, it will terminate: <span class="math display">\[
+f(x^{(k)}) - f(x^{(r+1)}) &lt; \epsilon_a
+\]</span> 1. <em>Relative improvement</em>. This termination condition looks at the change in function value but uses the relative change of the function. The iterations will terminate if <span class="math display">\[
+f(x^{(k)}) - f(x^{(r+1)}) &lt; \epsilon_r|f(x^{(k)})|
+\]</span> 1. <em>Gradient magnitude</em>. We can terminate if the derivative is smaller than a certain tolerance <span class="math display">\[
+\Vert \delta f(x^{(k)}) \Vert &lt; \epsilon_g
+\]</span></p>
+<p>The same logic can be applied to the case in which <span class="math inline">\(f:\mathbb{R}^k \to \mathbb{R}\)</span> the only difference is that now <span class="math inline">\(\nabla f(x^{(0)})\)</span> is a <span class="math inline">\(k\times 1\)</span> vector instead of being a scalar.</p>
+<p>The gradient descent idea can be generalized by considering the following iterate <span class="math display">\[
+x^{(r)} = x^{(r-1)} - \alpha d^{(r)},
+\]</span> where <span class="math inline">\(d^{(r)}\)</span> is a descent direction. The idea of this generalization is that instead of using the gradient as direction, we can use different directions that might speed up the algorithm.</p>
+<p>When <span class="math inline">\(d^{(r)} = \nabla f(x^{(r)})\)</span>, the algorithm is called the gradient descent (and direction is called the direction of deepest descent).</p>
+<p>Directions that can be used belong to two classes: 1. <em>first-order</em>: the direction only uses information about the gradient of <span class="math inline">\(f\)</span>. The many variations of the gradient descent (<em>Ada</em>, <em>Momentum</em>, etc.) and the conjugate gradient method belong to this class. 2. <em>second order</em>: the direction incorporate information about the second derivatives of <span class="math inline">\(f\)</span>. The key idea here is that <span class="math display">\[
+f(x^{(r+1)}) = f(x^{(r)}) + \nabla f'(x^{(r)})(x^{(r+1)}-x^{(r)}) + (x^{(r+1)}-x^{(r)}) \dot{H}_k (x^{(r+1)}-x^{(r)}),
+\]</span> where <span class="math inline">\(\dot{H}_k = \nabla^2 f(\dot{x}^{(r)})\)</span> is the Hessian evaluated at some point between <span class="math inline">\(x^{(r+1)}\)</span> and <span class="math inline">\(x^{(r)}\)</span>. Then, approximating the gradient of <span class="math inline">\(f\)</span> and setting it equal to zero yields <span class="math display">\[
+x^{(r+1)} = x^{(r)}-[\nabla^2 f(x^{(r)})]^{-1} \nabla f(x^{(r)}) +
+\]</span> which suggests using the inverse of the hessian to form the direction. Since evaluating the Hessian at each iterate is too costly computationally, different algorithms approximate the Hessian in different ways.</p>
+</section>
+<section id="a-simple-implementation-of-gradient-descent" class="level2">
+<h2 class="anchored" data-anchor-id="a-simple-implementation-of-gradient-descent">A simple implementation of gradient descent</h2>
+<p>The following code implements a gradient descent with steepest direction in Python.</p>
+<div id="4216e997" class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> numpy <span class="im">import</span> linalg <span class="im">as</span> la</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> steepest_descent(f, gradient, initial_guess, learning_rate, num_iterations <span class="op">=</span> <span class="dv">100</span>, epsilon_g <span class="op">=</span> <span class="fl">1e-07</span>):</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    x <span class="op">=</span> initial_guess</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(num_iterations):</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>        grad <span class="op">=</span> gradient(x)</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>        x <span class="op">=</span> x <span class="op">-</span> learning_rate <span class="op">*</span> grad</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>        normg <span class="op">=</span> la.norm(grad)</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="ss">f"Iteration </span><span class="sc">{</span>i<span class="op">+</span><span class="dv">1</span><span class="sc">}</span><span class="ss">: x = </span><span class="sc">{</span>x<span class="sc">}</span><span class="ss">, f(x) = </span><span class="sc">{</span>f(x)<span class="sc">}</span><span class="ss">, ||g(x)||=</span><span class="sc">{</span>normg<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>        <span class="co">## Termination condition</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span>  normg <span class="op">&lt;</span> epsilon_g:</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>            <span class="cf">break</span></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> x</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>This is the Julia version.</p>
+<pre class="{julia}"><code>using LinearAlgebra ## needed for norm
+function steepest_descent(f, gradient, initial_guess, learning_rate; num_iterations = 100; epsilon_g = 1e-7)
+    x = initial_guess
+    for i in 1:num_iterations
+        grad = gradient(x)
+        x = x - learning_rate * grad
+        normg = norm(g)
+        println("Iteration $i: x = $x, f(x) = $(objective_function(x)), ||g(x)||=$(normg)")
+        if normg &lt; epsilon_g
+            break
+        end
+    end
+    return x
+end
+</code></pre>
+<p>Suppose we want to solve the following problem <span class="math display">\[
+\min_{x} f(x)
+\]</span> where, for some <span class="math inline">\(d&gt;1\)</span>, <span class="math display">\[
+f(x) = \sum_{i=1}^d \left((x_i-3)^2 \right)
+\]</span> The gradient of this function is <span class="math display">\[
+\nabla f(x)=\begin{pmatrix}2(x_{1}-3)\\
+2(x_{2}-3)\\
+\vdots\\
+2(x_{d}-3)
+\end{pmatrix}.
+\]</span></p>
+<p>The minimum of this function is <span class="math inline">\(x_i = 3\)</span>.</p>
+<div id="95eef84b" class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> f(x):</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> np.<span class="bu">sum</span>((x<span class="op">-</span><span class="fl">3.0</span>)<span class="op">**</span><span class="dv">2</span>)</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> gradient(x):</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="dv">2</span><span class="op">*</span>(x<span class="op">-</span><span class="fl">3.0</span>)</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>steepest_descent(f, gradient, np.array([<span class="fl">0.</span>, <span class="fl">0.</span>]), <span class="fl">0.2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Iteration 1: x = [1.2 1.2], f(x) = 6.479999999999999, ||g(x)||=8.48528137423857
+Iteration 2: x = [1.92 1.92], f(x) = 2.3327999999999993, ||g(x)||=5.091168824543142
+Iteration 3: x = [2.352 2.352], f(x) = 0.8398079999999992, ||g(x)||=3.0547012947258847
+Iteration 4: x = [2.6112 2.6112], f(x) = 0.3023308799999997, ||g(x)||=1.8328207768355302
+Iteration 5: x = [2.76672 2.76672], f(x) = 0.10883911679999973, ||g(x)||=1.099692466101318
+Iteration 6: x = [2.860032 2.860032], f(x) = 0.039182082047999806, ||g(x)||=0.6598154796607905
+Iteration 7: x = [2.9160192 2.9160192], f(x) = 0.014105549537279988, ||g(x)||=0.39588928779647375
+Iteration 8: x = [2.94961152 2.94961152], f(x) = 0.005077997833420814, ||g(x)||=0.23753357267788475
+Iteration 9: x = [2.96976691 2.96976691], f(x) = 0.0018280792200315037, ||g(x)||=0.1425201436067311
+Iteration 10: x = [2.98186015 2.98186015], f(x) = 0.0006581085192113414, ||g(x)||=0.08551208616403891
+Iteration 11: x = [2.98911609 2.98911609], f(x) = 0.00023691906691608675, ||g(x)||=0.051307251698423345
+Iteration 12: x = [2.99346965 2.99346965], f(x) = 8.529086408979587e-05, ||g(x)||=0.03078435101905426
+Iteration 13: x = [2.99608179 2.99608179], f(x) = 3.070471107232651e-05, ||g(x)||=0.01847061061143306
+Iteration 14: x = [2.99764908 2.99764908], f(x) = 1.1053695986035874e-05, ||g(x)||=0.011082366366859834
+Iteration 15: x = [2.99858945 2.99858945], f(x) = 3.9793305549719125e-06, ||g(x)||=0.0066494198201153985
+Iteration 16: x = [2.99915367 2.99915367], f(x) = 1.4325589997895879e-06, ||g(x)||=0.003989651892068737
+Iteration 17: x = [2.9994922 2.9994922], f(x) = 5.15721239924432e-07, ||g(x)||=0.002393791135240991
+Iteration 18: x = [2.99969532 2.99969532], f(x) = 1.8565964637257903e-07, ||g(x)||=0.0014362746811448456
+Iteration 19: x = [2.99981719 2.99981719], f(x) = 6.683747269425835e-08, ||g(x)||=0.000861764808686405
+Iteration 20: x = [2.99989032 2.99989032], f(x) = 2.4061490169894037e-08, ||g(x)||=0.0005170588852123454
+Iteration 21: x = [2.99993419 2.99993419], f(x) = 8.662136461115092e-09, ||g(x)||=0.00031023533112715604
+Iteration 22: x = [2.99996051 2.99996051], f(x) = 3.118369125973376e-09, ||g(x)||=0.0001861411986757912
+Iteration 23: x = [2.99997631 2.99997631], f(x) = 1.1226128853672496e-09, ||g(x)||=0.00011168471920497228
+Iteration 24: x = [2.99998578 2.99998578], f(x) = 4.0414063872210937e-10, ||g(x)||=6.70108315234858e-05
+Iteration 25: x = [2.99999147 2.99999147], f(x) = 1.454906299338991e-10, ||g(x)||=4.020649891358905e-05
+Iteration 26: x = [2.99999488 2.99999488], f(x) = 5.237662677983984e-11, ||g(x)||=2.4123899347651e-05
+Iteration 27: x = [2.99999693 2.99999693], f(x) = 1.8855585639651492e-11, ||g(x)||=1.447433960909303e-05
+Iteration 28: x = [2.99999816 2.99999816], f(x) = 6.788010829620027e-12, ||g(x)||=8.684603765204602e-06
+Iteration 29: x = [2.99999889 2.99999889], f(x) = 2.4436838986632097e-12, ||g(x)||=5.210762258871547e-06
+Iteration 30: x = [2.99999934 2.99999934], f(x) = 8.797262039900029e-13, ||g(x)||=3.1264573553229284e-06
+Iteration 31: x = [2.9999996 2.9999996], f(x) = 3.167014331536526e-13, ||g(x)||=1.8758744136961865e-06
+Iteration 32: x = [2.99999976 2.99999976], f(x) = 1.1401251593531493e-13, ||g(x)||=1.1255246477152823e-06
+Iteration 33: x = [2.99999986 2.99999986], f(x) = 4.10445057876081e-14, ||g(x)||=6.753147886291694e-07
+Iteration 34: x = [2.99999991 2.99999991], f(x) = 1.477602202246525e-14, ||g(x)||=4.0518887342871644e-07
+Iteration 35: x = [2.99999995 2.99999995], f(x) = 5.31936792808749e-15, ||g(x)||=2.431133235548003e-07
+Iteration 36: x = [2.99999997 2.99999997], f(x) = 1.914972432124978e-15, ||g(x)||=1.4586799413288017e-07
+Iteration 37: x = [2.99999998 2.99999998], f(x) = 6.893900623730809e-16, ||g(x)||=8.752079597729852e-08</code></pre>
+</div>
+<div class="cell-output cell-output-display" data-execution_count="3">
+<pre><code>array([2.99999998, 2.99999998])</code></pre>
+</div>
+</div>
+<pre class="{julia}"><code>function f(x)
+    sum((x.-3.0).^2)
+end
+
+function gradient(x)
+    2.*(x.-3.0)
+end
+
+steepest_descent(f, gradient, [.0, .0], 0.2)
+</code></pre>
+</section>
+<section id="calculating-the-derivative" class="level2">
+<h2 class="anchored" data-anchor-id="calculating-the-derivative">Calculating the derivative</h2>
+<p>When the gradient is difficult to calculate analytically, we can use algorithmically calculate the derivative of the function <span class="math inline">\(f\)</span>.</p>
+<ul>
+<li><em>Finite difference</em>: We use <span class="math display">\[
+\lim_{h} \frac{f(x+h) - f(x)}{h}
+\]</span></li>
+</ul>
+<pre class="{julia}"><code>using FiniteDifferences
+
+# Create a central finite difference method with the default settings
+fdm = central_fdm(5, 1)
+
+# Calculate the gradient at a point
+x0 = [1.0, 2.0]
+gradient = grad(fdm, f, x0)
+
+println("Numerical Gradient:", gradient)</code></pre>
+<div id="d4d10201" class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.optimize <span class="im">import</span> approx_fprime</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>epsilon <span class="op">=</span> np.sqrt(np.finfo(<span class="bu">float</span>).eps)  </span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Point at which to calculate the gradient</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>x0 <span class="op">=</span> np.array([<span class="fl">1.0</span>, <span class="fl">2.0</span>])</span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate the gradient at the point x0</span></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>gradient <span class="op">=</span> approx_fprime(x0, f, epsilon)</span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Gradient at x0:"</span>, gradient)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Gradient at x0: [-4. -2.]</code></pre>
+</div>
+</div>
+<ul>
+<li><em>Automatic differentiation</em></li>
+</ul>
+<p>Automatic Differentiation (AD) is a computational technique used to evaluate the derivative of a function specified by a computer program. AD exploits the fact that any computer program, no matter how complex, executes a sequence of elementary arithmetic operations and functions (like additions, multiplications, and trigonometric functions). By applying the chain rule to these operations, AD efficiently computes derivatives of arbitrary order, which are accurate up to machine precision. This contrasts with numerical differentiation, which can introduce significant rounding errors.</p>
+<p>One popular Python library that implements automatic differentiation is <code>autograd</code>. It extends the capabilities of NumPy by allowing you to automatically compute derivatives of functions composed of many standard mathematical operations. Here is a simple example of using <code>autograd</code> to compute the derivative of a function:</p>
+<p>Now, let’s compute the derivative of the function defined above.</p>
+<div id="b45619bd" class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> autograd.numpy <span class="im">as</span> np   <span class="co"># Import wrapped NumPy</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> autograd <span class="im">import</span> grad    <span class="co"># Import the gradient function</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a function that returns the derivative of f</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> grad(f)</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Evaluate the derivative at x = pi</span></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"The derivative of f(x) at x = [0.2, 0.1] is:"</span>, df(np.array([<span class="fl">0.2</span>, <span class="fl">0.1</span>])))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>The derivative of f(x) at x = [0.2, 0.1] is: [-5.6 -5.8]</code></pre>
+</div>
+</div>
+<p>When comparing the precision and applicability of finite difference methods and automatic differentiation (AD), especially for functions with large input dimensions, there are several key points to consider.</p>
+<p>Finite difference methods approximate derivatives by evaluating differences in function values at nearby points. The accuracy of these methods is highly dependent on the step size chosen: too large, and the approximation becomes poor; too small, and floating-point errors can dominate the result. This trade-off can be particularly challenging in high-dimensional spaces as errors can accumulate more significantly (each partial derivative may introduce errors that affect the overall gradient computation).</p>
+<p>AD computes derivatives using the exact chain rule and is not based on numerical approximations of difference quotients. Therefore, it can provide derivatives that are accurate to machine precision. AD efficiently handles computations in high dimensions because it systematically applies elementary operations and chain rules, bypassing the curse of dimensionality that often affects finite difference methods. AD is less sensitive to the numerical issues that affect finite differences, such as choosing a step size or dealing with subtractive cancellation.</p>
+<p>The visualization provided by <code>@fig-error</code> demonstrates the comparative performance of the finite difference method and automatic differentiation (AD) when used to calculate gradients. This graph illustrates a key observation: as the dimensionality of the input increases, the error associated with the finite difference method tends to rise almost linearly. This escalation in error is accompanied by an increase in computation time, underscoring the method’s sensitivity to higher dimensions.</p>
+<p>In contrast, the automatic differentiation method showcases remarkable stability across dimensions. The error remains negligible, essentially zero, highlighting AD’s inherent precision. Furthermore, AD’s computation time remains consistent regardless of input dimensionality. This performance characteristic of AD is due to its methodological approach, which systematically applies the chain rule to derive exact derivatives, bypassing the numerical instability and scaling issues often encountered with finite differences.</p>
+<p>These insights are particularly relevant in fields that rely heavily on precise and efficient computation of derivatives, such as in numerical optimization, machine learning model training, and dynamic systems simulation. The stability and scalability of AD make it an invaluable tool in these areas, especially when dealing with high-dimensional data sets or complex models.</p>
+<div id="cell-fig-error" class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> time</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> multivariate_function(x):</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>    <span class="co">""" A sample multivariate function, sum of squares plus sin of each component. """</span></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> np.<span class="bu">sum</span>(x<span class="op">**</span><span class="dv">2</span> <span class="op">+</span> np.sin(x))</span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> analytical_derivative(x):</span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>    <span class="co">""" Analytical derivative of the multivariate function. """</span></span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="dv">2</span><span class="op">*</span>x <span class="op">+</span> np.cos(x)</span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> finite_difference_derivative(f, x, h<span class="op">=</span><span class="fl">1e-5</span>):</span>
+<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a>    <span class="co">""" Compute the gradient of `f` at `x` using the central finite difference method. """</span></span>
+<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a>    grad <span class="op">=</span> np.zeros_like(x)</span>
+<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(x)):</span>
+<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a>        x_plus <span class="op">=</span> np.copy(x)</span>
+<span id="cb14-18"><a href="#cb14-18" aria-hidden="true" tabindex="-1"></a>        x_minus <span class="op">=</span> np.copy(x)</span>
+<span id="cb14-19"><a href="#cb14-19" aria-hidden="true" tabindex="-1"></a>        x_plus[i] <span class="op">+=</span> h</span>
+<span id="cb14-20"><a href="#cb14-20" aria-hidden="true" tabindex="-1"></a>        x_minus[i] <span class="op">-=</span> h</span>
+<span id="cb14-21"><a href="#cb14-21" aria-hidden="true" tabindex="-1"></a>        grad[i] <span class="op">=</span> (f(x_plus) <span class="op">-</span> f(x_minus)) <span class="op">/</span> (<span class="dv">2</span><span class="op">*</span>h)</span>
+<span id="cb14-22"><a href="#cb14-22" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> grad</span>
+<span id="cb14-23"><a href="#cb14-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-24"><a href="#cb14-24" aria-hidden="true" tabindex="-1"></a><span class="co"># Range of dimensions</span></span>
+<span id="cb14-25"><a href="#cb14-25" aria-hidden="true" tabindex="-1"></a>dimensions <span class="op">=</span> <span class="bu">range</span>(<span class="dv">1</span>, <span class="dv">101</span>)</span>
+<span id="cb14-26"><a href="#cb14-26" aria-hidden="true" tabindex="-1"></a>errors <span class="op">=</span> []</span>
+<span id="cb14-27"><a href="#cb14-27" aria-hidden="true" tabindex="-1"></a>times <span class="op">=</span> []</span>
+<span id="cb14-28"><a href="#cb14-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-29"><a href="#cb14-29" aria-hidden="true" tabindex="-1"></a><span class="co"># Loop over dimensions</span></span>
+<span id="cb14-30"><a href="#cb14-30" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> dim <span class="kw">in</span> dimensions:</span>
+<span id="cb14-31"><a href="#cb14-31" aria-hidden="true" tabindex="-1"></a>    x <span class="op">=</span> np.random.randn(dim)</span>
+<span id="cb14-32"><a href="#cb14-32" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb14-33"><a href="#cb14-33" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Analytical derivative</span></span>
+<span id="cb14-34"><a href="#cb14-34" aria-hidden="true" tabindex="-1"></a>    true_grad <span class="op">=</span> analytical_derivative(x)</span>
+<span id="cb14-35"><a href="#cb14-35" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb14-36"><a href="#cb14-36" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Start timing</span></span>
+<span id="cb14-37"><a href="#cb14-37" aria-hidden="true" tabindex="-1"></a>    start_time <span class="op">=</span> time.time()</span>
+<span id="cb14-38"><a href="#cb14-38" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb14-39"><a href="#cb14-39" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Finite difference derivative</span></span>
+<span id="cb14-40"><a href="#cb14-40" aria-hidden="true" tabindex="-1"></a>    fd_grad <span class="op">=</span> finite_difference_derivative(multivariate_function, x)</span>
+<span id="cb14-41"><a href="#cb14-41" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb14-42"><a href="#cb14-42" aria-hidden="true" tabindex="-1"></a>    <span class="co"># End timing</span></span>
+<span id="cb14-43"><a href="#cb14-43" aria-hidden="true" tabindex="-1"></a>    elapsed_time <span class="op">=</span> time.time() <span class="op">-</span> start_time</span>
+<span id="cb14-44"><a href="#cb14-44" aria-hidden="true" tabindex="-1"></a>    times.append(elapsed_time)</span>
+<span id="cb14-45"><a href="#cb14-45" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb14-46"><a href="#cb14-46" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Error</span></span>
+<span id="cb14-47"><a href="#cb14-47" aria-hidden="true" tabindex="-1"></a>    error <span class="op">=</span> np.linalg.norm(fd_grad <span class="op">-</span> true_grad)</span>
+<span id="cb14-48"><a href="#cb14-48" aria-hidden="true" tabindex="-1"></a>    errors.append(error)</span>
+<span id="cb14-49"><a href="#cb14-49" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-50"><a href="#cb14-50" aria-hidden="true" tabindex="-1"></a><span class="co"># Plotting error</span></span>
+<span id="cb14-51"><a href="#cb14-51" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">14</span>, <span class="dv">6</span>))</span>
+<span id="cb14-52"><a href="#cb14-52" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-53"><a href="#cb14-53" aria-hidden="true" tabindex="-1"></a>plt.subplot(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">1</span>)</span>
+<span id="cb14-54"><a href="#cb14-54" aria-hidden="true" tabindex="-1"></a>plt.plot(dimensions, errors, marker<span class="op">=</span><span class="st">'o'</span>)</span>
+<span id="cb14-55"><a href="#cb14-55" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Number of Dimensions'</span>)</span>
+<span id="cb14-56"><a href="#cb14-56" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Error'</span>)</span>
+<span id="cb14-57"><a href="#cb14-57" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Approximation Error by Dimension'</span>)</span>
+<span id="cb14-58"><a href="#cb14-58" aria-hidden="true" tabindex="-1"></a>plt.grid(<span class="va">True</span>)</span>
+<span id="cb14-59"><a href="#cb14-59" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-60"><a href="#cb14-60" aria-hidden="true" tabindex="-1"></a><span class="co"># Plotting computational time</span></span>
+<span id="cb14-61"><a href="#cb14-61" aria-hidden="true" tabindex="-1"></a>plt.subplot(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">2</span>)</span>
+<span id="cb14-62"><a href="#cb14-62" aria-hidden="true" tabindex="-1"></a>plt.plot(dimensions, times, marker<span class="op">=</span><span class="st">'o'</span>)</span>
+<span id="cb14-63"><a href="#cb14-63" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Number of Dimensions'</span>)</span>
+<span id="cb14-64"><a href="#cb14-64" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Time (seconds)'</span>)</span>
+<span id="cb14-65"><a href="#cb14-65" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Computational Time by Dimension'</span>)</span>
+<span id="cb14-66"><a href="#cb14-66" aria-hidden="true" tabindex="-1"></a>plt.grid(<span class="va">True</span>)</span>
+<span id="cb14-67"><a href="#cb14-67" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-68"><a href="#cb14-68" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb14-69"><a href="#cb14-69" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div id="fig-error" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-error-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="comptools_ass2_files/figure-html/fig-error-output-1.png" id="fig-error" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig quarto-uncaptioned" id="fig-error-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;2
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<section id="using-solver" class="level3">
+<h3 class="anchored" data-anchor-id="using-solver">Using solver</h3>
+<p>It is almost always advantageous to utilize established minimization routines and libraries rather than crafting custom code from scratch. This approach not only saves time but also leverages the extensive testing and optimizations embedded within these libraries, which are designed to handle a broad range of mathematical challenges efficiently and accurately.</p>
+<p><strong>In Python</strong>, the <code>scipy.optimize</code> module from the SciPy library is a robust toolkit that provides several algorithms for function minimization, including methods for unconstrained and constrained optimization. Some of the notable algorithms include BFGS, Nelder-Mead, and conjugate gradient, among others. These algorithms are well-suited for numerical optimization in scientific computing.</p>
+<p><strong>In Julia</strong>, <code>Optim.jl</code> offers a similar breadth of optimization routines, with support for a variety of optimization problems, from simple univariate function minimization to complex multivariate cases. <code>Optim.jl</code> includes algorithms like L-BFGS, Gradient Descent, and Newton’s Method, each tailored for specific types of optimization scenarios.</p>
+<p>Both Python’s SciPy and Julia’s <code>Optim.jl</code> represent just a slice of the available tools. There are many other solvers and libraries dedicated to optimization. The most widely used is Ipopt which is particularly useful for problems that require embedding in lower-level systems for performance.</p>
+<p>The choice of a solver can depend on several factors:</p>
+<ol type="1">
+<li><strong>Problem Type</strong>: Some solvers are better suited for large-scale problems, others for problems with complex constraints, or for nondifferentiable or noisy functions.</li>
+<li><strong>Accuracy and Precision</strong>: Different algorithms and implementations can provide varying levels of precision and robustness, important in applications like aerospace or finance.</li>
+<li><strong>Performance and Speed</strong>: Depending on the implementation, some solvers might be optimized for speed using advanced techniques like parallel processing or tailored data structures.</li>
+<li><strong>Ease of Use and Flexibility</strong>: Some libraries offer more user-friendly interfaces and better documentation, which can be crucial for less experienced users or complex projects where customization is key.</li>
+</ol>
+</section>
+<section id="julias-optim.jl" class="level3">
+<h3 class="anchored" data-anchor-id="julias-optim.jl">Julia’s <code>Optim.jl</code></h3>
+<p><code>Optim.jl</code> supports various optimization algorithms. For our simple example, we can use the BFGS method, which is suitable for smooth functions and is part of a family of quasi-Newton methods.</p>
+<p>You can now call the <code>optimize</code> function from <code>Optim.jl</code>, specifying the function, an initial guess, and the optimization method. Here is how you do it:</p>
+<pre class="{julia}"><code># Initial guess
+initial_guess = [0.0, 0.0]
+
+# Perform the optimization
+result = optimize(f, initial_guess, BFGS())</code></pre>
+<p>The <code>result</code> object contains all the information about the optimization process, including the optimal values found, the value of the function at the optimum, and the convergence status:</p>
+<pre class="{julia}"><code># Access the results
+println("Optimal parameters: ", Optim.minimizer(result))
+println("Minimum value: ", Optim.minimum(result))
+println("Convergence information: ", result)</code></pre>
+<p>If your function is more complex or if you want to speed up the convergence for large-scale problems, you can also provide the gradient (and even the Hessian) to the optimizer. <code>Optim.jl</code> can utilize these for more efficient calculations.</p>
+<p>For constrained optimization, <code>Optim.jl</code> has support for simple box constraints which can be set using the <code>Fminbox</code> method to wrap around other methods like BFGS.</p>
+<pre class="{julia}"><code># Define the bounds
+lower_bounds = [0.5, 1.5]
+upper_bounds = [1.5, 2.5]
+
+# Initial guess within the bounds
+initial_guess = [1.0, 2.0]
+
+# Set up the optimizer with Fminbox
+optimizer = Fminbox(BFGS())
+# Run the optimization with bounds
+result = optimize(f, lower_bounds, upper_bounds, initial_guess, optimizer, Optim.Options(g_tol = 1e-6))</code></pre>
+</section>
+</section>
+<section id="pythons-minimize" class="level2">
+<h2 class="anchored" data-anchor-id="pythons-minimize">Python’s <code>minimize</code></h2>
+<p>The <code>scipy.optimize.minimize</code> function in Python is a versatile solver for minimization problems of both unconstrained and constrained functions. It provides a wide range of algorithms for different kinds of optimization problems.</p>
+<p>SciPy’s <code>minimize</code> function supports various methods like ‘BFGS’, ‘Nelder-Mead’, ‘TNC’, etc. The choice of method can depend on the nature of your problem (e.g., whether it has constraints, whether the function is differentiable, etc.). As in the Julia’s discussion, we’ll use ‘BFGS’.</p>
+<div id="b17e8952" class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.optimize <span class="im">import</span> minimize</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>initial_guess <span class="op">=</span> np.array([<span class="dv">0</span>, <span class="dv">0</span>])</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>result <span class="op">=</span> minimize(f, initial_guess, method<span class="op">=</span><span class="st">'BFGS'</span>)</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Optimal parameters:"</span>, result.x)</span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Minimum value:"</span>, result.fun)</span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Success:"</span>, result.success)</span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Message:"</span>, result.message)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Optimal parameters: [2.99999999 2.99999999]
+Minimum value: 2.4602836913395623e-16
+Success: True
+Message: Optimization terminated successfully.</code></pre>
+</div>
+</div>
+<p>To add some bounds to the variables we can use the Bounds module.</p>
+<div id="a6ee3888" class="cell" data-execution_count="8">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.optimize <span class="im">import</span> Bounds</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Define bounds (0, +Inf) for all parameters</span></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>bounds <span class="op">=</span> Bounds(np.array([<span class="fl">0.</span>, <span class="fl">0.</span>]), [np.inf, np.inf])</span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Run the optimization with bounds</span></span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>result_with_bounds <span class="op">=</span> minimize(f, initial_guess, method<span class="op">=</span><span class="st">'L-BFGS-B'</span>, bounds<span class="op">=</span>bounds)</span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Optimal parameters:"</span>, result_with_bounds.x)</span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Minimum value:"</span>, result_with_bounds.fun)</span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Success:"</span>, result_with_bounds.success)</span>
+<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Message:"</span>, result_with_bounds.message)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Optimal parameters: [3.00000044 3.00000044]
+Minimum value: 3.9332116120454443e-13
+Success: True
+Message: CONVERGENCE: NORM OF PROJECTED GRADIENT &lt;= PGTOL</code></pre>
+</div>
+</div>
+</section>
+<section id="assignment" class="level2">
+<h2 class="anchored" data-anchor-id="assignment">Assignment</h2>
+<p><span class="math display">\[
+Y_t = c + \phi_1 Y_{t-1} + \phi_2 Y_{t-2} + \varepsilon_t, \quad \varepsilon_t ~ WN(0, \sigma^2).
+\]</span></p>
+<p><strong>Parameter Estimation</strong> - Estimate the parameters of the AR(2) model using both conditional and unconditional likelihood approaches on the <strong>monthly log differences</strong> of <code>INDPRO</code> from the <code>FRED-MD</code> (FRED data is <a href="https://research.stlouisfed.org/econ/mccracken/fred-databases/">here</a>).</p>
+<p><strong>Tasks:</strong></p>
+<ol type="1">
+<li><p><strong>Coding the Likelihood Function</strong></p>
+<ul>
+<li>Implement the likelihood function for an AR(2) model in Python. You are required to code both the conditional and unconditional likelihood functions.</li>
+<li><strong>Conditional Likelihood</strong>: This approach uses the first 2 observations as given and starts the likelihood calculation from the 3rd observation.</li>
+<li><strong>Unconditional Likelihood</strong>: This approach integrates over <span class="math inline">\(p(Y_1, Y_2)\)</span>, the unconditional distributions of the first two observations.</li>
+</ul>
+<p>Use the following model specification for the AR(7) process: <span class="math display">\[
+y_t = \phi_0 + \phi_1 y_{t-1} + \phi_2 y_{t-2} + \epsilon_t
+\]</span> where <span class="math inline">\(\epsilon_t\)</span> is i.i.d. normal with mean zero and variance <span class="math inline">\(\sigma^2\)</span>.</p></li>
+<li><p><strong>Maximizing the Likelihood</strong></p>
+<ul>
+<li>Write Python or Julia code to maximize the likelihood functions (both conditional and unconditional) with respect to the parameters <span class="math inline">\(\phi_0, \phi_1, \phi_2,\)</span> and <span class="math inline">\(\sigma^2\)</span>. You may consider using optimization routines available in libraries such as <code>scipy.optimize</code> or <code>Optim.jl</code>.</li>
+</ul></li>
+<li><p><strong>Forecasting</strong></p>
+<ul>
+<li>With the estimated parameters from both approaches, forecast the future values of the log differences of <code>INDPRO</code> for the next 8 months (<span class="math inline">\(h=1,2,\dots,8\)</span>).</li>
+<li>(Optional) Provide a brief comparison of the forecast accuracy from both sets of parameters based on out-of-sample forecasting. Discuss any notable differences and potential reasons for these differences.</li>
+</ul></li>
+</ol>
+<p><strong>Deliverables:</strong> - A Python (or Julia) script containing the implementations and results for the tasks outlined above. The script should run (you might give instructions on what is needed to make it run). Ideally, a Jupyter notebook. - A report discussing the methodology and the results.</p>
+<p><strong>Assessment Criteria:</strong> - Correctness of the likelihood function implementations. - Quality of the code, including readability and proper documentation.</p>
+<p><strong>Resources:</strong> - <code>FRED-MD</code> dataset: Access the dataset directly from the FRED website or through any API that provides access to it. - <code>SciPy</code> library documentation for optimization functions. - <code>Optim.jl</code></p>
+<p>This assignment will test your ability to implement statistical models, manipulate time-series data, perform parameter estimation, and use statistical methods to forecast future values.</p>
+<div id="1399619e" class="cell" data-execution_count="9">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.optimize <span class="im">import</span> minimize</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.stats <span class="im">import</span> norm</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> ar_likelihood(params, data, p):</span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a><span class="co">    Calculate the negative (unconditional) log likelihood for an AR(p) model.</span></span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a><span class="co">    params: list of parameters, where the first p are AR coefficients and the last is the noise variance.</span></span>
+<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a><span class="co">    data: observed data.</span></span>
+<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a><span class="co">    p: order of the AR model.</span></span>
+<span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb22-13"><a href="#cb22-13" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Extract AR coefficients and noise variance</span></span>
+<span id="cb22-14"><a href="#cb22-14" aria-hidden="true" tabindex="-1"></a>    c <span class="op">=</span> params[<span class="dv">0</span>]</span>
+<span id="cb22-15"><a href="#cb22-15" aria-hidden="true" tabindex="-1"></a>    phi <span class="op">=</span> params[<span class="dv">1</span>:p<span class="op">+</span><span class="dv">1</span>]</span>
+<span id="cb22-16"><a href="#cb22-16" aria-hidden="true" tabindex="-1"></a>    sigma2 <span class="op">=</span> params[<span class="op">-</span><span class="dv">1</span>]</span>
+<span id="cb22-17"><a href="#cb22-17" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb22-18"><a href="#cb22-18" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Calculate residuals</span></span>
+<span id="cb22-19"><a href="#cb22-19" aria-hidden="true" tabindex="-1"></a>    T <span class="op">=</span> <span class="bu">len</span>(data)</span>
+<span id="cb22-20"><a href="#cb22-20" aria-hidden="true" tabindex="-1"></a>    residuals <span class="op">=</span> data[p:] <span class="op">-</span> c <span class="op">-</span> np.dot(np.column_stack([data[p<span class="op">-</span>j<span class="op">-</span><span class="dv">1</span>:T<span class="op">-</span>j<span class="op">-</span><span class="dv">1</span>] <span class="cf">for</span> j <span class="kw">in</span> <span class="bu">range</span>(p)]), phi)</span>
+<span id="cb22-21"><a href="#cb22-21" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb22-22"><a href="#cb22-22" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Calculate negative log likelihood</span></span>
+<span id="cb22-23"><a href="#cb22-23" aria-hidden="true" tabindex="-1"></a>    log_likelihood <span class="op">=</span> (<span class="op">-</span>T<span class="op">/</span><span class="dv">2</span> <span class="op">*</span> np.log(<span class="dv">2</span> <span class="op">*</span> np.pi <span class="op">*</span> sigma2) <span class="op">-</span> np.<span class="bu">sum</span>(residuals<span class="op">**</span><span class="dv">2</span>) <span class="op">/</span> (<span class="dv">2</span> <span class="op">*</span> sigma2))</span>
+<span id="cb22-24"><a href="#cb22-24" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb22-25"><a href="#cb22-25" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="op">-</span>log_likelihood</span>
+<span id="cb22-26"><a href="#cb22-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-27"><a href="#cb22-27" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> estimate_ar_parameters(data, p):</span>
+<span id="cb22-28"><a href="#cb22-28" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
+<span id="cb22-29"><a href="#cb22-29" aria-hidden="true" tabindex="-1"></a><span class="co">    Estimate AR model parameters using maximum likelihood estimation.</span></span>
+<span id="cb22-30"><a href="#cb22-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-31"><a href="#cb22-31" aria-hidden="true" tabindex="-1"></a><span class="co">    data: observed data.</span></span>
+<span id="cb22-32"><a href="#cb22-32" aria-hidden="true" tabindex="-1"></a><span class="co">    p: order of the AR model.</span></span>
+<span id="cb22-33"><a href="#cb22-33" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb22-34"><a href="#cb22-34" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Initial parameter guess (random AR coefficients, variance of 1)</span></span>
+<span id="cb22-35"><a href="#cb22-35" aria-hidden="true" tabindex="-1"></a>    params_initial <span class="op">=</span> np.zeros(p<span class="op">+</span><span class="dv">2</span>)</span>
+<span id="cb22-36"><a href="#cb22-36" aria-hidden="true" tabindex="-1"></a>    params_initial[<span class="op">-</span><span class="dv">1</span>] <span class="op">=</span> <span class="fl">1.0</span></span>
+<span id="cb22-37"><a href="#cb22-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-38"><a href="#cb22-38" aria-hidden="true" tabindex="-1"></a>    <span class="co">## Bounds</span></span>
+<span id="cb22-39"><a href="#cb22-39" aria-hidden="true" tabindex="-1"></a>    bounds <span class="op">=</span> [(<span class="va">None</span>, <span class="va">None</span>)]</span>
+<span id="cb22-40"><a href="#cb22-40" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Then p AR coefficients, each bounded between -1 and 1</span></span>
+<span id="cb22-41"><a href="#cb22-41" aria-hidden="true" tabindex="-1"></a>    bounds <span class="op">+=</span> [(<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>) <span class="cf">for</span> _ <span class="kw">in</span> <span class="bu">range</span>(p)]</span>
+<span id="cb22-42"><a href="#cb22-42" aria-hidden="true" tabindex="-1"></a>    <span class="co"># The variance parameter, bounded to be positive</span></span>
+<span id="cb22-43"><a href="#cb22-43" aria-hidden="true" tabindex="-1"></a>    bounds <span class="op">+=</span> [(<span class="fl">1e-6</span>, <span class="va">None</span>)]</span>
+<span id="cb22-44"><a href="#cb22-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-45"><a href="#cb22-45" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Minimize the negative log likelihood</span></span>
+<span id="cb22-46"><a href="#cb22-46" aria-hidden="true" tabindex="-1"></a>    result <span class="op">=</span> minimize(ar_likelihood, params_initial, args<span class="op">=</span>(data, p), bounds<span class="op">=</span>bounds)</span>
+<span id="cb22-47"><a href="#cb22-47" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb22-48"><a href="#cb22-48" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> result.success:</span>
+<span id="cb22-49"><a href="#cb22-49" aria-hidden="true" tabindex="-1"></a>        estimated_params <span class="op">=</span> result.x</span>
+<span id="cb22-50"><a href="#cb22-50" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> estimated_params</span>
+<span id="cb22-51"><a href="#cb22-51" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
+<span id="cb22-52"><a href="#cb22-52" aria-hidden="true" tabindex="-1"></a>        <span class="cf">raise</span> <span class="pp">Exception</span>(<span class="st">"Optimization failed:"</span>, result.message)</span>
+<span id="cb22-53"><a href="#cb22-53" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-54"><a href="#cb22-54" aria-hidden="true" tabindex="-1"></a><span class="co"># Example usage</span></span>
+<span id="cb22-55"><a href="#cb22-55" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> np.random.randn(<span class="dv">100</span>)  <span class="co"># Simulated data; replace with actual data</span></span>
+<span id="cb22-56"><a href="#cb22-56" aria-hidden="true" tabindex="-1"></a>p <span class="op">=</span> <span class="dv">2</span>  <span class="co"># AR(2) model</span></span>
+<span id="cb22-57"><a href="#cb22-57" aria-hidden="true" tabindex="-1"></a>params <span class="op">=</span> estimate_ar_parameters(data, p)</span>
+<span id="cb22-58"><a href="#cb22-58" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Estimated parameters:"</span>, params)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Estimated parameters: [ 0.11376649 -0.10794687  0.07171477  0.80931585]</code></pre>
+</div>
+</div>
+<div id="6375efff" class="cell" data-execution_count="10">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> fit_ar_ols_xx(data, p):</span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a><span class="co">    data: observed data.</span></span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a><span class="co">    p: order of the AR model.</span></span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a><span class="co">    note: no constant</span></span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Prepare the lagged data matrix</span></span>
+<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a>    T <span class="op">=</span> <span class="bu">len</span>(data)</span>
+<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a>    Y <span class="op">=</span> data[p:]  <span class="co"># Dependent variable (from p to end)</span></span>
+<span id="cb24-12"><a href="#cb24-12" aria-hidden="true" tabindex="-1"></a>    X <span class="op">=</span> np.column_stack([data[p<span class="op">-</span>i<span class="op">-</span><span class="dv">1</span>:T<span class="op">-</span>i<span class="op">-</span><span class="dv">1</span>] <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(p)])</span>
+<span id="cb24-13"><a href="#cb24-13" aria-hidden="true" tabindex="-1"></a>    X <span class="op">=</span> np.column_stack((np.ones(X.shape[<span class="dv">0</span>]), X))</span>
+<span id="cb24-14"><a href="#cb24-14" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb24-15"><a href="#cb24-15" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Calculate OLS estimates using the formula: beta = (X'X)^-1 X'Y</span></span>
+<span id="cb24-16"><a href="#cb24-16" aria-hidden="true" tabindex="-1"></a>    XTX <span class="op">=</span> np.dot(X.T, X)  <span class="co"># X'X</span></span>
+<span id="cb24-17"><a href="#cb24-17" aria-hidden="true" tabindex="-1"></a>    XTY <span class="op">=</span> np.dot(X.T, Y)  <span class="co"># X'Y</span></span>
+<span id="cb24-18"><a href="#cb24-18" aria-hidden="true" tabindex="-1"></a>    beta_hat <span class="op">=</span> np.linalg.solve(XTX, XTY)  <span class="co"># Solve (X'X)beta = X'Y</span></span>
+<span id="cb24-19"><a href="#cb24-19" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb24-20"><a href="#cb24-20" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> beta_hat</span>
+<span id="cb24-21"><a href="#cb24-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-22"><a href="#cb24-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-23"><a href="#cb24-23" aria-hidden="true" tabindex="-1"></a>beta_hat <span class="op">=</span> fit_ar_ols_xx(data, p)</span>
+<span id="cb24-24"><a href="#cb24-24" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Estimated AR coefficients:"</span>, beta_hat)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Estimated AR coefficients: [ 0.11376621 -0.10794739  0.0717144 ]</code></pre>
+</div>
+</div>
+<div id="c260141a" class="cell" data-execution_count="11">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> statsmodels.api <span class="im">as</span> sm</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> fit_ar_ols_sm(data, p):</span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a><span class="co">    Estimate parameters of an AR(p) model using OLS.</span></span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a><span class="co">    data: observed data.</span></span>
+<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a><span class="co">    p: order of the AR model.</span></span>
+<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Prepare the lagged data matrix</span></span>
+<span id="cb26-12"><a href="#cb26-12" aria-hidden="true" tabindex="-1"></a>    T <span class="op">=</span> <span class="bu">len</span>(data)</span>
+<span id="cb26-13"><a href="#cb26-13" aria-hidden="true" tabindex="-1"></a>    Y <span class="op">=</span> data[p:]  <span class="co"># Dependent variable (from p to end)</span></span>
+<span id="cb26-14"><a href="#cb26-14" aria-hidden="true" tabindex="-1"></a>    X <span class="op">=</span> np.column_stack([data[p<span class="op">-</span>i<span class="op">-</span><span class="dv">1</span>:T<span class="op">-</span>i<span class="op">-</span><span class="dv">1</span>] <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(p)])</span>
+<span id="cb26-15"><a href="#cb26-15" aria-hidden="true" tabindex="-1"></a>    X <span class="op">=</span> np.column_stack((np.ones(X.shape[<span class="dv">0</span>]), X))</span>
+<span id="cb26-16"><a href="#cb26-16" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Fit the OLS model</span></span>
+<span id="cb26-17"><a href="#cb26-17" aria-hidden="true" tabindex="-1"></a>    model <span class="op">=</span> sm.OLS(Y, X)</span>
+<span id="cb26-18"><a href="#cb26-18" aria-hidden="true" tabindex="-1"></a>    results <span class="op">=</span> model.fit()</span>
+<span id="cb26-19"><a href="#cb26-19" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> results</span>
+<span id="cb26-20"><a href="#cb26-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-21"><a href="#cb26-21" aria-hidden="true" tabindex="-1"></a><span class="co"># Example usage</span></span>
+<span id="cb26-22"><a href="#cb26-22" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Simulated data; replace with actual data</span></span>
+<span id="cb26-23"><a href="#cb26-23" aria-hidden="true" tabindex="-1"></a>p <span class="op">=</span> <span class="dv">2</span>  <span class="co"># AR(2) model</span></span>
+<span id="cb26-24"><a href="#cb26-24" aria-hidden="true" tabindex="-1"></a>results <span class="op">=</span> fit_ar_ols_sm(data, p)</span>
+<span id="cb26-25"><a href="#cb26-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-26"><a href="#cb26-26" aria-hidden="true" tabindex="-1"></a><span class="co"># Print the results</span></span>
+<span id="cb26-27"><a href="#cb26-27" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(results.summary())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                            OLS Regression Results                            
+==============================================================================
+Dep. Variable:                      y   R-squared:                       0.019
+Model:                            OLS   Adj. R-squared:                 -0.002
+Method:                 Least Squares   F-statistic:                    0.9079
+Date:                Fri, 07 Mar 2025   Prob (F-statistic):              0.407
+Time:                        11:30:19   Log-Likelihood:                -129.68
+No. Observations:                  98   AIC:                             265.4
+Df Residuals:                      95   BIC:                             273.1
+Df Model:                           2                                         
+Covariance Type:            nonrobust                                         
+==============================================================================
+                 coef    std err          t      P&gt;|t|      [0.025      0.975]
+------------------------------------------------------------------------------
+const          0.1138      0.095      1.196      0.235      -0.075       0.303
+x1            -0.1079      0.102     -1.056      0.293      -0.311       0.095
+x2             0.0717      0.103      0.694      0.489      -0.133       0.277
+==============================================================================
+Omnibus:                        1.946   Durbin-Watson:                   1.995
+Prob(Omnibus):                  0.378   Jarque-Bera (JB):                1.923
+Skew:                          -0.329   Prob(JB):                        0.382
+Kurtosis:                       2.806   Cond. No.                         1.28
+==============================================================================
+
+Notes:
+[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.</code></pre>
+</div>
+</div>
+</section>
+<section id="julia-code" class="level2">
+<h2 class="anchored" data-anchor-id="julia-code">Julia code</h2>
+<div class="sourceCode" id="cb28"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">Distributions</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">Optim</span></span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">LinearAlgebra</span></span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">ar_likelihood</span>(params, data, p)</span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">"""</span></span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a><span class="st">    Calculate the negative (unconditional) log likelihood for an AR(p) model.</span></span>
+<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a><span class="st">    </span></span>
+<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a><span class="st">    params: list of parameters, where the first p+1 are AR coefficients and the last is the noise variance.</span></span>
+<span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a><span class="st">    data: observed data.</span></span>
+<span id="cb28-11"><a href="#cb28-11" aria-hidden="true" tabindex="-1"></a><span class="st">    p: order of the AR model.</span></span>
+<span id="cb28-12"><a href="#cb28-12" aria-hidden="true" tabindex="-1"></a><span class="st">    """</span></span>
+<span id="cb28-13"><a href="#cb28-13" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Extract AR coefficients and noise variance</span></span>
+<span id="cb28-14"><a href="#cb28-14" aria-hidden="true" tabindex="-1"></a>    c <span class="op">=</span> params[<span class="fl">1</span>]</span>
+<span id="cb28-15"><a href="#cb28-15" aria-hidden="true" tabindex="-1"></a>    phi <span class="op">=</span> params[<span class="fl">2</span><span class="op">:</span>p<span class="op">+</span><span class="fl">1</span>]</span>
+<span id="cb28-16"><a href="#cb28-16" aria-hidden="true" tabindex="-1"></a>    sigma2 <span class="op">=</span> params[p<span class="op">+</span><span class="fl">2</span>]</span>
+<span id="cb28-17"><a href="#cb28-17" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb28-18"><a href="#cb28-18" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Calculate residuals</span></span>
+<span id="cb28-19"><a href="#cb28-19" aria-hidden="true" tabindex="-1"></a>    T <span class="op">=</span> <span class="fu">length</span>(data)</span>
+<span id="cb28-20"><a href="#cb28-20" aria-hidden="true" tabindex="-1"></a>    Y <span class="op">=</span> data[p<span class="op">+</span><span class="fl">1</span><span class="op">:</span><span class="kw">end</span>]</span>
+<span id="cb28-21"><a href="#cb28-21" aria-hidden="true" tabindex="-1"></a>    X <span class="op">=</span> <span class="fu">hcat</span>([data[p<span class="op">-</span>j<span class="op">:</span>T<span class="op">-</span>j<span class="op">-</span><span class="fl">1</span>] for j <span class="kw">in</span> <span class="fl">0</span><span class="op">:</span>p<span class="op">-</span><span class="fl">1</span>]<span class="op">...</span>)</span>
+<span id="cb28-22"><a href="#cb28-22" aria-hidden="true" tabindex="-1"></a>    residuals <span class="op">=</span> Y <span class="op">.-</span> c <span class="op">.-</span> X <span class="op">*</span> phi</span>
+<span id="cb28-23"><a href="#cb28-23" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb28-24"><a href="#cb28-24" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Calculate negative log likelihood</span></span>
+<span id="cb28-25"><a href="#cb28-25" aria-hidden="true" tabindex="-1"></a>    log_likelihood <span class="op">=</span> (<span class="op">-</span>T<span class="op">/</span><span class="fl">2</span> <span class="op">*</span> <span class="fu">log</span>(<span class="fl">2</span> <span class="op">*</span> <span class="cn">π</span> <span class="op">*</span> sigma2) <span class="op">-</span> <span class="fu">sum</span>(residuals<span class="op">.^</span><span class="fl">2</span>) <span class="op">/</span> (<span class="fl">2</span> <span class="op">*</span> sigma2))</span>
+<span id="cb28-26"><a href="#cb28-26" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb28-27"><a href="#cb28-27" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="op">-</span>log_likelihood</span>
+<span id="cb28-28"><a href="#cb28-28" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span>
+<span id="cb28-29"><a href="#cb28-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-30"><a href="#cb28-30" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">estimate_ar_parameters</span>(data, p)</span>
+<span id="cb28-31"><a href="#cb28-31" aria-hidden="true" tabindex="-1"></a>    <span class="st">"""</span></span>
+<span id="cb28-32"><a href="#cb28-32" aria-hidden="true" tabindex="-1"></a><span class="st">    Estimate AR model parameters using maximum likelihood estimation.</span></span>
+<span id="cb28-33"><a href="#cb28-33" aria-hidden="true" tabindex="-1"></a><span class="st">    </span></span>
+<span id="cb28-34"><a href="#cb28-34" aria-hidden="true" tabindex="-1"></a><span class="st">    data: observed data.</span></span>
+<span id="cb28-35"><a href="#cb28-35" aria-hidden="true" tabindex="-1"></a><span class="st">    p: order of the AR model.</span></span>
+<span id="cb28-36"><a href="#cb28-36" aria-hidden="true" tabindex="-1"></a><span class="st">    """</span></span>
+<span id="cb28-37"><a href="#cb28-37" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Initial parameter guess (zeros AR coefficients, variance of 1)</span></span>
+<span id="cb28-38"><a href="#cb28-38" aria-hidden="true" tabindex="-1"></a>    params_initial <span class="op">=</span> <span class="fu">zeros</span>(p<span class="op">+</span><span class="fl">2</span>)</span>
+<span id="cb28-39"><a href="#cb28-39" aria-hidden="true" tabindex="-1"></a>    params_initial[p<span class="op">+</span><span class="fl">2</span>] <span class="op">=</span> <span class="fl">1.0</span>  <span class="co"># Initial variance</span></span>
+<span id="cb28-40"><a href="#cb28-40" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb28-41"><a href="#cb28-41" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Setup lower and upper bounds</span></span>
+<span id="cb28-42"><a href="#cb28-42" aria-hidden="true" tabindex="-1"></a>    lower_bounds <span class="op">=</span> <span class="fu">vcat</span>(<span class="op">-</span><span class="cn">Inf</span>, <span class="fu">fill</span>(<span class="op">-</span><span class="fl">1.0</span>, p), <span class="fl">1e-6</span>)</span>
+<span id="cb28-43"><a href="#cb28-43" aria-hidden="true" tabindex="-1"></a>    upper_bounds <span class="op">=</span> <span class="fu">vcat</span>(<span class="op">+</span><span class="cn">Inf</span>, <span class="fu">fill</span>(<span class="fl">1.0</span>, p), <span class="cn">Inf</span>)</span>
+<span id="cb28-44"><a href="#cb28-44" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb28-45"><a href="#cb28-45" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Minimize the negative log likelihood</span></span>
+<span id="cb28-46"><a href="#cb28-46" aria-hidden="true" tabindex="-1"></a>    result <span class="op">=</span> <span class="fu">optimize</span>(params <span class="op">-&gt;</span> <span class="fu">ar_likelihood</span>(params, data, p), </span>
+<span id="cb28-47"><a href="#cb28-47" aria-hidden="true" tabindex="-1"></a>                     lower_bounds, upper_bounds, params_initial,</span>
+<span id="cb28-48"><a href="#cb28-48" aria-hidden="true" tabindex="-1"></a>                     <span class="fu">Fminbox</span>(<span class="fu">LBFGS</span>()))</span>
+<span id="cb28-49"><a href="#cb28-49" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb28-50"><a href="#cb28-50" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> Optim.<span class="fu">converged</span>(result)</span>
+<span id="cb28-51"><a href="#cb28-51" aria-hidden="true" tabindex="-1"></a>        estimated_params <span class="op">=</span> Optim.<span class="fu">minimizer</span>(result)</span>
+<span id="cb28-52"><a href="#cb28-52" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> estimated_params</span>
+<span id="cb28-53"><a href="#cb28-53" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span></span>
+<span id="cb28-54"><a href="#cb28-54" aria-hidden="true" tabindex="-1"></a>        <span class="fu">error</span>(<span class="st">"Optimization failed"</span>)</span>
+<span id="cb28-55"><a href="#cb28-55" aria-hidden="true" tabindex="-1"></a>    <span class="cf">end</span></span>
+<span id="cb28-56"><a href="#cb28-56" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span>
+<span id="cb28-57"><a href="#cb28-57" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-58"><a href="#cb28-58" aria-hidden="true" tabindex="-1"></a><span class="co"># Example usage</span></span>
+<span id="cb28-59"><a href="#cb28-59" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> <span class="fu">randn</span>(<span class="fl">100</span>)  <span class="co"># Simulated data; replace with actual data</span></span>
+<span id="cb28-60"><a href="#cb28-60" aria-hidden="true" tabindex="-1"></a>p <span class="op">=</span> <span class="fl">2</span>  <span class="co"># AR(2) model</span></span>
+<span id="cb28-61"><a href="#cb28-61" aria-hidden="true" tabindex="-1"></a>params <span class="op">=</span> <span class="fu">estimate_ar_parameters</span>(data, p)</span>
+<span id="cb28-62"><a href="#cb28-62" aria-hidden="true" tabindex="-1"></a><span class="fu">println</span>(<span class="st">"Estimated parameters: "</span>, params)</span>
+<span id="cb28-63"><a href="#cb28-63" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-64"><a href="#cb28-64" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">fit_ar_ols_xx</span>(data, p)</span>
+<span id="cb28-65"><a href="#cb28-65" aria-hidden="true" tabindex="-1"></a>    <span class="st">"""</span></span>
+<span id="cb28-66"><a href="#cb28-66" aria-hidden="true" tabindex="-1"></a><span class="st">    data: observed data.</span></span>
+<span id="cb28-67"><a href="#cb28-67" aria-hidden="true" tabindex="-1"></a><span class="st">    p: order of the AR model.</span></span>
+<span id="cb28-68"><a href="#cb28-68" aria-hidden="true" tabindex="-1"></a><span class="st">    note: no constant</span></span>
+<span id="cb28-69"><a href="#cb28-69" aria-hidden="true" tabindex="-1"></a><span class="st">    """</span></span>
+<span id="cb28-70"><a href="#cb28-70" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Prepare the lagged data matrix</span></span>
+<span id="cb28-71"><a href="#cb28-71" aria-hidden="true" tabindex="-1"></a>    T <span class="op">=</span> <span class="fu">length</span>(data)</span>
+<span id="cb28-72"><a href="#cb28-72" aria-hidden="true" tabindex="-1"></a>    Y <span class="op">=</span> data[p<span class="op">+</span><span class="fl">1</span><span class="op">:</span><span class="kw">end</span>]  <span class="co"># Dependent variable (from p+1 to end)</span></span>
+<span id="cb28-73"><a href="#cb28-73" aria-hidden="true" tabindex="-1"></a>    X <span class="op">=</span> <span class="fu">hcat</span>([data[p<span class="op">-</span>j<span class="op">:</span>T<span class="op">-</span>j<span class="op">-</span><span class="fl">1</span>] for j <span class="kw">in</span> <span class="fl">0</span><span class="op">:</span>p<span class="op">-</span><span class="fl">1</span>]<span class="op">...</span>)</span>
+<span id="cb28-74"><a href="#cb28-74" aria-hidden="true" tabindex="-1"></a>    X <span class="op">=</span> [<span class="fu">ones</span>(T<span class="op">-</span>p) X]  <span class="co"># Add a constant to the model</span></span>
+<span id="cb28-75"><a href="#cb28-75" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Calculate OLS estimates using the formula: beta = (X'X)^-1 X'Y</span></span>
+<span id="cb28-76"><a href="#cb28-76" aria-hidden="true" tabindex="-1"></a>    XTX <span class="op">=</span> X<span class="op">'</span> <span class="op">*</span> X  <span class="co"># X'X</span></span>
+<span id="cb28-77"><a href="#cb28-77" aria-hidden="true" tabindex="-1"></a>    XTY <span class="op">=</span> X<span class="op">'</span> <span class="op">*</span> Y  <span class="co"># X'Y</span></span>
+<span id="cb28-78"><a href="#cb28-78" aria-hidden="true" tabindex="-1"></a>    beta_hat <span class="op">=</span> XTX <span class="op">\</span> XTY  <span class="co"># Solve (X'X)beta = X'Y</span></span>
+<span id="cb28-79"><a href="#cb28-79" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb28-80"><a href="#cb28-80" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> beta_hat</span>
+<span id="cb28-81"><a href="#cb28-81" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span>
+<span id="cb28-82"><a href="#cb28-82" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-83"><a href="#cb28-83" aria-hidden="true" tabindex="-1"></a>beta_hat, X <span class="op">=</span> <span class="fu">fit_ar_ols_xx</span>(data, p)</span>
+<span id="cb28-84"><a href="#cb28-84" aria-hidden="true" tabindex="-1"></a><span class="fu">println</span>(<span class="st">"Estimated AR coefficients: "</span>, beta_hat)</span>
+<span id="cb28-85"><a href="#cb28-85" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-86"><a href="#cb28-86" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">fit_ar_ols_sm</span>(data, p)</span>
+<span id="cb28-87"><a href="#cb28-87" aria-hidden="true" tabindex="-1"></a>    <span class="st">"""</span></span>
+<span id="cb28-88"><a href="#cb28-88" aria-hidden="true" tabindex="-1"></a><span class="st">    Estimate parameters of an AR(p) model using OLS.</span></span>
+<span id="cb28-89"><a href="#cb28-89" aria-hidden="true" tabindex="-1"></a><span class="st">    </span></span>
+<span id="cb28-90"><a href="#cb28-90" aria-hidden="true" tabindex="-1"></a><span class="st">    data: observed data.</span></span>
+<span id="cb28-91"><a href="#cb28-91" aria-hidden="true" tabindex="-1"></a><span class="st">    p: order of the AR model.</span></span>
+<span id="cb28-92"><a href="#cb28-92" aria-hidden="true" tabindex="-1"></a><span class="st">    """</span></span>
+<span id="cb28-93"><a href="#cb28-93" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Prepare the lagged data matrix</span></span>
+<span id="cb28-94"><a href="#cb28-94" aria-hidden="true" tabindex="-1"></a>    T <span class="op">=</span> <span class="fu">length</span>(data)</span>
+<span id="cb28-95"><a href="#cb28-95" aria-hidden="true" tabindex="-1"></a>    Y <span class="op">=</span> data[p<span class="op">+</span><span class="fl">1</span><span class="op">:</span><span class="kw">end</span>]  <span class="co"># Dependent variable (from p+1 to end)</span></span>
+<span id="cb28-96"><a href="#cb28-96" aria-hidden="true" tabindex="-1"></a>    X <span class="op">=</span> <span class="fu">hcat</span>([data[p<span class="op">-</span>j<span class="op">:</span>T<span class="op">-</span>j<span class="op">-</span><span class="fl">1</span>] for j <span class="kw">in</span> <span class="fl">0</span><span class="op">:</span>p<span class="op">-</span><span class="fl">1</span>]<span class="op">...</span>)</span>
+<span id="cb28-97"><a href="#cb28-97" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Add a constant to the model if you want an intercept (optional)</span></span>
+<span id="cb28-98"><a href="#cb28-98" aria-hidden="true" tabindex="-1"></a>    X <span class="op">=</span> <span class="fu">hcat</span>(<span class="fu">ones</span>(<span class="fu">size</span>(X, <span class="fl">1</span>)), X)</span>
+<span id="cb28-99"><a href="#cb28-99" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb28-100"><a href="#cb28-100" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Fit the OLS model using direct matrix calculation</span></span>
+<span id="cb28-101"><a href="#cb28-101" aria-hidden="true" tabindex="-1"></a>    beta <span class="op">=</span> (X<span class="op">'</span>X) <span class="op">\</span> (X<span class="op">'</span>Y)</span>
+<span id="cb28-102"><a href="#cb28-102" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb28-103"><a href="#cb28-103" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Calculate residuals</span></span>
+<span id="cb28-104"><a href="#cb28-104" aria-hidden="true" tabindex="-1"></a>    residuals <span class="op">=</span> Y <span class="op">-</span> X <span class="op">*</span> beta</span>
+<span id="cb28-105"><a href="#cb28-105" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb28-106"><a href="#cb28-106" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Calculate standard errors</span></span>
+<span id="cb28-107"><a href="#cb28-107" aria-hidden="true" tabindex="-1"></a>    n, k <span class="op">=</span> <span class="fu">size</span>(X)</span>
+<span id="cb28-108"><a href="#cb28-108" aria-hidden="true" tabindex="-1"></a>    sigma2 <span class="op">=</span> <span class="fu">sum</span>(residuals<span class="op">.^</span><span class="fl">2</span>) <span class="op">/</span> (n <span class="op">-</span> k)</span>
+<span id="cb28-109"><a href="#cb28-109" aria-hidden="true" tabindex="-1"></a>    var_beta <span class="op">=</span> sigma2 <span class="op">*</span> <span class="fu">inv</span>(X<span class="op">'</span>X)</span>
+<span id="cb28-110"><a href="#cb28-110" aria-hidden="true" tabindex="-1"></a>    std_errors <span class="op">=</span> <span class="fu">sqrt</span>.(<span class="fu">diag</span>(var_beta))</span>
+<span id="cb28-111"><a href="#cb28-111" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb28-112"><a href="#cb28-112" aria-hidden="true" tabindex="-1"></a>    <span class="co"># t-statistics</span></span>
+<span id="cb28-113"><a href="#cb28-113" aria-hidden="true" tabindex="-1"></a>    t_stats <span class="op">=</span> beta <span class="op">./</span> std_errors</span>
+<span id="cb28-114"><a href="#cb28-114" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb28-115"><a href="#cb28-115" aria-hidden="true" tabindex="-1"></a>    <span class="co"># p-values (assuming normal distribution)</span></span>
+<span id="cb28-116"><a href="#cb28-116" aria-hidden="true" tabindex="-1"></a>    p_values <span class="op">=</span> <span class="fl">2</span> <span class="op">*</span> (<span class="fl">1</span> <span class="op">.-</span> <span class="fu">cdf</span>.(<span class="fu">Normal</span>(), <span class="fu">abs</span>.(t_stats)))</span>
+<span id="cb28-117"><a href="#cb28-117" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb28-118"><a href="#cb28-118" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Return a named tuple with results</span></span>
+<span id="cb28-119"><a href="#cb28-119" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> (</span>
+<span id="cb28-120"><a href="#cb28-120" aria-hidden="true" tabindex="-1"></a>        coefficients <span class="op">=</span> beta,</span>
+<span id="cb28-121"><a href="#cb28-121" aria-hidden="true" tabindex="-1"></a>        std_errors <span class="op">=</span> std_errors,</span>
+<span id="cb28-122"><a href="#cb28-122" aria-hidden="true" tabindex="-1"></a>        t_statistics <span class="op">=</span> t_stats,</span>
+<span id="cb28-123"><a href="#cb28-123" aria-hidden="true" tabindex="-1"></a>        p_values <span class="op">=</span> p_values,</span>
+<span id="cb28-124"><a href="#cb28-124" aria-hidden="true" tabindex="-1"></a>        residuals <span class="op">=</span> residuals,</span>
+<span id="cb28-125"><a href="#cb28-125" aria-hidden="true" tabindex="-1"></a>        sigma2 <span class="op">=</span> sigma2</span>
+<span id="cb28-126"><a href="#cb28-126" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb28-127"><a href="#cb28-127" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span>
+<span id="cb28-128"><a href="#cb28-128" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-129"><a href="#cb28-129" aria-hidden="true" tabindex="-1"></a><span class="co"># Example usage</span></span>
+<span id="cb28-130"><a href="#cb28-130" aria-hidden="true" tabindex="-1"></a>results <span class="op">=</span> <span class="fu">fit_ar_ols_sm</span>(data, p)</span>
+<span id="cb28-131"><a href="#cb28-131" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-132"><a href="#cb28-132" aria-hidden="true" tabindex="-1"></a><span class="co"># Print summary</span></span>
+<span id="cb28-133"><a href="#cb28-133" aria-hidden="true" tabindex="-1"></a><span class="fu">println</span>(<span class="st">"</span><span class="sc">\n</span><span class="st">OLS Results Summary:"</span>)</span>
+<span id="cb28-134"><a href="#cb28-134" aria-hidden="true" tabindex="-1"></a><span class="fu">println</span>(<span class="st">"===================="</span>)</span>
+<span id="cb28-135"><a href="#cb28-135" aria-hidden="true" tabindex="-1"></a><span class="fu">println</span>(<span class="st">"Coefficients:"</span>)</span>
+<span id="cb28-136"><a href="#cb28-136" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span>p</span>
+<span id="cb28-137"><a href="#cb28-137" aria-hidden="true" tabindex="-1"></a>    <span class="fu">println</span>(<span class="st">"AR(</span><span class="sc">$</span>i<span class="st">): </span><span class="sc">$</span>(results.coefficients[i<span class="op">+</span><span class="fl">1</span>])<span class="st"> (std err: </span><span class="sc">$</span>(results.std_errors[i<span class="op">+</span><span class="fl">1</span>])<span class="st">, t: </span><span class="sc">$</span>(results.t_statistics[i<span class="op">+</span><span class="fl">1</span>])<span class="st">, p: </span><span class="sc">$</span>(results.p_values[i<span class="op">+</span><span class="fl">1</span>])<span class="st">)"</span>)</span>
+<span id="cb28-138"><a href="#cb28-138" aria-hidden="true" tabindex="-1"></a><span class="cf">end</span></span>
+<span id="cb28-139"><a href="#cb28-139" aria-hidden="true" tabindex="-1"></a><span class="fu">println</span>(<span class="st">"Residual standard error: </span><span class="sc">$</span>(<span class="fu">sqrt</span>(results.sigma2))<span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+
+
+</section>
+
+
+<div id="quarto-appendix" class="default"><section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
+
+<ol>
+<li id="fn1"><p>A neighborhood of a point <span class="math inline">\(x\in\mathbb{R}\)</span> is any open subset of <span class="math inline">\(\mathbb{R}^k\)</span> containing <span class="math inline">\(x\)</span>.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p>A square matrix <span class="math inline">\(H\)</span> is positive definite if for every <span class="math inline">\(z\in\mathbb{R}^k\)</span> with <span class="math inline">\(\norm{z}\neq 0\)</span>, <span class="math inline">\(z'Hz&gt;0\)</span>.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn3"><p>termanation<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section></div></main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp("https:\/\/gragusa\.org\/comptools\/");
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

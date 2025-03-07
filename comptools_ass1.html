@@ -158,6 +158,10 @@ window.Quarto = {
     <a class="nav-link active" href="./comptools_ass1.html" aria-current="page"> 
 <span class="menu-text">Assignment 1</span></a>
   </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./comptools_ass2.html"> 
+<span class="menu-text">Assignment 2</span></a>
+  </li>  
 </ul>
           </div> <!-- /navcollapse -->
             <div class="quarto-navbar-tools">
@@ -190,7 +194,6 @@ window.Quarto = {
   <li><a href="#cloning-the-repository" id="toc-cloning-the-repository" class="nav-link" data-scroll-target="#cloning-the-repository">Cloning the repository</a></li>
   <li><a href="#make-changes-and-commit-them-to-the-repository" id="toc-make-changes-and-commit-them-to-the-repository" class="nav-link" data-scroll-target="#make-changes-and-commit-them-to-the-repository">Make changes and commit them to the repository</a></li>
   </ul></li>
-  <li><a href="#using-codespace" id="toc-using-codespace" class="nav-link" data-scroll-target="#using-codespace">Using Codespace</a></li>
   </ul>
 </nav>
     </div>
@@ -219,15 +222,14 @@ window.Quarto = {
 
 <section id="introduction" class="level2">
 <h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
-<p>This assignment introduces to practical and theoretical aspects of macroeconometrics, focusing on forecasting using the FRED-MD dataset. You will learn to handle macroeconomic data, perform necessary transformations, apply univariate models to predict key economic indicators and to evaluate these forecasts.</p>
-<p>This is the <em>first assignment</em> and it will only be considered toward your final grade if it is satisfactory. It does not mean that you won’t have to put effort into it. It is important that you try to do it so you can start learning the basics of the programming language of your choice. Also, it will help you familiarize with GitHub, Visual Studio code and other tools you will need for the remainder of the course.</p>
+<p>This assignment introduces students to practical and theoretical aspects of macroeconometrics, focusing on forecasting using the FRED-MD dataset. Students will learn to handle macroeconomic data, perform necessary transformations, apply univariate models to predict key economic indicators and to evaluate these forecasts.</p>
 </section>
 <section id="the-fred-md-dataset" class="level2">
 <h2 class="anchored" data-anchor-id="the-fred-md-dataset">The FRED-MD dataset</h2>
 <p>The FRED-MD dataset is a comprehensive monthly database for macroeconomic research compiled by the Federal Reserve Bank of St.&nbsp;Louis. It features a wide array of economic indicators. The list of economic indicators can be obtained from the paper accompanying the data <a href="">pdf</a>.</p>
 <p>The data can be downloaded <a href="https://research.stlouisfed.org/econ/mccracken/fred-databases/">here</a>. The page contains all the different vintages of the data.</p>
 <p>Let us start to download the <code>current.csv</code> file:</p>
-<div id="aab6bf4c" class="cell" data-execution_count="1">
+<div id="d436b3c0" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb1-2"><a href="#cb1-2"></a></span>
 <span id="cb1-3"><a href="#cb1-3"></a><span class="co"># Load the dataset</span></span>
@@ -415,133 +417,133 @@ window.Quarto = {
 <td>...</td>
 </tr>
 <tr class="odd">
-<td data-quarto-table-cell-role="th">787</td>
-<td>2024-08-01</td>
-<td>20007.209</td>
-<td>16322.1</td>
-<td>121.052</td>
-<td>1.530317e+06</td>
-<td>710038.00000</td>
-<td>103.0135</td>
-<td>100.9825</td>
-<td>100.9803</td>
-<td>102.2118</td>
-<td>...</td>
-<td>119.653</td>
-<td>128.291</td>
-<td>31.26</td>
-<td>35.81</td>
-<td>27.97</td>
-<td>67.9</td>
-<td>551667.22</td>
-<td>933066.90</td>
-<td>5327.6461</td>
-<td>19.6750</td>
-</tr>
-<tr class="even">
 <td data-quarto-table-cell-role="th">788</td>
 <td>2024-09-01</td>
-<td>20044.142</td>
-<td>16333.7</td>
+<td>19993.464</td>
+<td>16283.1</td>
 <td>121.690</td>
 <td>1.541305e+06</td>
 <td>716388.00000</td>
-<td>102.5969</td>
-<td>100.3826</td>
-<td>100.0630</td>
-<td>101.9696</td>
+<td>102.5873</td>
+<td>100.4044</td>
+<td>100.1100</td>
+<td>102.0602</td>
 <td>...</td>
 <td>119.220</td>
 <td>128.682</td>
-<td>31.44</td>
-<td>36.00</td>
-<td>28.11</td>
+<td>31.45</td>
+<td>36.18</td>
+<td>28.01</td>
 <td>70.1</td>
 <td>553347.06</td>
 <td>934283.59</td>
-<td>5368.5818</td>
+<td>5368.5671</td>
 <td>17.6597</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td data-quarto-table-cell-role="th">789</td>
 <td>2024-10-01</td>
-<td>20128.752</td>
-<td>16397.9</td>
-<td>121.948</td>
-<td>1.539382e+06</td>
+<td>20067.376</td>
+<td>16340.0</td>
+<td>121.904</td>
+<td>1.538666e+06</td>
 <td>720393.00000</td>
-<td>102.0854</td>
-<td>99.5434</td>
-<td>98.9267</td>
-<td>101.3127</td>
+<td>102.1219</td>
+<td>99.6821</td>
+<td>99.0178</td>
+<td>101.4336</td>
 <td>...</td>
-<td>119.064</td>
-<td>129.169</td>
-<td>31.55</td>
-<td>36.22</td>
-<td>28.14</td>
+<td>119.218</td>
+<td>129.176</td>
+<td>31.53</td>
+<td>36.27</td>
+<td>28.07</td>
 <td>70.5</td>
-<td>554377.25</td>
-<td>937299.96</td>
-<td>5407.3304</td>
+<td>554951.25</td>
+<td>938525.34</td>
+<td>5407.2449</td>
 <td>19.9478</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td data-quarto-table-cell-role="th">790</td>
 <td>2024-11-01</td>
-<td>20161.687</td>
-<td>16432.8</td>
-<td>122.519</td>
-<td>1.544190e+06</td>
-<td>725925.00000</td>
-<td>102.2549</td>
-<td>99.8216</td>
-<td>99.4970</td>
-<td>101.7893</td>
+<td>20111.246</td>
+<td>16385.1</td>
+<td>122.435</td>
+<td>1.544822e+06</td>
+<td>725079.00000</td>
+<td>101.9736</td>
+<td>99.5645</td>
+<td>99.0025</td>
+<td>101.0038</td>
 <td>...</td>
-<td>119.112</td>
-<td>129.375</td>
-<td>31.61</td>
-<td>36.21</td>
-<td>28.29</td>
+<td>119.230</td>
+<td>129.390</td>
+<td>31.59</td>
+<td>36.26</td>
+<td>28.22</td>
 <td>71.8</td>
-<td>555000.61</td>
-<td>938899.31</td>
-<td>5382.4019</td>
+<td>556075.09</td>
+<td>941204.79</td>
+<td>5382.5669</td>
 <td>15.9822</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td data-quarto-table-cell-role="th">791</td>
 <td>2024-12-01</td>
-<td>20184.060</td>
-<td>16457.8</td>
-<td>123.013</td>
-<td>NaN</td>
-<td>729191.00000</td>
-<td>103.1942</td>
-<td>100.5351</td>
-<td>100.1302</td>
-<td>102.2582</td>
+<td>20136.069</td>
+<td>16407.9</td>
+<td>123.103</td>
+<td>1.555153e+06</td>
+<td>730300.00000</td>
+<td>102.9833</td>
+<td>100.2940</td>
+<td>99.6550</td>
+<td>101.3436</td>
 <td>...</td>
-<td>119.689</td>
-<td>129.760</td>
+<td>119.746</td>
+<td>129.875</td>
 <td>31.73</td>
-<td>36.44</td>
-<td>28.34</td>
+<td>36.46</td>
+<td>28.33</td>
 <td>74.0</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>5370.6184</td>
+<td>558854.68</td>
+<td>946489.00</td>
+<td>5370.9871</td>
 <td>15.6997</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">792</td>
+<td>2025-01-01</td>
+<td>20248.025</td>
+<td>16464.7</td>
+<td>122.519</td>
+<td>NaN</td>
+<td>723853.00000</td>
+<td>103.5110</td>
+<td>101.1431</td>
+<td>100.7228</td>
+<td>102.1889</td>
+<td>...</td>
+<td>120.453</td>
+<td>130.196</td>
+<td>31.90</td>
+<td>36.54</td>
+<td>28.55</td>
+<td>71.7</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>5372.8381</td>
+<td>16.8122</td>
 </tr>
 </tbody>
 </table>
 
-<p>792 rows × 127 columns</p>
+<p>793 rows × 127 columns</p>
 </div>
 </div>
 </div>
-<div id="5a03bc12" class="cell" data-execution_count="2">
+<div id="b3bde594" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1"></a><span class="co"># Extract transformation codes</span></span>
 <span id="cb2-2"><a href="#cb2-2"></a>transformation_codes <span class="op">=</span> df.iloc[<span class="dv">0</span>, <span class="dv">1</span>:].to_frame().reset_index()</span>
 <span id="cb2-3"><a href="#cb2-3"></a>transformation_codes.columns <span class="op">=</span> [<span class="st">'Series'</span>, <span class="st">'Transformation_Code'</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -557,7 +559,7 @@ window.Quarto = {
 <li><code>transformation_code=7</code>: <span class="math inline">\(\Delta (x_t/x_{t-1} - 1)\)</span></li>
 </ul>
 <p>We can apply these transformations using the following code:</p>
-<div id="7ab0984b" class="cell" data-execution_count="3">
+<div id="0f5b57d1" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="annotated-cell-3"><pre class="sourceCode numberSource python code-annotation-code number-lines code-with-copy code-annotated"><code class="sourceCode python"><span id="annotated-cell-3-1"><a href="#annotated-cell-3-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="annotated-cell-3-2"><a href="#annotated-cell-3-2"></a></span>
 <span id="annotated-cell-3-3"><a href="#annotated-cell-3-3"></a><span class="co"># Function to apply transformations based on the transformation code</span></span>
@@ -765,7 +767,7 @@ window.Quarto = {
 </div>
 </div>
 </div>
-<div id="661e88ba" class="cell" data-execution_count="4">
+<div id="75d23846" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="annotated-cell-4"><pre class="sourceCode numberSource python code-annotation-code number-lines code-with-copy code-annotated"><code class="sourceCode python"><a class="code-annotation-anchor" data-target-cell="annotated-cell-4" data-target-annotation="1" onclick="event.preventDefault();">1</a><span id="annotated-cell-4-1" class="code-annotation-target"><a href="#annotated-cell-4-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="annotated-cell-4-2"><a href="#annotated-cell-4-2"></a><span class="im">import</span> matplotlib.dates <span class="im">as</span> mdates</span>
 <span id="annotated-cell-4-3"><a href="#annotated-cell-4-3"></a></span>
@@ -854,7 +856,7 @@ window.Quarto = {
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="comptools_ass1_files/figure-html/cell-5-output-1.png" width="758" height="1430" class="figure-img"></p>
+<p><img src="comptools_ass1_files/figure-html/cell-5-output-1.png" class="img-fluid figure-img"></p>
 </figure>
 </div>
 </div>
@@ -871,10 +873,9 @@ window.Quarto = {
 <h3 class="anchored" data-anchor-id="arx-models">ARX Models</h3>
 <p>Autoregressive Moving with predictors (ARX) models are a class of univariate time series models that extend ARMA models by incorporating exogenous (independent) variables. These models are formulated as follows:</p>
 <p><span id="eq-model"><span class="math display">\[
-\begin{aligned}Y_{t+h} &amp; =\alpha+\phi_{0}Y_{t}+\phi_{1}Y_{t-1}+\dots+\phi_{p}Y_{t-p}\\
-&amp; \qquad+\theta_{0,1}X_{t,1}+\theta_{1,1}X_{t-1,1}+\dots+\theta_{p,1}X_{t-p,1}+\dots\\
-&amp; \qquad+\theta_{0,k}X_{t,k}+\dots+\theta_{p,k}X_{t-p,k}+u_{t+h}\\
-&amp; =\alpha+\sum_{i=0}^{p}\phi_{i}Y_{t-i}+\sum_{j=1}^{k}\sum_{s=0}^{p}\theta_{s,j}X_{t-s,j}+\epsilon_{t+h}
+\begin{aligned}
+Y_{t+h} &amp;=  \alpha + \phi_0 Y_t + \phi_1 Y_{t-1} + \dots + \phi_p Y_{t-p} + \theta_{0,1} X_{t,1} + \theta_{1,1} X_{t-1,1} + \dots + \theta_{p,1} X_{t-p,1} + \dots + \theta_{0,k} X_{t,k} + \dots + \theta_{p,k} X_{t-p,k} + u_{t+h}\\
+        &amp;=  \alpha + \sum_{i=0}^p \phi_i Y_{t-i} + \sum_{j=1}^k\sum_{s=0}^p \theta_{s,j} X_{t-s,j} + \epsilon_{t+h}
 \end{aligned}
 \tag{1}\]</span></span></p>
 <ul>
@@ -928,7 +929,7 @@ y_{T}
 \end{pmatrix}.
 \]</span> The size of <span class="math inline">\(\mathbf{X}\)</span> is <span class="math inline">\((T-p-h)\times 1+(1+k)(1+p)\)</span> and that of <span class="math inline">\(\mathbf{y}\)</span> is <span class="math inline">\(T-h-p\)</span>.</p>
 <p>The matrix <span class="math inline">\(\mathbf{X}\)</span> can be obtained in the following way:</p>
-<div id="9ab0683e" class="cell" data-execution_count="5">
+<div id="cae40110" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1"></a>Yraw <span class="op">=</span> df_cleaned[<span class="st">'INDPRO'</span>]</span>
 <span id="cb3-2"><a href="#cb3-2"></a>Xraw <span class="op">=</span> df_cleaned[[<span class="st">'CPIAUCSL'</span>, <span class="st">'TB3MS'</span>]]</span>
 <span id="cb3-3"><a href="#cb3-3"></a></span>
@@ -1081,7 +1082,7 @@ y_{T}
 </div>
 <p>Note that the first <span class="math inline">\(p=\)</span><code>4</code> rows of <code>X</code> have missing values.</p>
 <p>The vector <span class="math inline">\(\mathbf{y}\)</span> can be similarly created as</p>
-<div id="704012f3" class="cell" data-execution_count="6">
+<div id="c328305a" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1"></a>y <span class="op">=</span> Yraw.shift(<span class="op">-</span>num_leads)</span>
 <span id="cb4-2"><a href="#cb4-2"></a>y</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="6">
@@ -1091,18 +1092,18 @@ y_{T}
 3     -0.024237
 4     -0.034464
          ...   
-785   -0.004052
-786   -0.004998
-787    0.001659
-788    0.009144
-789         NaN
-Name: INDPRO, Length: 790, dtype: float64</code></pre>
+786   -0.004547
+787   -0.001453
+788    0.009853
+789    0.005111
+790         NaN
+Name: INDPRO, Length: 791, dtype: float64</code></pre>
 </div>
 </div>
 <p>The variable <code>y</code> has missing values in the last <code>h</code> positions (it is not possible to lead the target beyond <span class="math inline">\(T\)</span>).</p>
 <p>Notice also that we must keep the last row of <code>X</code> for constructing the forecast.</p>
 <p>Now we create two <code>numpy</code> arrays with the missing values stripped:</p>
-<div id="7aa08c5a" class="cell" data-execution_count="7">
+<div id="c6515e1f" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1"></a><span class="co">## Save last row of X (converted to numpy)</span></span>
 <span id="cb6-2"><a href="#cb6-2"></a>X_T <span class="op">=</span> X.iloc[<span class="op">-</span><span class="dv">1</span>:].values</span>
 <span id="cb6-3"><a href="#cb6-3"></a><span class="co">## Subset getting only rows of X and y from p+1 to h-1</span></span>
@@ -1110,15 +1111,15 @@ Name: INDPRO, Length: 790, dtype: float64</code></pre>
 <span id="cb6-5"><a href="#cb6-5"></a>y <span class="op">=</span> y.iloc[num_lags:<span class="op">-</span>num_leads].values</span>
 <span id="cb6-6"><a href="#cb6-6"></a>X <span class="op">=</span> X.iloc[num_lags:<span class="op">-</span>num_leads].values</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="7d09c706" class="cell" data-execution_count="8">
+<div id="0642ff04" class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1"></a>X_T</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="8">
-<pre><code>array([[ 1.00000000e+00,  9.14393438e-03,  1.65899765e-03,
-        -4.99799997e-03, -4.05232975e-03,  4.80994949e-03,
-         7.99576232e-04,  6.86384504e-04,  6.40500497e-04,
-        -7.34005858e-05,  3.22375521e-04, -1.50000000e-01,
-        -9.00000000e-02, -2.10000000e-01, -3.30000000e-01,
-        -1.50000000e-01]])</code></pre>
+<pre><code>array([[ 1.00000000e+00,  5.11104809e-03,  9.85288291e-03,
+        -1.45324151e-03, -4.54694564e-03, -4.20511799e-03,
+         1.01839974e-03,  8.39506878e-04,  5.38574156e-04,
+        -2.74117085e-05,  4.89182561e-04, -6.00000000e-02,
+        -1.50000000e-01, -9.00000000e-02, -2.10000000e-01,
+        -3.30000000e-01]])</code></pre>
 </div>
 </div>
 <p>Now, we have to estimate the parameters and obtain the forecast.</p>
@@ -1133,7 +1134,7 @@ Name: INDPRO, Length: 790, dtype: float64</code></pre>
 (X'X)\boldsymbol{\beta} = X'Y
 \]</span></p>
 <p>The function <code>solve</code> can be used to solve this linear system of equation.</p>
-<div id="df15b63e" class="cell" data-execution_count="9">
+<div id="a5a8b0de" class="cell" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1"></a><span class="im">from</span> numpy.linalg <span class="im">import</span> solve</span>
 <span id="cb9-2"><a href="#cb9-2"></a><span class="co"># Solving for the OLS estimator beta: (X'X)^{-1} X'Y</span></span>
 <span id="cb9-3"><a href="#cb9-3"></a>beta_ols <span class="op">=</span> solve(X.T <span class="op">@</span> X, X.T <span class="op">@</span> y)</span>
@@ -1143,7 +1144,7 @@ Name: INDPRO, Length: 790, dtype: float64</code></pre>
 <span id="cb9-7"><a href="#cb9-7"></a>forecast <span class="op">=</span> X_T<span class="op">@</span>beta_ols<span class="op">*</span><span class="dv">100</span></span>
 <span id="cb9-8"><a href="#cb9-8"></a>forecast</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="9">
-<pre><code>array([0.3855251])</code></pre>
+<pre><code>array([0.24917247])</code></pre>
 </div>
 </div>
 <p>The variable <code>forecast</code> contains now the one-step ahead (<span class="math inline">\(h=1\)</span> forecast) of <code>INDPRO</code>. Since <code>INDPRO</code> has been transformed in logarithmic differences, we are forecasting the percentage change (and multiplying by 100 gives the forecast in percentage points).</p>
@@ -1171,7 +1172,7 @@ MSFE_h = \frac{1}{J}\sum_{j=1}^J  \hat{e}_{T+j+h}^2,
 <section id="hint" class="level4">
 <h4 class="anchored" data-anchor-id="hint">Hint</h4>
 <p>A sensible way to structure the code for real-time evaluation is to use several functions. For instance, you can define a function that calculates the forecast given the DataFrame.</p>
-<div id="950b0bfd" class="cell" data-execution_count="10">
+<div id="7f18e160" class="cell" data-execution_count="10">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1"></a><span class="kw">def</span> calculate_forecast(df_cleaned, p <span class="op">=</span> <span class="dv">4</span>, H <span class="op">=</span> [<span class="dv">1</span>,<span class="dv">4</span>,<span class="dv">8</span>], end_date <span class="op">=</span> <span class="st">'12/1/1999'</span>,target <span class="op">=</span> <span class="st">'INDPRO'</span>, xvars <span class="op">=</span> [<span class="st">'CPIAUCSL'</span>, <span class="st">'TB3MS'</span>]):</span>
 <span id="cb11-2"><a href="#cb11-2"></a></span>
 <span id="cb11-3"><a href="#cb11-3"></a>    <span class="co">## Subset df_cleaned to use only data up to end_date</span></span>
@@ -1220,7 +1221,7 @@ MSFE_h = \frac{1}{J}\sum_{j=1}^J  \hat{e}_{T+j+h}^2,
 <span id="cb11-46"><a href="#cb11-46"></a>    <span class="cf">return</span> np.array(Y_actual) <span class="op">-</span> np.array(Yhat)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>With this function, you can calculate real-time errors by looping over the <code>end_date</code> to ensure you end the loop at the right time.</p>
-<div id="274da6da" class="cell" data-execution_count="11">
+<div id="e5abb680" class="cell" data-execution_count="11">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1"></a>t0 <span class="op">=</span> pd.Timestamp(<span class="st">'12/1/1999'</span>)</span>
 <span id="cb12-2"><a href="#cb12-2"></a>e <span class="op">=</span> []</span>
 <span id="cb12-3"><a href="#cb12-3"></a>T <span class="op">=</span> []</span>
@@ -1260,15 +1261,16 @@ dtype: float64</code></pre>
 </section>
 <section id="working-with-github" class="level2">
 <h2 class="anchored" data-anchor-id="working-with-github">Working with github</h2>
-<p>The <a href="https://github.com/gragusa/asdsignment1">https://github.com/gragusa/assignment1</a> repository contains four files:</p>
-<ol type="1">
-<li><code>comptools_ass1.qmd</code></li>
-<li><code>assignment1_julia.jl</code></li>
-<li><code>assignment1_python.py</code></li>
-<li><code>assignment1_r.r</code></li>
-</ol>
-<p>The <code>comptools_ass1.qmd</code> is this file (in quarto format). The repository also contains the <code>pdf</code> and the <code>html</code> version of this file.</p>
-<p>The other files, <code>assignment1_julia.jl</code>, <code>assignment1_julia.py</code>, and <code>assignment1_julia.py</code>, are the starter kit of the code you have to write in <code>Julia</code>, <code>R</code>, and <code>Python</code>. You can use them to start your work.</p>
+<!-- The [https://github.com/uniroma/comptools-assignments](https://github.com/uniroma/comptools-assignments) repository contains four files:
+
+1. `comptools_ass1.qmd`
+2. `assignment1_julia.jl`
+3. `assignment1_python.py`
+4. `assignment1_r.r`
+
+The `comptools_ass1.qmd` is this file (in quarto format). The repository also contains the `pdf` and the `html` version of this file. 
+
+The other files, `assignment1_julia.jl`, `assignment1_julia.py`, and `assignment1_julia.py`,  are the starter kit of the code you have to write in `Julia`, `R`, and `Python`. You can use them to start your work.  -->
 <section id="using-visual-studio-code" class="level3">
 <h3 class="anchored" data-anchor-id="using-visual-studio-code">Using Visual Studio Code</h3>
 <p>Unless you are familiar with the command line and you are using Linux or MacOS, the best way to interact with github is through Visual Studio Code. Instructions on how to install Visual Studio Code on Windows are <a href="https://code.visualstudio.com/docs/setup/windows">here</a>. For MacOS the instructions are <a href="https://code.visualstudio.com/docs/setup/mac">here</a>.</p>
@@ -1395,15 +1397,9 @@ Tip
 </div>
 <p>The following video explores in more detail how to use git in VSCode.</p>
 <div class="quarto-video ratio ratio-16x9"><iframe data-external="1" src="https://www.youtube.com/embed/i_23KUAEtUM" title="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe></div>
-</section>
-</section>
-<section id="using-codespace" class="level2">
-<h2 class="anchored" data-anchor-id="using-codespace">Using Codespace</h2>
-<p>If you cloned the repository and your GitHub username is <code>student1</code>, then visiting</p>
-<pre><code>https://github.com/codespaces/badge.svg)](https://codespaces.new/student1/assignment1?quickstart=1&amp;devcontainer_path=.devcontainer%2Fdevcontainer.json</code></pre>
-<p>will open a CodeSpace version of Visual Studio code on your repository. The codespace has R, Julia and Python installed and Visual Studio Code is setup with the relevant extensions.</p>
 
 
+</section>
 </section>
 
 
