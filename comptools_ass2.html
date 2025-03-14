@@ -73,7 +73,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="site_libs/quarto-html/quarto-syntax-highlighting-17c909d5fd25ae21b861c0c7a49b2096.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-531520a4b0c291135803e56fb8f68cc8.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-8fdc1504617e38a29ed9938751d24f34.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -175,20 +175,21 @@ window.Quarto = {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#optimization-problems" id="toc-optimization-problems" class="nav-link active" data-scroll-target="#optimization-problems">Optimization problems</a></li>
+  <li><a href="#optimization-problems" id="toc-optimization-problems" class="nav-link active" data-scroll-target="#optimization-problems">Optimization problems</a>
+  <ul class="collapse">
   <li><a href="#unconstrained-problems" id="toc-unconstrained-problems" class="nav-link" data-scroll-target="#unconstrained-problems">Unconstrained problems</a></li>
   <li><a href="#fundamental-mathematical-tools" id="toc-fundamental-mathematical-tools" class="nav-link" data-scroll-target="#fundamental-mathematical-tools">Fundamental mathematical tools</a></li>
   <li><a href="#overview-of-algorithms" id="toc-overview-of-algorithms" class="nav-link" data-scroll-target="#overview-of-algorithms">Overview of algorithms</a></li>
   <li><a href="#a-simple-implementation-of-gradient-descent" id="toc-a-simple-implementation-of-gradient-descent" class="nav-link" data-scroll-target="#a-simple-implementation-of-gradient-descent">A simple implementation of gradient descent</a></li>
-  <li><a href="#calculating-the-derivative" id="toc-calculating-the-derivative" class="nav-link" data-scroll-target="#calculating-the-derivative">Calculating the derivative</a>
-  <ul class="collapse">
-  <li><a href="#using-solver" id="toc-using-solver" class="nav-link" data-scroll-target="#using-solver">Using solver</a></li>
+  <li><a href="#calculating-derivatives" id="toc-calculating-derivatives" class="nav-link" data-scroll-target="#calculating-derivatives">Calculating derivatives</a></li>
+  <li><a href="#automatic-differentiation" id="toc-automatic-differentiation" class="nav-link" data-scroll-target="#automatic-differentiation">Automatic differentiation</a></li>
+  <li><a href="#using-labguage-solvers" id="toc-using-labguage-solvers" class="nav-link" data-scroll-target="#using-labguage-solvers">Using labguage solvers</a></li>
   <li><a href="#julias-optim.jl" id="toc-julias-optim.jl" class="nav-link" data-scroll-target="#julias-optim.jl">Julia’s <code>Optim.jl</code></a></li>
+  <li><a href="#pythons-scipy.optimize" id="toc-pythons-scipy.optimize" class="nav-link" data-scroll-target="#pythons-scipy.optimize">Python’s <code>scipy.optimize</code></a></li>
   </ul></li>
-  <li><a href="#pythons-minimize" id="toc-pythons-minimize" class="nav-link" data-scroll-target="#pythons-minimize">Python’s <code>minimize</code></a></li>
-  <li><a href="#assignment" id="toc-assignment" class="nav-link" data-scroll-target="#assignment">Assignment</a></li>
-  <li><a href="#the-ar2-process" id="toc-the-ar2-process" class="nav-link" data-scroll-target="#the-ar2-process">The AR(2) process</a>
+  <li><a href="#assignment" id="toc-assignment" class="nav-link" data-scroll-target="#assignment">Assignment</a>
   <ul class="collapse">
+  <li><a href="#the-ar2-process" id="toc-the-ar2-process" class="nav-link" data-scroll-target="#the-ar2-process">The AR(2) process</a></li>
   <li><a href="#conditional-likelihood-function" id="toc-conditional-likelihood-function" class="nav-link" data-scroll-target="#conditional-likelihood-function">Conditional Likelihood Function</a></li>
   <li><a href="#julia-code" id="toc-julia-code" class="nav-link" data-scroll-target="#julia-code">Julia code</a></li>
   <li><a href="#exact-likelihood-function" id="toc-exact-likelihood-function" class="nav-link" data-scroll-target="#exact-likelihood-function">Exact Likelihood Function</a></li>
@@ -238,9 +239,8 @@ f(x^{*}) \leqslant f(x) \text{ for all }x\in\mathcal{C}.
    \end{aligned}
 \]</span> Here, <span class="math inline">\(g_i(x)\)</span> and <span class="math inline">\(h_j(x)\)</span> are functions that represent inequality and equality constraints.</p>
 <p>In what follows, we will focus on the class of unconstrained problems where <span class="math inline">\(f\)</span> is smooth, that is, a function that everywhere continuously differentiable.</p>
-</section>
-<section id="unconstrained-problems" class="level2">
-<h2 class="anchored" data-anchor-id="unconstrained-problems">Unconstrained problems</h2>
+<section id="unconstrained-problems" class="level3">
+<h3 class="anchored" data-anchor-id="unconstrained-problems">Unconstrained problems</h3>
 <p><span id="eq-minprob"><span class="math display">\[
 \min_{x} f(x), \quad x\in\mathbb{R}^k.
 \tag{1}\]</span></span></p>
@@ -263,8 +263,8 @@ f(x^{*}) \leqslant f(x) \text{ for all }x\in\mathcal{C}.
 \end{pmatrix}.
 \]</span></p>
 </section>
-<section id="fundamental-mathematical-tools" class="level2">
-<h2 class="anchored" data-anchor-id="fundamental-mathematical-tools">Fundamental mathematical tools</h2>
+<section id="fundamental-mathematical-tools" class="level3">
+<h3 class="anchored" data-anchor-id="fundamental-mathematical-tools">Fundamental mathematical tools</h3>
 <p>The necessary conditions for optimality are derived assuming that <span class="math inline">\(x^*\)</span> is a local minimizer and the proving facts about <span class="math inline">\(\nabla f(x^*)\)</span> and <span class="math inline">\(\nabla^2 f(x^*)\)</span>.</p>
 <div id="thm-nconditions" class="theorem">
 <p><span class="theorem-title"><strong>Theorem 1</strong></span> If <span class="math inline">\(x^*\)</span> is a local optimizer and <span class="math inline">\(f\)</span> is continuously differentiable in an open neighborhood of <span class="math inline">\(x^*\)</span>, then <span class="math inline">\(\nabla f(x^*)=0\)</span> (first-order necessary condition); if <span class="math inline">\(\nabla^2 f\)</span> exists and its continuous in an open neighborhood of <span class="math inline">\(x^*\)</span>, then <span class="math inline">\(\nabla^2 f(x^*)\)</span> is positive definite (second-order necessary conditions).<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a></p>
@@ -284,8 +284,8 @@ SSR(\beta) = \sum_{i=1}^n (Y_i - X'_i\beta)^2
 \]</span> is strictly convex provided that <span class="math inline">\(\sum_{i=1}^n X_iX'_i\)</span> is invertible (that is, it has full column rank).</p>
 </div>
 </section>
-<section id="overview-of-algorithms" class="level2">
-<h2 class="anchored" data-anchor-id="overview-of-algorithms">Overview of algorithms</h2>
+<section id="overview-of-algorithms" class="level3">
+<h3 class="anchored" data-anchor-id="overview-of-algorithms">Overview of algorithms</h3>
 <p>A common approach to optimization is to incrementally improve a point <span class="math inline">\(x\)</span> by taking a step that minimizes the objective value based on a local model. The local model may be obtained, for example, from a first- or second-order Taylor approximation. Optimization algorithms that follow this general approach are referred to as descent direction methods. They start with a design point <span class="math inline">\(x^{(0)}\)</span> and then generate a sequence of points, sometimes called iterates, to converge to a local minimum.</p>
 <div id="cell-fig-gradesplot" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -357,14 +357,14 @@ SSR(\beta) = \sum_{i=1}^n (Y_i - X'_i\beta)^2
 <span id="cb1-67"><a href="#cb1-67" aria-hidden="true" tabindex="-1"></a>plt.plot([x2, x2],[f(x1), <span class="dv">0</span>],<span class="st">'g--'</span>)</span>
 <span id="cb1-68"><a href="#cb1-68" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
-<pre><code>/var/folders/72/d3_1t_ps0z1fw0_l58cwv_s80000gn/T/ipykernel_26865/189701708.py:6: RuntimeWarning: invalid value encountered in log
+<pre><code>/var/folders/72/d3_1t_ps0z1fw0_l58cwv_s80000gn/T/ipykernel_35042/189701708.py:6: RuntimeWarning: invalid value encountered in log
   return x**2 - np.log(x)</code></pre>
 </div>
 <div class="cell-output cell-output-display">
 <div id="fig-gradesplot" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-gradesplot-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="comptools_ass2_files/figure-html/fig-gradesplot-output-2.png" class="img-fluid figure-img">
+<img src="comptools_ass2_files/figure-html/fig-gradesplot-output-2.png" width="651" height="452" class="figure-img">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-gradesplot-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;1: Gradient descent
@@ -395,10 +395,10 @@ f(x^{(r+1)}) = f(x^{(r)}) + \nabla f'(x^{(r)})(x^{(r+1)}-x^{(r)}) + (x^{(r+1)}-x
 x^{(r+1)} = x^{(r)}-[\nabla^2 f(x^{(r)})]^{-1} \nabla f(x^{(r)}) +
 \]</span> which suggests using the inverse of the hessian to form the direction. Since evaluating the Hessian at each iterate is too costly computationally, different algorithms approximate the Hessian in different ways.</p>
 </section>
-<section id="a-simple-implementation-of-gradient-descent" class="level2">
-<h2 class="anchored" data-anchor-id="a-simple-implementation-of-gradient-descent">A simple implementation of gradient descent</h2>
+<section id="a-simple-implementation-of-gradient-descent" class="level3">
+<h3 class="anchored" data-anchor-id="a-simple-implementation-of-gradient-descent">A simple implementation of gradient descent</h3>
 <p>The following code implements a gradient descent with steepest direction in Python.</p>
-<div id="b3db38f2" class="cell" data-execution_count="2">
+<div id="2020c0ee" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> numpy <span class="im">import</span> linalg <span class="im">as</span> la</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> steepest_descent(f, gradient, initial_guess, learning_rate, num_iterations <span class="op">=</span> <span class="dv">100</span>, epsilon_g <span class="op">=</span> <span class="fl">1e-07</span>):</span>
@@ -414,21 +414,21 @@ x^{(r+1)} = x^{(r)}-[\nabla^2 f(x^{(r)})]^{-1} \nabla f(x^{(r)}) +
 <span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> x</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>This is the Julia version.</p>
-<pre class="{julia}"><code>using LinearAlgebra ## needed for norm
-function steepest_descent(f, gradient, initial_guess, learning_rate; num_iterations = 100; epsilon_g = 1e-7)
-    x = initial_guess
-    for i in 1:num_iterations
-        grad = gradient(x)
-        x = x - learning_rate * grad
-        normg = norm(g)
-        println("Iteration $i: x = $x, f(x) = $(objective_function(x)), ||g(x)||=$(normg)")
-        if normg &lt; epsilon_g
-            break
-        end
-    end
-    return x
-end
-</code></pre>
+<div class="sourceCode" id="cb4"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: julia-descent</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">LinearAlgebra</span> <span class="co">## needed for norm</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">steepest_descent</span>(f, gradient, initial_guess, learning_rate; num_iterations <span class="op">=</span> <span class="fl">100</span>; epsilon_g <span class="op">=</span> <span class="fl">1e-7</span>)</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    x <span class="op">=</span> initial_guess</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span>num_iterations</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>        grad <span class="op">=</span> <span class="fu">gradient</span>(x)</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>        x <span class="op">=</span> x <span class="op">-</span> learning_rate <span class="op">*</span> grad</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>        normg <span class="op">=</span> <span class="fu">norm</span>(g)</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>        <span class="fu">println</span>(<span class="st">"Iteration </span><span class="sc">$</span>i<span class="st">: x = </span><span class="sc">$</span>x<span class="st">, f(x) = </span><span class="sc">$</span>(<span class="fu">objective_function</span>(x))<span class="st">, ||g(x)||=</span><span class="sc">$</span>(normg)<span class="st">"</span>)</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> normg <span class="op">&lt;</span> epsilon_g</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>            <span class="cf">break</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>        <span class="cf">end</span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>    <span class="cf">end</span></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> x</span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Suppose we want to solve the following problem <span class="math display">\[
 \min_{x} f(x)
 \]</span> where, for some <span class="math inline">\(d&gt;1\)</span>, <span class="math display">\[
@@ -441,7 +441,7 @@ f(x) = \sum_{i=1}^d \left((x_i-3)^2 \right)
 \end{pmatrix}.
 \]</span></p>
 <p>The minimum of this function is <span class="math inline">\(x_i = 3\)</span>.</p>
-<div id="612b0c22" class="cell" data-execution_count="3">
+<div id="1dad27bd" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> f(x):</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> np.<span class="bu">sum</span>((x<span class="op">-</span><span class="fl">3.0</span>)<span class="op">**</span><span class="dv">2</span>)</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -488,40 +488,39 @@ Iteration 35: x = [2.99999995 2.99999995], f(x) = 5.31936792808749e-15, ||g(x)||
 Iteration 36: x = [2.99999997 2.99999997], f(x) = 1.914972432124978e-15, ||g(x)||=1.4586799413288017e-07
 Iteration 37: x = [2.99999998 2.99999998], f(x) = 6.893900623730809e-16, ||g(x)||=8.752079597729852e-08</code></pre>
 </div>
-<div class="cell-output cell-output-display" data-execution_count="75">
+<div class="cell-output cell-output-display" data-execution_count="3">
 <pre><code>array([2.99999998, 2.99999998])</code></pre>
 </div>
 </div>
-<pre class="{julia}"><code>function f(x)
-    sum((x.-3.0).^2)
-end
-
-function gradient(x)
-    2.*(x.-3.0)
-end
-
-steepest_descent(f, gradient, [.0, .0], 0.2)
-</code></pre>
+<div class="sourceCode" id="cb8"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">f</span>(x)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">sum</span>((x<span class="op">.-</span><span class="fl">3.0</span>)<span class="op">.^</span><span class="fl">2</span>)</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">gradient</span>(x)</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>    <span class="fl">2</span><span class="op">.*</span>(x<span class="op">.-</span><span class="fl">3.0</span>)</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a><span class="fu">steepest_descent</span>(f, gradient, [<span class="fl">.0</span>, <span class="fl">.0</span>], <span class="fl">0.2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
-<section id="calculating-the-derivative" class="level2">
-<h2 class="anchored" data-anchor-id="calculating-the-derivative">Calculating the derivative</h2>
+<section id="calculating-derivatives" class="level3">
+<h3 class="anchored" data-anchor-id="calculating-derivatives">Calculating derivatives</h3>
 <p>When the gradient is difficult to calculate analytically, we can use algorithmically calculate the derivative of the function <span class="math inline">\(f\)</span>.</p>
 <ul>
 <li><em>Finite difference</em>: We use <span class="math display">\[
 \lim_{h} \frac{f(x+h) - f(x)}{h}
 \]</span></li>
 </ul>
-<pre class="{julia}"><code>using FiniteDifferences
-
-# Create a central finite difference method with the default settings
-fdm = central_fdm(5, 1)
-
-# Calculate the gradient at a point
-x0 = [1.0, 2.0]
-gradient = grad(fdm, f, x0)
-
-println("Numerical Gradient:", gradient)</code></pre>
-<div id="7cecd686" class="cell" data-execution_count="4">
+<div class="sourceCode" id="cb9"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">FiniteDifferences</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a central finite difference method with the default settings</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>fdm <span class="op">=</span> <span class="fu">central_fdm</span>(<span class="fl">5</span>, <span class="fl">1</span>)</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate the gradient at a point</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>x0 <span class="op">=</span> [<span class="fl">1.0</span>, <span class="fl">2.0</span>]</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>gradient <span class="op">=</span> <span class="fu">grad</span>(fdm, f, x0)</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a><span class="fu">println</span>(<span class="st">"Numerical Gradient:"</span>, gradient)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="fcddae5b" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.optimize <span class="im">import</span> approx_fprime</span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -539,13 +538,13 @@ println("Numerical Gradient:", gradient)</code></pre>
 <pre><code>Gradient at x0: [-4. -2.]</code></pre>
 </div>
 </div>
-<ul>
-<li><em>Automatic differentiation</em></li>
-</ul>
+</section>
+<section id="automatic-differentiation" class="level3">
+<h3 class="anchored" data-anchor-id="automatic-differentiation">Automatic differentiation</h3>
 <p>Automatic Differentiation (AD) is a computational technique used to evaluate the derivative of a function specified by a computer program. AD exploits the fact that any computer program, no matter how complex, executes a sequence of elementary arithmetic operations and functions (like additions, multiplications, and trigonometric functions). By applying the chain rule to these operations, AD efficiently computes derivatives of arbitrary order, which are accurate up to machine precision. This contrasts with numerical differentiation, which can introduce significant rounding errors.</p>
 <p>One popular Python library that implements automatic differentiation is <code>autograd</code>. It extends the capabilities of NumPy by allowing you to automatically compute derivatives of functions composed of many standard mathematical operations. Here is a simple example of using <code>autograd</code> to compute the derivative of a function:</p>
 <p>Now, let’s compute the derivative of the function defined above.</p>
-<div id="f374f218" class="cell" data-execution_count="5">
+<div id="415b6479" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> autograd.numpy <span class="im">as</span> np   <span class="co"># Import wrapped NumPy</span></span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> autograd <span class="im">import</span> grad    <span class="co"># Import the gradient function</span></span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -635,10 +634,10 @@ println("Numerical Gradient:", gradient)</code></pre>
 <span id="cb14-68"><a href="#cb14-68" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
 <span id="cb14-69"><a href="#cb14-69" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
-<div id="fig-error" class="quarto-float quarto-figure quarto-figure-center anchored">
+<div id="fig-error" class="quarto-float quarto-figure quarto-figure-center anchored" height="566" width="1334">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-error-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="comptools_ass2_files/figure-html/fig-error-output-1.png" id="fig-error" class="img-fluid figure-img">
+<img src="comptools_ass2_files/figure-html/fig-error-output-1.png" id="fig-error" width="1334" height="566" class="figure-img">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig quarto-uncaptioned" id="fig-error-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;2
@@ -647,8 +646,9 @@ Figure&nbsp;2
 </div>
 </div>
 </div>
-<section id="using-solver" class="level3">
-<h3 class="anchored" data-anchor-id="using-solver">Using solver</h3>
+</section>
+<section id="using-labguage-solvers" class="level3">
+<h3 class="anchored" data-anchor-id="using-labguage-solvers">Using labguage solvers</h3>
 <p>It is almost always advantageous to utilize established minimization routines and libraries rather than crafting custom code from scratch. This approach not only saves time but also leverages the extensive testing and optimizations embedded within these libraries, which are designed to handle a broad range of mathematical challenges efficiently and accurately.</p>
 <p><strong>In Python</strong>, the <code>scipy.optimize</code> module from the SciPy library is a robust toolkit that provides several algorithms for function minimization, including methods for unconstrained and constrained optimization. Some of the notable algorithms include BFGS, Nelder-Mead, and conjugate gradient, among others. These algorithms are well-suited for numerical optimization in scientific computing.</p>
 <p><strong>In Julia</strong>, <code>Optim.jl</code> offers a similar breadth of optimization routines, with support for a variety of optimization problems, from simple univariate function minimization to complex multivariate cases. <code>Optim.jl</code> includes algorithms like L-BFGS, Gradient Descent, and Newton’s Method, each tailored for specific types of optimization scenarios.</p>
@@ -665,36 +665,35 @@ Figure&nbsp;2
 <h3 class="anchored" data-anchor-id="julias-optim.jl">Julia’s <code>Optim.jl</code></h3>
 <p><code>Optim.jl</code> supports various optimization algorithms. For our simple example, we can use the BFGS method, which is suitable for smooth functions and is part of a family of quasi-Newton methods.</p>
 <p>You can now call the <code>optimize</code> function from <code>Optim.jl</code>, specifying the function, an initial guess, and the optimization method. Here is how you do it:</p>
-<pre class="{julia}"><code># Initial guess
-initial_guess = [0.0, 0.0]
-
-# Perform the optimization
-result = optimize(f, initial_guess, BFGS())</code></pre>
+<div class="sourceCode" id="cb15"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Initial guess</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>initial_guess <span class="op">=</span> [<span class="fl">0.0</span>, <span class="fl">0.0</span>]</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Perform the optimization</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>result <span class="op">=</span> <span class="fu">optimize</span>(f, initial_guess, <span class="fu">BFGS</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>The <code>result</code> object contains all the information about the optimization process, including the optimal values found, the value of the function at the optimum, and the convergence status:</p>
-<pre class="{julia}"><code># Access the results
-println("Optimal parameters: ", Optim.minimizer(result))
-println("Minimum value: ", Optim.minimum(result))
-println("Convergence information: ", result)</code></pre>
+<div class="sourceCode" id="cb16"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Access the results</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="fu">println</span>(<span class="st">"Optimal parameters: "</span>, Optim.<span class="fu">minimizer</span>(result))</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="fu">println</span>(<span class="st">"Minimum value: "</span>, Optim.<span class="fu">minimum</span>(result))</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="fu">println</span>(<span class="st">"Convergence information: "</span>, result)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>If your function is more complex or if you want to speed up the convergence for large-scale problems, you can also provide the gradient (and even the Hessian) to the optimizer. <code>Optim.jl</code> can utilize these for more efficient calculations.</p>
 <p>For constrained optimization, <code>Optim.jl</code> has support for simple box constraints which can be set using the <code>Fminbox</code> method to wrap around other methods like BFGS.</p>
-<pre class="{julia}"><code># Define the bounds
-lower_bounds = [0.5, 1.5]
-upper_bounds = [1.5, 2.5]
-
-# Initial guess within the bounds
-initial_guess = [1.0, 2.0]
-
-# Set up the optimizer with Fminbox
-optimizer = Fminbox(BFGS())
-# Run the optimization with bounds
-result = optimize(f, lower_bounds, upper_bounds, initial_guess, optimizer, Optim.Options(g_tol = 1e-6))</code></pre>
+<div class="sourceCode" id="cb17"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Define the bounds</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>lower_bounds <span class="op">=</span> [<span class="fl">0.5</span>, <span class="fl">1.5</span>]</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>upper_bounds <span class="op">=</span> [<span class="fl">1.5</span>, <span class="fl">2.5</span>]</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Initial guess within the bounds</span></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>initial_guess <span class="op">=</span> [<span class="fl">1.0</span>, <span class="fl">2.0</span>]</span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Set up the optimizer with Fminbox</span></span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>optimizer <span class="op">=</span> <span class="fu">Fminbox</span>(<span class="fu">BFGS</span>())</span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Run the optimization with bounds</span></span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>result <span class="op">=</span> <span class="fu">optimize</span>(f, lower_bounds, upper_bounds, initial_guess, optimizer, Optim.<span class="fu">Options</span>(g_tol <span class="op">=</span> <span class="fl">1e-6</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
-</section>
-<section id="pythons-minimize" class="level2">
-<h2 class="anchored" data-anchor-id="pythons-minimize">Python’s <code>minimize</code></h2>
+<section id="pythons-scipy.optimize" class="level3">
+<h3 class="anchored" data-anchor-id="pythons-scipy.optimize">Python’s <code>scipy.optimize</code></h3>
 <p>The <code>scipy.optimize.minimize</code> function in Python is a versatile solver for minimization problems of both unconstrained and constrained functions. It provides a wide range of algorithms for different kinds of optimization problems.</p>
 <p>SciPy’s <code>minimize</code> function supports various methods like ‘BFGS’, ‘Nelder-Mead’, ‘TNC’, etc. The choice of method can depend on the nature of your problem (e.g., whether it has constraints, whether the function is differentiable, etc.). As in the Julia’s discussion, we’ll use ‘BFGS’.</p>
-<div id="460d9c7a" class="cell" data-execution_count="7">
+<div id="634867e0" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.optimize <span class="im">import</span> minimize</span>
 <span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>initial_guess <span class="op">=</span> np.array([<span class="dv">0</span>, <span class="dv">0</span>])</span>
@@ -712,7 +711,7 @@ Message: Optimization terminated successfully.</code></pre>
 </div>
 </div>
 <p>To add some bounds to the variables we can use the Bounds module.</p>
-<div id="786e4602" class="cell" data-execution_count="8">
+<div id="7d900d97" class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.optimize <span class="im">import</span> Bounds</span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Define bounds (0, +Inf) for all parameters</span></span>
@@ -732,6 +731,7 @@ Message: CONVERGENCE: NORM OF PROJECTED GRADIENT &lt;= PGTOL</code></pre>
 </div>
 </div>
 </section>
+</section>
 <section id="assignment" class="level2">
 <h2 class="anchored" data-anchor-id="assignment">Assignment</h2>
 <p><span class="math display">\[
@@ -746,12 +746,12 @@ Y_t = c + \phi_1 Y_{t-1} + \phi_2 Y_{t-2} + \varepsilon_t, \quad \varepsilon_t ~
 <li><strong>Conditional Likelihood</strong>: This approach uses the first 2 observations as given and starts the likelihood calculation from the 3rd observation.</li>
 <li><strong>Unconditional Likelihood</strong>: This approach integrates over <span class="math inline">\(p(Y_1, Y_2)\)</span>, the unconditional distributions of the first two observations.</li>
 </ul>
-<p>Use the following model specification for the AR(7) process: <span class="math display">\[
-y_t = \phi_0 + \phi_1 y_{t-1} + \phi_2 y_{t-2} + \epsilon_t
+<p>Use the following model specification for the AR(2) process: <span class="math display">\[
+Y_t = c + \phi_1 Y_{t-1} + \phi_2 Y_{t-2} + \epsilon_t
 \]</span> where <span class="math inline">\(\epsilon_t\)</span> is i.i.d. normal with mean zero and variance <span class="math inline">\(\sigma^2\)</span>.</p></li>
 <li><p><strong>Maximizing the Likelihood</strong></p>
 <ul>
-<li>Write Python or Julia code to maximize the likelihood functions (both conditional and unconditional) with respect to the parameters <span class="math inline">\(\phi_0, \phi_1, \phi_2,\)</span> and <span class="math inline">\(\sigma^2\)</span>. You may consider using optimization routines available in libraries such as <code>scipy.optimize</code> or <code>Optim.jl</code>.</li>
+<li>Write Python or Julia code to maximize the likelihood functions (both conditional and unconditional) with respect to the parameters <span class="math inline">\(c, \phi_1, \phi_2,\)</span> and <span class="math inline">\(\sigma^2\)</span>. You may consider using optimization routines available in libraries such as <code>scipy.optimize</code> or <code>Optim.jl</code>.</li>
 </ul></li>
 <li><p><strong>Forecasting</strong></p>
 <ul>
@@ -763,9 +763,8 @@ y_t = \phi_0 + \phi_1 y_{t-1} + \phi_2 y_{t-2} + \epsilon_t
 <p><strong>Assessment Criteria:</strong> - Correctness of the likelihood function implementations. - Quality of the code, including readability and proper documentation.</p>
 <p><strong>Resources:</strong> - <code>FRED-MD</code> dataset: Access the dataset directly from the FRED website or through any API that provides access to it. - <code>SciPy</code> library documentation for optimization functions. - <code>Optim.jl</code></p>
 <p>This assignment will test your ability to implement statistical models, manipulate time-series data, perform parameter estimation, and use statistical methods to forecast future values.</p>
-</section>
-<section id="the-ar2-process" class="level2">
-<h2 class="anchored" data-anchor-id="the-ar2-process">The AR(2) process</h2>
+<section id="the-ar2-process" class="level3">
+<h3 class="anchored" data-anchor-id="the-ar2-process">The AR(2) process</h3>
 <p>The AR(2) process is given by the equation: <span class="math display">\[
 Y_t = c + \phi_1 Y_{t-1} + \phi_2 Y_{t-2} + \epsilon_t
 \]</span> where <span class="math inline">\(\epsilon_t\)</span> is white noise with mean zero and variance <span class="math inline">\(\sigma^2\)</span>, and <span class="math inline">\(c\)</span> is a constant.</p>
@@ -773,6 +772,7 @@ Y_t = c + \phi_1 Y_{t-1} + \phi_2 Y_{t-2} + \epsilon_t
 <p><span class="math display">\[
   \phi_2 ​&gt; −1 \text{ and } \phi_1+\phi_2&lt;1 \text{ and } \phi_2 - \phi_1 &lt; 1.
 \]</span></p>
+</section>
 <section id="conditional-likelihood-function" class="level3">
 <h3 class="anchored" data-anchor-id="conditional-likelihood-function">Conditional Likelihood Function</h3>
 <p>The conditional likelihood assumes that the initial values <span class="math inline">\(Y_1\)</span> and <span class="math inline">\(Y_2\)</span> are fixed (conditioning on them). For observations <span class="math inline">\(\{Y_t\}_{t=3}^T\)</span>:</p>
@@ -788,7 +788,7 @@ Y_t = c + \phi_1 Y_{t-1} + \phi_2 Y_{t-2} + \epsilon_t
 \]</span></p>
 <p>The conditional maximum likelihood estimators are equivalent to the OLS estimators.</p>
 <p>The following <code>python</code> calculate the conditional likelihood and optimize it.</p>
-<div id="eb26eadd" class="cell" data-execution_count="9">
+<div id="6a915843" class="cell" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.optimize <span class="im">import</span> minimize</span>
 <span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.stats <span class="im">import</span> norm</span>
@@ -848,11 +848,11 @@ Y_t = c + \phi_1 Y_{t-1} + \phi_2 Y_{t-2} + \epsilon_t
 <span id="cb22-57"><a href="#cb22-57" aria-hidden="true" tabindex="-1"></a>params <span class="op">=</span> estimate_ar_parameters(data, p)</span>
 <span id="cb22-58"><a href="#cb22-58" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Estimated parameters:"</span>, params)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Estimated parameters: [ 0.08804293 -0.09333407  0.00313711  0.8750166 ]</code></pre>
+<pre><code>Estimated parameters: [ 0.05955401  0.05062593 -0.06459607  0.78251261]</code></pre>
 </div>
 </div>
-<p>You can check the the results are equivalent to the OLS</p>
-<div id="e3116223" class="cell" data-execution_count="10">
+<p>You can check the <span class="math inline">\((c, \phi_1, \phi_2)\)</span> are equivalent to those we obtain by applying the OLS.</p>
+<div id="1ed2bd0b" class="cell" data-execution_count="10">
 <div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> fit_ar_ols_xx(data, p):</span>
@@ -878,7 +878,7 @@ Y_t = c + \phi_1 Y_{t-1} + \phi_2 Y_{t-2} + \epsilon_t
 <span id="cb24-23"><a href="#cb24-23" aria-hidden="true" tabindex="-1"></a>beta_hat <span class="op">=</span> fit_ar_ols_xx(data, p)</span>
 <span id="cb24-24"><a href="#cb24-24" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Estimated AR coefficients:"</span>, beta_hat)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Estimated AR coefficients: [ 0.08804291 -0.09333404  0.00313711]</code></pre>
+<pre><code>Estimated AR coefficients: [ 0.05955245  0.05062542 -0.06459566]</code></pre>
 </div>
 </div>
 </section>
@@ -1005,7 +1005,7 @@ L_e(\theta|Y_1, Y_2, \ldots, Y_T) = f(Y_1, Y_2; \theta) \cdot \prod_{t=3}^T f(Y_
 <section id="python-implementation" class="level3">
 <h3 class="anchored" data-anchor-id="python-implementation">Python implementation</h3>
 <p>This Python function implements the exact log-likelihood calculation for an AR(2). The function <code>ar2_exact_loglikelihood</code> constructs the variance-covariance matrix for the first two observations, computes their contribution to the likelihood, and then adds the conditional likelihood contribution from remaining observations. It returns the negative log-likelihood value (for minimization in optimization algorithms).</p>
-<div id="36c112d8" class="cell" data-execution_count="11">
+<div id="498917d5" class="cell" data-execution_count="11">
 <div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy <span class="im">import</span> stats</span>
 <span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1087,7 +1087,7 @@ L_e(\theta|Y_1, Y_2, \ldots, Y_T) = f(Y_1, Y_2; \theta) \cdot \prod_{t=3}^T f(Y_
 <span id="cb27-79"><a href="#cb27-79" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="op">-</span>exact_loglik</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>This is an example of how this function can be used to maximize the exact likelihood function to obtain an estimate of the parameters</p>
-<div id="458aebbf" class="cell" data-execution_count="12">
+<div id="e74cf42e" class="cell" data-execution_count="12">
 <div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy <span class="im">import</span> optimize</span>
 <span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> fit_ar2_mle(y, initial_params<span class="op">=</span><span class="va">None</span>):</span>
 <span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
@@ -1134,9 +1134,9 @@ L_e(\theta|Y_1, Y_2, \ldots, Y_T) = f(Y_1, Y_2; \theta) \cdot \prod_{t=3}^T f(Y_
 <span id="cb28-44"><a href="#cb28-44" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb28-45"><a href="#cb28-45" aria-hidden="true" tabindex="-1"></a>Y <span class="op">=</span> np.random.normal(size<span class="op">=</span>(<span class="dv">100</span>,))</span>
 <span id="cb28-46"><a href="#cb28-46" aria-hidden="true" tabindex="-1"></a>fit_ar2_mle(Y, initial_params<span class="op">=</span><span class="va">None</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="84">
-<pre><code>(array([ 0.06767201,  0.10069155, -0.11470481,  0.92027332]),
- np.float64(137.7591046573073))</code></pre>
+<div class="cell-output cell-output-display" data-execution_count="12">
+<pre><code>(array([ 0.00664359,  0.17130123, -0.08957015,  0.76026142]),
+ np.float64(128.21478098580002))</code></pre>
 </div>
 </div>
 </section>
