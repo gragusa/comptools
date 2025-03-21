@@ -1,5 +1,12 @@
 ---
 title: Optimization
+format:
+  html:
+    grid:
+      sidebar-width: 200px
+      body-width: 850px
+      margin-width: 250px
+      gutter-width: 1.5em
 ---
 
 ## Optimization problems
@@ -31,7 +38,7 @@ Here, $g_i(x)$ and $h_j(x)$ are functions that represent inequality and equality
 
 In what follows, we will focus on the class of unconstrained problems where $f$ is smooth, that is, a function that everywhere continuously differentiable.
 
-## Unconstrained problems
+### Unconstrained problems
 
 $$
 \min_{x} f(x), \quad x\in\mathbb{R}^k.
@@ -69,7 +76,7 @@ $$
 $$
 
 
-## Fundamental mathematical tools
+### Fundamental mathematical tools
 
 
 The necessary conditions for optimality are derived assuming that $x^*$ is a local minimizer and the proving facts about $\nabla f(x^*)$ and $\nabla^2 f(x^*)$.
@@ -105,7 +112,7 @@ $$
 is strictly convex provided that $\sum_{i=1}^n X_iX'_i$ is invertible (that is, it has full column rank). 
 :::
 
-## Overview of algorithms
+### Overview of algorithms
 
 A common approach to optimization is to incrementally improve a point $x$ by taking a step that minimizes the objective value based on a local model. The local model may be obtained, for example, from a first- or second-order Taylor approximation. Optimization algorithms that follow this general approach are referred to as descent direction methods. They start with a design point $x^{(0)}$ and then generate a sequence of points, sometimes called iterates, to converge to a local minimum.
 
@@ -232,7 +239,7 @@ which suggests using the inverse of the hessian to form the direction. Since eva
 
 
 
-## A simple implementation of gradient descent
+### A simple implementation of gradient descent
 
 The following code implements a gradient descent with steepest direction in Python.
 
@@ -254,7 +261,8 @@ def steepest_descent(f, gradient, initial_guess, learning_rate, num_iterations =
 ```
 
 This is the Julia version.
-```{julia}
+```julia
+#| label: julia-descent
 using LinearAlgebra ## needed for norm
 function steepest_descent(f, gradient, initial_guess, learning_rate; num_iterations = 100; epsilon_g = 1e-7)
     x = initial_guess
@@ -301,7 +309,7 @@ def gradient(x):
 steepest_descent(f, gradient, np.array([0., 0.]), 0.2)
 ```
 
-```{julia}
+```julia
 function f(x)
     sum((x.-3.0).^2)
 end
@@ -315,7 +323,7 @@ steepest_descent(f, gradient, [.0, .0], 0.2)
 ```
 
 
-## Calculating the derivative
+### Calculating derivatives
 
 When the gradient is difficult to calculate analytically, we can use algorithmically calculate the derivative of the function $f$.
 
@@ -326,7 +334,7 @@ $$
 
 
 
-```{julia}
+```julia
 using FiniteDifferences
 
 # Create a central finite difference method with the default settings
@@ -356,7 +364,7 @@ print("Gradient at x0:", gradient)
 
 ```
 
-- _Automatic differentiation_
+### Automatic differentiation
 
 Automatic Differentiation (AD) is a computational technique used to evaluate the derivative of a function specified by a computer program. AD exploits the fact that any computer program, no matter how complex, executes a sequence of elementary arithmetic operations and functions (like additions, multiplications, and trigonometric functions). By applying the chain rule to these operations, AD efficiently computes derivatives of arbitrary order, which are accurate up to machine precision. This contrasts with numerical differentiation, which can introduce significant rounding errors.
 
@@ -463,7 +471,7 @@ plt.show()
 ```
 
 
-### Using solver
+### Using labguage solvers
 
 It is almost always advantageous to utilize established minimization routines and libraries rather than crafting custom code from scratch. This approach not only saves time but also leverages the extensive testing and optimizations embedded within these libraries, which are designed to handle a broad range of mathematical challenges efficiently and accurately.
 
@@ -488,7 +496,7 @@ The choice of a solver can depend on several factors:
 
 You can now call the `optimize` function from `Optim.jl`, specifying the function, an initial guess, and the optimization method. Here is how you do it:
 
-```{julia}
+```julia
 # Initial guess
 initial_guess = [0.0, 0.0]
 
@@ -499,7 +507,7 @@ result = optimize(f, initial_guess, BFGS())
 
 The `result` object contains all the information about the optimization process, including the optimal values found, the value of the function at the optimum, and the convergence status:
 
-```{julia}
+```julia
 # Access the results
 println("Optimal parameters: ", Optim.minimizer(result))
 println("Minimum value: ", Optim.minimum(result))
@@ -510,7 +518,7 @@ If your function is more complex or if you want to speed up the convergence for 
   
 For constrained optimization, `Optim.jl` has support for simple box constraints which can be set using the `Fminbox` method to wrap around other methods like BFGS.
 
-```{julia}
+```julia
 # Define the bounds
 lower_bounds = [0.5, 1.5]
 upper_bounds = [1.5, 2.5]
@@ -524,7 +532,7 @@ optimizer = Fminbox(BFGS())
 result = optimize(f, lower_bounds, upper_bounds, initial_guess, optimizer, Optim.Options(g_tol = 1e-6))
 ```
 
-## Python's `minimize`
+### Python's `scipy.optimize`
 
 The `scipy.optimize.minimize` function in Python is a versatile solver for minimization problems of both unconstrained and constrained functions. It provides a wide range of algorithms for different kinds of optimization problems.
 
@@ -576,14 +584,14 @@ $$
     - **Conditional Likelihood**: This approach uses the first 2 observations as given and starts the likelihood calculation from the 3rd observation.
     - **Unconditional Likelihood**: This approach integrates over $p(Y_1, Y_2)$, the unconditional distributions of the first two observations. 
     
-    Use the following model specification for the AR(7) process:
+    Use the following model specification for the AR(2) process:
     $$
-    y_t = \phi_0 + \phi_1 y_{t-1} + \phi_2 y_{t-2} + \epsilon_t
+    Y_t = c + \phi_1 Y_{t-1} + \phi_2 Y_{t-2} + \epsilon_t
     $$
     where $\epsilon_t$ is i.i.d. normal with mean zero and variance $\sigma^2$.
 
 2. **Maximizing the Likelihood**
-    - Write Python or Julia  code to maximize the likelihood functions (both conditional and unconditional) with respect to the parameters $\phi_0, \phi_1, \phi_2,$ and $\sigma^2$. You may consider using optimization routines available in libraries such as `scipy.optimize` or `Optim.jl`.
+    - Write Python or Julia  code to maximize the likelihood functions (both conditional and unconditional) with respect to the parameters $c, \phi_1, \phi_2,$ and $\sigma^2$. You may consider using optimization routines available in libraries such as `scipy.optimize` or `Optim.jl`.
 
 3. **Forecasting**
     - With the estimated parameters from both approaches, forecast the future values of the log differences of `INDPRO` for the next 8 months ($h=1,2,\dots,8$).
@@ -605,7 +613,7 @@ $$
 This assignment will test your ability to implement statistical models, manipulate time-series data, perform parameter estimation, and use statistical methods to forecast future values.
 
 
-## The AR(2) process
+### The AR(2) process
 The AR(2) process is given by the equation:
 $$ 
 Y_t = c + \phi_1 Y_{t-1} + \phi_2 Y_{t-2} + \epsilon_t 
@@ -704,7 +712,7 @@ params = estimate_ar_parameters(data, p)
 print("Estimated parameters:", params)
 ```
 
-You can check the the results are equivalent to the OLS
+You can check the $(c, \phi_1, \phi_2)$ are equivalent to those we obtain by applying the OLS.
 
 ```{python}
 import numpy as np
