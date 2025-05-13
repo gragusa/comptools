@@ -2,22 +2,42 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://gragusa.org/comptools/materiale.html</loc>
-    <lastmod>2025-02-12T16:00:43.164Z</lastmod>
+    <lastmod>2024-03-27T11:00:39.000Z</lastmod>
   </url>
   <url>
-    <loc>https://gragusa.org/comptools/comptools_ass3.html</loc>
-    <lastmod>2025-03-21T10:58:40.690Z</lastmod>
-  </url>
-  <url>
-    <loc>https://gragusa.org/comptools/comptools_ass1.html</loc>
-    <lastmod>2025-03-14T08:03:39.430Z</lastmod>
-  </url>
-  <url>
-    <loc>https://gragusa.org/comptools/comptools_ass2.html</loc>
-    <lastmod>2025-03-14T13:42:19.379Z</lastmod>
+    <loc>https://gragusa.org/comptools/junk/index.html</loc>
+    <lastmod>2024-03-27T11:11:32.000Z</lastmod>
   </url>
   <url>
     <loc>https://gragusa.org/comptools/index.html</loc>
-    <lastmod>2025-03-14T08:03:36.186Z</lastmod>
+    <lastmod>2024-03-27T11:11:32.000Z</lastmod>
+  </url>
+  <url>
+    <loc>https://gragusa.org/comptools/comptools_ass4.html</loc>
+    <lastmod>2025-05-13T15:04:34.444Z</lastmod>
+  </url>
+  <url>
+    <loc>https://gragusa.org/comptools/comptools_ass2.html</loc>
+    <lastmod>2024-04-14T11:20:46.000Z</lastmod>
+  </url>
+  <url>
+    <loc>https://gragusa.org/comptools/comptools_ass1.html</loc>
+    <lastmod>2024-03-28T16:03:57.000Z</lastmod>
+  </url>
+  <url>
+    <loc>https://gragusa.org/comptools/comptools_ass3.html</loc>
+    <lastmod>2025-05-13T15:03:31.728Z</lastmod>
+  </url>
+  <url>
+    <loc>https://gragusa.org/comptools/comptools_ml.html</loc>
+    <lastmod>2025-05-13T15:05:01.794Z</lastmod>
+  </url>
+  <url>
+    <loc>https://gragusa.org/comptools/junk/comptools_ass1.html</loc>
+    <lastmod>2024-03-28T13:47:46.000Z</lastmod>
+  </url>
+  <url>
+    <loc>https://gragusa.org/comptools/junk/materiale.html</loc>
+    <lastmod>2024-03-27T11:00:39.000Z</lastmod>
   </url>
 </urlset>
